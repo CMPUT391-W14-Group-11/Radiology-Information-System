@@ -1,0 +1,30 @@
+form {
+    /* Just to center the form on the page */
+    width: 800px;
+}
+
+form div + div {
+    margin-top: 1em;
+}
+
+label {
+    /* To make sure that all label have the same size and are properly align */
+    display: inline-block;
+    margin-left: 50px;
+    width: 250px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.button {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 120px;
+    height: 100px;
+}
+
+.wrapper {
+    padding: 20px 0 0 0;
+    text-align: center;
+}
