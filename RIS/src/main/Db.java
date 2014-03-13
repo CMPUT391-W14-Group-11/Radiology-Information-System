@@ -20,41 +20,60 @@ import java.util.List;
 
 public class Db {
 	private Connection con = null;
-	private String url = "jdbc:mysql://localhost:";
-	private String user = "root";
+	private String url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
+	private String user = "jsurya";
 	private String password = "";
 
-	/**
-	 * Instantiating a Db object will perform connection
-	 */
-	public Db() {
-		try {
-			Class drvClass = Class.forName("com.mysql.jdbc.Driver");
-			DriverManager.registerDriver((Driver)
-					drvClass.newInstance());
-			this.con = DriverManager.getConnection(this.url, this.user,
-					this.password);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	public static void connect() {
 
-	/**
-	 * Performs a database query
-	 * 
-	 * @param String stmt
-	 * @returns ResultSet rs
-	 */
-	public ResultSet performQuery(String stmt) {
-		Statement st = null;
-		try {
-			st = this.con.createStatement();
-			ResultSet rs= st.executeQuery(stmt);
-			return rs;
-		} catch (Exception e) {
-			e.printStackTrace();
+		/**
+		 * Instantiating a Db object will perform connection
+		 */
+		 Statement stmt;
+
+	       try
+	       {
+
+	              Class drvClass = Class.forName(m_driverName);
+	              DriverManager.registerDriver((Driver)
+	              drvClass.newInstance());
+
+	       } catch(Exception e)
+	       {
+
+	              System.err.print("ClassNotFoundException: ");
+	              System.err.println(e.getMessage());
+
+	       }
+
+	       try
+	       {
+
+	              m_con = DriverManager.getConnection(m_url, m_userName,
+	              m_password);
+
+	              stmt = m_con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+	              ResultSet rset = stmt.executeQuery(queryString);
 		}
-		return null;
+
+
+		/**
+		 * Performs a database query
+		 * 
+		 * @param String stmt
+		 * @returns ResultSet rs
+		 */
+		public ResultSet performQuery(String stmt) {
+			Statement st = null;
+			try {
+				st = this.con.createStatement();
+				ResultSet rs= st.executeQuery(stmt);
+				return rs;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
 	}
 
 	/**
