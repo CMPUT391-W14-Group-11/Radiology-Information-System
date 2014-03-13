@@ -8,9 +8,7 @@
 	content="Login page for CMPUT 391 Radiology Information System">
 <meta name="author" content="">
 
-<link href="styles/ivory.css" rel="stylesheet">
-<link href="styles/signin.css" rel="stylesheet">
-
+<%@ include file="/layout/headlib.jsp"%>
 </head>
 
 <body>
