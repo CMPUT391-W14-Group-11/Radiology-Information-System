@@ -57,23 +57,25 @@ public class Db {
 		}
 
 
-		/**
-		 * Performs a database query
-		 * 
-		 * @param String stmt
-		 * @returns ResultSet rs
-		 */
-		public ResultSet performQuery(String stmt) {
-			Statement st = null;
-			try {
-				st = this.con.createStatement();
-				ResultSet rs= st.executeQuery(stmt);
-				return rs;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return null;
+		
+	}
+
+/**
+	 * Performs a database query
+	 * 
+	 * @param String stmt
+	 * @returns ResultSet rs
+	 */
+	public ResultSet performQuery(String stmt) {
+		Statement st = null;
+		try {
+			st = this.con.createStatement();
+			ResultSet rs= st.executeQuery(stmt);
+			return rs;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 
 	/**
