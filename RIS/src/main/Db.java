@@ -20,9 +20,13 @@ import java.util.List;
 
 public class Db {
 	private Connection con = null;
-	private String url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
-	private String user = "jsurya";
-	private String password = "";
+	private static String m_url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
+	private static String m_driverName = "oracle.jdbc.driver.OracleDriver";
+	private static String user = "jsurya";
+	private static String password = "";
+	
+	static Connection m_con;
+    static String queryString = "";
 
 	public static void connect() {
 
@@ -49,13 +53,17 @@ public class Db {
 	       try
 	       {
 
-	              m_con = DriverManager.getConnection(m_url, m_userName,
-	              m_password);
+	              m_con = DriverManager.getConnection(m_url, user,
+	              password);
 
 	              stmt = m_con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 	              ResultSet rset = stmt.executeQuery(queryString);
-		}
+	       } catch(SQLException ex) {
 
+	              System.err.println("SQLException: " +
+	              ex.getMessage());
+
+	       }
 
 		
 	}
