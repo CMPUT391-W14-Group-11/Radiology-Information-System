@@ -8,8 +8,6 @@
 <meta name="description" content="Radiology Information System Home">
 <meta name="author" content="">
 
-
-
 <%@ include file="/layout/headlib.jsp"%>
 </head>
 
