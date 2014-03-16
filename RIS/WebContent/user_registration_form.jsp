@@ -28,18 +28,6 @@
 				</tr>
 
 				<tr>
-					<td><label for="first-name">First Name:</label></td>
-					<td><input type="text" name="first-name" required
-						title="First Name " /></td>
-				</tr>
-
-				<tr>
-					<td><label for="last-name">Last Name:</label></td>
-					<td><input type="text" name="last-name" required
-						title="Last Name " /></td>
-				</tr>
-
-				<tr>
 					<td><label for="password">Password:</label></td>
 					<td><input type="password" name="password" id="password" required/></td>
 				</tr>
@@ -62,20 +50,6 @@
 							</select></td>
 				</tr>
 
-				<tr>
-					<td><label for="address">Address:</label></td>
-					<td colspan="4"><textarea class="form-control" rows="4"
-											cols="50" name="Address"></textarea></td>
-				</tr>
-
-				<tr>
-					<td><label for="email">Email Address:</label></td>
-					<td><input required type="email" name="email" id="email" /></td>
-				</tr>
-				<tr>
-					<td><label for="phone">Phone Number:</label></td>
-					<td><input type="text" name="phone" id="phone" /></td>
-				</tr>
 			</table>
 			<br> <br>
 			<input type="submit" name="demand" value="Create User">
