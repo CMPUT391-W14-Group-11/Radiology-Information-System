@@ -15,7 +15,7 @@
 <body>
 	<%@ include file="/layout/nav_bar.jsp"%>
 	<div class="container">
-		<h1>User Registration Information</h1>
+		<h1>User Registration</h1>
 
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit" style="text-align: center">
@@ -41,12 +41,12 @@
 
 				<tr>
 					<td><label for="password">Password:</label></td>
-					<td><input type="password" name="password" id="password" /></td>
+					<td><input type="password" name="password" id="password" required/></td>
 				</tr>
 
 				<tr>
 					<td><label for="password2">Confirm Password:</label></td>
-					<td><input type="password" name="password2" id="password2"
+					<td><input required type="password" name="password2" id="password2"
 						onkeyup="checkPass(); return false;" /> <span id="confirmMessage"
 						class="confirmMessage"></span></td>
 				</tr>
@@ -70,7 +70,7 @@
 
 				<tr>
 					<td><label for="email">Email Address:</label></td>
-					<td><input type="email" name="email" id="email" /></td>
+					<td><input required type="email" name="email" id="email" /></td>
 				</tr>
 				<tr>
 					<td><label for="phone">Phone Number:</label></td>
