@@ -9,8 +9,6 @@
 <meta name="author" content="">
 </head>
 
-<script type="text/javascript" src="js/password_check.js"></script>
-
 <%@ include file="/layout/headlib.jsp"%>
 <body>
 	<%@ include file="/layout/nav_bar.jsp"%>
@@ -19,7 +17,7 @@
 
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit" style="text-align: center">
-			<form method="POST" action="/UserRegistrationServlet"/>
+			<form method="POST" action="/UserRegistrationServlet" />
 			<table>
 
 				<tr>
@@ -55,6 +53,21 @@
 
 		</div>
 	</div>
+
+	<%@ include file="/layout/footer.jsp"%>
+	<script src="../assets/js/jquery.js"></script>
+	<script src="../assets/js/bootstrap-transition.js"></script>
+	<script src="../assets/js/bootstrap-alert.js"></script>
+	<script src="../assets/js/bootstrap-modal.js"></script>
+	<script src="../assets/js/bootstrap-dropdown.js"></script>
+	<script src="../assets/js/bootstrap-scrollspy.js"></script>
+	<script src="../assets/js/bootstrap-tab.js"></script>
+	<script src="../assets/js/bootstrap-tooltip.js"></script>
+	<script src="../assets/js/bootstrap-popover.js"></script>
+	<script src="../assets/js/bootstrap-button.js"></script>
+	<script src="../assets/js/bootstrap-collapse.js"></script>
+	<script src="../assets/js/bootstrap-carousel.js"></script>
+	<script src="../assets/js/bootstrap-typeahead.js"></script>
 </body>
 </html>
 

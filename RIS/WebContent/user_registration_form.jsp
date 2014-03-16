@@ -9,8 +9,6 @@
 <meta name="author" content="">
 </head>
 
-<script type="text/javascript" src="js/password_check.js"></script>
-
 <%@ include file="/layout/headlib.jsp"%>
 <body>
 	<%@ include file="/layout/nav_bar.jsp"%>
@@ -19,7 +17,7 @@
 
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit" style="text-align: center">
-			<form method="POST" action="/UserRegistrationServlet"/>
+			<form method="POST" action="/UserRegistrationServlet" />
 			<table>
 				<tr>
 					<td><label for="username">Username:</label></td>
@@ -29,14 +27,15 @@
 
 				<tr>
 					<td><label for="password">Password:</label></td>
-					<td><input type="password" name="password" id="password" required/></td>
+					<td><input type="password" name="password" id="password"
+						required /></td>
 				</tr>
 
 				<tr>
 					<td><label for="password2">Confirm Password:</label></td>
-					<td><input required type="password" name="password2" id="password2"
-						onkeyup="checkPass(); return false;" /> <span id="confirmMessage"
-						class="confirmMessage"></span></td>
+					<td><input required type="password" name="password2"
+						id="password2" onkeyup="checkPass(); return false;" /> <span
+						id="confirmMessage" class="confirmMessage"></span></td>
 				</tr>
 
 				<tr>
@@ -47,17 +46,33 @@
 							<option value="p">Patient</option>
 							<option value="d">Doctor</option>
 							<option value="r">Radiologist</option>
-							</select></td>
+					</select></td>
 				</tr>
 
 			</table>
-			<br> <br>
-			<input type="submit" name="demand" value="Create User">
+			<br> <br> <input type="submit" name="demand"
+				value="Create User">
 
 			</form>
-			
+
 		</div>
 	</div>
+	<%@ include file="/layout/footer.jsp"%>
+	
+	<script type="text/javascript" src="js/password_check.js"></script>
+	<script src="../assets/js/jquery.js"></script>
+	<script src="../assets/js/bootstrap-transition.js"></script>
+	<script src="../assets/js/bootstrap-alert.js"></script>
+	<script src="../assets/js/bootstrap-modal.js"></script>
+	<script src="../assets/js/bootstrap-dropdown.js"></script>
+	<script src="../assets/js/bootstrap-scrollspy.js"></script>
+	<script src="../assets/js/bootstrap-tab.js"></script>
+	<script src="../assets/js/bootstrap-tooltip.js"></script>
+	<script src="../assets/js/bootstrap-popover.js"></script>
+	<script src="../assets/js/bootstrap-button.js"></script>
+	<script src="../assets/js/bootstrap-collapse.js"></script>
+	<script src="../assets/js/bootstrap-carousel.js"></script>
+	<script src="../assets/js/bootstrap-typeahead.js"></script>
 </body>
 </html>
 
