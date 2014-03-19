@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<title>Sign in &middot; Radiology Information System</title>
+<title>Radiology Information System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description"
-	content="Login page for CMPUT 391 Radiology Information System">
+<meta name="description" content="Radiology Information System Home">
 <meta name="author" content="">
 
 <%@ include file="/layout/headlib.jsp"%>
 </head>
 
 <body>
-
+<%@ include file="/layout/nav_bar.jsp"%>
+	
 	<div class="container">
 
-		<form class="form-signin">
-			<h2 class="form-signin-heading">Welcome to the Radiology
-				Information System</h2>
-			<input type="text" class="input-block-level"
-				placeholder="Email address"> <input type="password"
-				class="input-block-level" placeholder="Password">
+		<!-- Main hero unit for a primary marketing message or call to action -->
+		<div class="hero-unit" style="text-align:center">
+			<h1>Search Records</h1>
+			<form method="GET" action="servletbasics">
+			<input type="text" method="POST" placeholder="Enter keywords" style="width:70%; height:30px;">
+			<br></br>
+			<p>
+				<input type="submit" class="btn btn-primary btn-large">
+			</p>
+			</form>
+		</div>
 
-			<button class="button blue" type="submit">Sign in</button>
-		</form>
+		<hr>
 
 	</div>
 	<!-- /container -->
 
-	<!-- javascript
+	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="../assets/js/jquery.js"></script>
@@ -44,6 +49,7 @@
 	<script src="../assets/js/bootstrap-collapse.js"></script>
 	<script src="../assets/js/bootstrap-carousel.js"></script>
 	<script src="../assets/js/bootstrap-typeahead.js"></script>
-
+	
+	<%@ include file="/layout/footer.jsp"%>
 </body>
 </html>

@@ -11,12 +11,26 @@
   </welcome-file-list>
   <servlet>
     <description></description>
-    <display-name>user_registration_form</display-name>
-    <servlet-name>user_registration_form</servlet-name>
+    <display-name>register</display-name>
+    <servlet-name>UserRegistrationServlet</servlet-name>
     <jsp-file>/user_registration_form.jsp</jsp-file>
+    <servlet-class>UserRegistrationServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>user_registration_form</servlet-name>
-    <url-pattern>/user_registration_form</url-pattern>
+    <servlet-name>UserRegistrationServlet</servlet-name>
+    <url-pattern>/UserRegistrationServlet</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <description>login</description>
+    <display-name>login</display-name>
+    <servlet-name>UserLoginServlet</servlet-name>
+    <jsp-file>/login.jsp</jsp-file>
+    <servlet-class>UserLoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserLoginServlet</servlet-name>
+    <url-pattern>/UserLoginServlet</url-pattern>
+  </servlet-mapping>
+
 </web-app>

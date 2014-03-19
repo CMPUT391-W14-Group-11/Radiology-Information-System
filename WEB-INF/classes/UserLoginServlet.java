@@ -1,21 +1,16 @@
 package RIS.user;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.util.*;
+import java.sql.*;
 
 import main.Db;
 
 /**
  * Servlet implementation class UserLoginServlet
  */
-@WebServlet("/UserLoginServlet")
 public class UserLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -29,13 +24,15 @@ public class UserLoginServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		
+		System.err.print("InCorrectLoginException: ");
 		HttpSession session = request.getSession();
 		
-		String username = request.getParameter("username");
+		String username = request.getParameter("user_name");
 		String password = request.getParameter("password");
-		request.removeAttribute("username");
+		PrintWriter out = response.getWriter();
+		out.println(username);
+		request.removeAttribute("user_name");
 		request.removeAttribute("password");
 		session.removeAttribute("failureMessage");
 		String failureMessage = 
@@ -52,11 +49,23 @@ public class UserLoginServlet extends HttpServlet {
 		}
 		else {
 			// if login is unsuccessful 
-			session.setAttribute("failureMessage", failureMessage);
-			//request.setAttribute("failureMessage", failureMessage);
+			System.err.print("InCorrectLoginException: ");
+			response.setContentType("text/html");
 			// set failure message
+			session.setAttribute("failureMessage", failureMessage);
+			request.setAttribute("failureMessage", failureMessage);
+	       		out = response.getWriter();
+			out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 " +
+				"Transitional//EN\">\n" +
+				"<HTML>\n" +
+				"<HEAD><TITLE>Asn2Sample</TITLE></HEAD>\n" +
+				"<BODY>\n" +
+				"<H1>WELCOME\n</H1>" + 
+				username);
+			out.println("</BODY></HTML>");
+			
 			//request.getRequestDispatcher("./authenticate/signin.jsp").forward(request, response);
-			response.sendRedirect("./login.jsp");
+			//response.sendRedirect("./login.jsp");
 			return;
 		}
 
