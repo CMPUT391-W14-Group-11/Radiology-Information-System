@@ -32,5 +32,36 @@
     <servlet-name>UserLoginServlet</servlet-name>
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
+  
+      <servlet>
+        <servlet-name>GetOnePic</servlet-name>
+        <servlet-class>GetOnePic</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetOnePic</servlet-name>
+        <url-pattern>/GetOnePic</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>GetBigPic</servlet-name>
+        <servlet-class>GetBigPic</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetBigPic</servlet-name>
+        <url-pattern>/GetBigPic</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>UploadImage</servlet-name>
+        <servlet-class>UploadImage</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadImage</servlet-name>
+        <url-pattern>/UploadImage</url-pattern>
+    </servlet-mapping>
+
+
+  
 
 </web-app>
