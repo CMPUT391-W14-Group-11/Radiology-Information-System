@@ -15,10 +15,11 @@ import java.util.List;
  * Class used to handle database connections and queries
  * 
  *  @author	Jessica Surya
- *	@author	
+ *  @author	
  */
 
 public class Db {
+
 	private Connection con = null;
 	private static String m_url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
 	private static String m_driverName = "oracle.jdbc.driver.OracleDriver";
@@ -26,7 +27,7 @@ public class Db {
 	private static String password = "";
 	
 	static Connection m_con;
-    static String queryString = "";
+    	static String queryString = "";
 
 	public static void connect() {
 
@@ -68,7 +69,7 @@ public class Db {
 		
 	}
 
-/**
+	/**
 	 * Performs a database query
 	 * 
 	 * @param String stmt
@@ -105,11 +106,6 @@ public class Db {
 		return 0;
 	}
 
-	public boolean verifyUser(String username, String password2) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public void close() {
 		try {
 			con.close();
@@ -117,5 +113,23 @@ public class Db {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public boolean verifyUser(String username, String password2) {
+
+		return false;
+	}
+
+	public int createUserAccount(User user) {
+
+		String stmt = "INSERT INTO users (user_name, password, class, person_id, date_registered) "
+			+ "VALUES ('" + user.getUsername() 
+			+ "', '" + user.getPassword()
+			+ "', '" + user.getClass()
+			+ "', '" + user.getPersonID()
+			+ "', '" + new SimpleDateFormat(
+				"EEE, d MMM yyyy HH:mm").format(rs.getTimestamp("date_registered")));
+			+ "');";
+		return performUpdate(stmt);
 	}
 }
