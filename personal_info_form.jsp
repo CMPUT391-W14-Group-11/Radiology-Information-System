@@ -13,11 +13,51 @@
 <body>
 	<%@ include file="/layout/nav_bar.jsp"%>
 	<div class="container">
-		<h1>Personal Information</h1>
+
+	<div class="container">
+		
 
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit" style="text-align: center">
+		<h1>User Registration</h1>
 			<form method="POST" action="/UserRegistrationServlet" />
+			<table>
+				<tr>
+					<td><label for="username">Username:</label></td>
+					<td><input type="text" name="username" required
+						title="Username "></td>
+				</tr>
+
+				<tr>
+					<td><label for="password">Password:</label></td>
+					<td><input type="password" name="password" id="password"
+						required /></td>
+				</tr>
+
+				<tr>
+					<td><label for="password2">Confirm Password:</label></td>
+					<td><input required type="password" name="password2"
+						id="password2" onkeyup="checkPass(); return false;" /> <span
+						id="confirmMessage" class="confirmMessage"></span></td>
+				</tr>
+
+				<tr>
+					<td><label for="class">Class: </label></td>
+					<td><select name="class" required>
+						<option disabled selected>-- Assign Role --</option>
+						<option value="a">Administrator</option>
+						<option value="p">Patient</option>
+						<option value="d">Doctor</option>
+						<option value="r">Radiologist</option>
+					</select></td>
+				</tr>
+
+			</table>
+		<h2>Personal Information</h2>
+
+		<!-- Main hero unit for a primary marketing message or call to action -->
+		<div class="hero-unit" style="text-align: center">
+			
 			<table>
 
 				<tr>
@@ -33,7 +73,7 @@
 				</tr>
 
 				<tr>
-					<td><label for="address">Address:</label></td>
+					<td style="vertical-align: middle;"><label for="address">Address:</label></span></td>
 					<td colspan="2"><textarea class="form-control" rows="4"
 							cols="5" name="Address"></textarea></td>
 				</tr>
