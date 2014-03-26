@@ -1,37 +1,26 @@
-package RIS.user;
-
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.util.*;
 import java.sql.*;
-
-import main.Db;
+import java.net.*;
 
 /**
  * Servlet implementation class UserLoginServlet
  */
 public class UserLoginServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
        
     /**
-     * @see HttpServlet#HttpServlet()
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
      */
-    public UserLoginServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
-		System.err.print("InCorrectLoginException: ");
 		HttpSession session = request.getSession();
-		
 		String username = request.getParameter("user_name");
 		String password = request.getParameter("password");
-		PrintWriter out = response.getWriter();
-		out.println(username);
+
 		request.removeAttribute("user_name");
 		request.removeAttribute("password");
 		session.removeAttribute("failureMessage");
@@ -41,7 +30,7 @@ public class UserLoginServlet extends HttpServlet {
 		
 		Db db = new Db();
 		
-		if (db.verifyUser(username, password) ) {
+		if (db.verifyUser(username, password) == true) {
 			// if login succeeds create a session for this user attributes
 			createUserSession(username, session);
 			
@@ -49,34 +38,24 @@ public class UserLoginServlet extends HttpServlet {
 		}
 		else {
 			// if login is unsuccessful 
-			System.err.print("InCorrectLoginException: ");
-			response.setContentType("text/html");
+			System.err.print("IncorrectLoginException \n");
+			
 			// set failure message
 			session.setAttribute("failureMessage", failureMessage);
 			request.setAttribute("failureMessage", failureMessage);
-	       		out = response.getWriter();
-			out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 " +
-				"Transitional//EN\">\n" +
-				"<HTML>\n" +
-				"<HEAD><TITLE>Asn2Sample</TITLE></HEAD>\n" +
-				"<BODY>\n" +
-				"<H1>WELCOME\n</H1>" + 
-				username);
-			out.println("</BODY></HTML>");
-			
-			//request.getRequestDispatcher("./authenticate/signin.jsp").forward(request, response);
-			//response.sendRedirect("./login.jsp");
+			if (username != null) {
+				String message = "Incorrect Username or Password Combination";
+				request.setAttribute("message", message);
+				response.sendRedirect("login.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
+			} else {
+				String message = "Invalid Login";
+				request.setAttribute("message", message);
+				request.getRequestDispatcher("login.jsp").forward(request, response);
+			}
 			return;
 		}
 
 
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 	
 	/**
