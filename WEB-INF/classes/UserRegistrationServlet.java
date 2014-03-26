@@ -60,8 +60,8 @@ public class UserRegistrationServlet extends HttpServlet {
 		user.phone = request.getParameterValues("phone");
 
 		Db database = new Db();
-
 		database.createUserAccount(user);
 
 		return 0;
+	}
 }

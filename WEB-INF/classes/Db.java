@@ -122,8 +122,7 @@ public class Db {
 	}
 
 	public int createUserAccount(User user) {
-		Date date_registered = new SimpleDateFormat(
-				"EEE, d MMM yyyy HH:mm").format(rs.getTimestamp("date_registered")));
+		Date date_registered = new SimpleDateFormat("EEE, d MMM yyyy HH:mm").format(rs.getTimestamp("date_registered"));
 
 		String stmt = "INSERT INTO users (user_name, password, class, person_id, date_registered) "
 			+ "VALUES ('" + user.getUsername() 
