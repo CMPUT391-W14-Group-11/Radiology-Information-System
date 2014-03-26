@@ -4,24 +4,39 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link href="styles/nav_bar.css" rel="stylesheet">
 </head>
 
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">
-			<a class="brand" href="#">
-				<button type="button" class="btn btn-navbar" data-toggle="collapse"
+		<br>
+			<div class="main">
+			<ul>
+				<li class="btn" data-toggle="collapse"
 					data-target=".nav-collapse">
-					<span></span><i class="icon-light icon-home" style="margin-right: 15px;"></i>Radiology Information System</span>
-				</button>
-			</a>
+					<a class="brand" href="index.jsp"><i class="icon-light icon-home" style="margin-right: 15px;"></i></a>
+				</li>
+				<li class="btn btn-navbar" data-toggle="collapse"
+					data-target=".nav-collapse">
+				<span style="margin:0px; float:left; vertical-align:middle; color:#428bca; "> <h3>
+					Radiology Information System</h3></span>
+					</li>
+			</ul>
+			</div>
+			
 			<div class="nav-collapse collapse">
-				<ul class="nav">
-					<li><a href="#myAccount"><i class="icon-light icon-user" ></i>My Account</a></li>
-					<li><a href="#logout"><i class="icon-light icon-uniF68D" style="margin-right: 15px;"></i>Logout</a></li>
+				<ul class="nav" style="width:15%; float:left;">
+					<li><a href="#myAccount"><i class="icon-light icon-user-small" ></i><span style="vertical-align:top;"> My Account</span></a></li>
+					</ul>
+				<ul class="nav" style="width:15%; float:left;">
+					<li><a href="#logout"><i class="icon-light icon-uniF68D" style="margin-right: 15px;"></i><span style="vertical-align:top;">Logout</span></a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
 		</div>
 	</div>
 </div>
+<br></br>
+<br></br>
