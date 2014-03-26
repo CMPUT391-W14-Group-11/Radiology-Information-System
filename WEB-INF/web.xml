@@ -25,11 +25,11 @@
     <description></description>
     <display-name>login</display-name>
     <servlet-name>UserLoginServlet</servlet-name>
-    <servlet-class>UserLoginServlet</servlet-class>
     <jsp-file>/login.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserLoginServlet</servlet-name>
+    <servlet-class>UserLoginServlet</servlet-class>
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
   
