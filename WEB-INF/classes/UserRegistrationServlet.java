@@ -51,7 +51,7 @@ public class UserRegistrationServlet extends HttpServlet {
 
 		user.user_name = request.getParameterValues("username");
 		user.password = request.getParameterValues("password2");
-		user.user_class = request.getParameterValues("class").charAt(0);
+		user.user_class = (request.getParameterValues("class")).charAt(0);
 
 		user.first_name = request.getParameterValues("first-name");
 		user.last_name = request.getParameterValues("last-name");
