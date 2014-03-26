@@ -116,20 +116,42 @@ public class Db {
 		}
 	}
 
+	public int getNextPersonID() {
+		ResultSet rs = performQuery("SELECT users, MAX(person_id)");
+
+		try {
+			if (rs.next()) {
+				return rs.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 	public boolean verifyUser(String username, String password2) {
 
 		return false;
 	}
 
 	public int createUserAccount(User user) {
-		Date date_registered = new SimpleDateFormat("EEE, d MMM yyyy HH:mm").format(rs.getTimestamp("date_registered"));
+		Date dateRegistered = new SimpleDateFormat("EEE, d MMM yyyy HH:mm").format(rs.getTimestamp("date_registered"));
+
+		String stmt = "INSERT INTO persons (person_id, first_name, last_name, address, email, phone) "
+			+ "VALUES ('" + user.getPersonID() 
+			+ "', '" + user.getFirstName()
+			+ "', '" + user.getLastName()
+			+ "', '" + user.address()
+			+ "', '" + user.email()
+			+ "', '" + user.phone()
+			+ "');";
 
 		String stmt = "INSERT INTO users (user_name, password, class, person_id, date_registered) "
 			+ "VALUES ('" + user.getUsername() 
 			+ "', '" + user.getPassword()
 			+ "', '" + user.getClass()
 			+ "', '" + user.getPersonID()
-			+ "', '" + date_registered
+			+ "', '" + dateRegistered
 			+ "');";
 		return performUpdate(stmt);
 	}

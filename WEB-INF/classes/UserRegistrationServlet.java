@@ -49,17 +49,18 @@ public class UserRegistrationServlet extends HttpServlet {
 	public int createUserAccount(HttpServletRequest request) {
 		User user = new User();
 
-		user.user_name = request.getParameterValues("username");
-		user.password = request.getParameterValues("password2");
-		user.user_class = (request.getParameterValues("class")).charAt(0);
+		user.setUserID(request.getParameterValues("username"));
+		user.setPassword(request.getParameterValues("password2"));
+		user.setUserClass((request.getParameterValues("class")).charAt(0));
 
-		user.first_name = request.getParameterValues("first-name");
-		user.last_name = request.getParameterValues("last-name");
-		user.address = request.getParameterValues("address");
-		user.email = request.getParameterValues("email");
-		user.phone = request.getParameterValues("phone");
+		user.setFirstName(request.getParameterValues("first-name"));
+		user.setLastName(request.getParameterValues("last-name"));
+		user.setAddress(request.getParameterValues("address"));
+		user.setEmail(request.getParameterValues("email"));
+		user.setPhone(request.getParameterValues("phone"));
 
 		Db database = new Db();
+		user.setPersonID(database.getNextPeronID()); 
 		database.createUserAccount(user);
 
 		return 0;
