@@ -28,8 +28,6 @@
 			</form>
 		</div>
 
-		<hr>
-
 	</div>
 	<!-- /container -->
 
