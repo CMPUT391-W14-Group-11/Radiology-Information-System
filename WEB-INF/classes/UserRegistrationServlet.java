@@ -1,4 +1,4 @@
-package RIS.user;
+package main;
 
 import java.io.*;
 import javax.servlet.*;
@@ -34,7 +34,7 @@ public class UserRegistrationServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		createUserAccount(request);
 
 	}
 
@@ -46,9 +46,22 @@ public class UserRegistrationServlet extends HttpServlet {
 	 *            
 	 * @return int success
 	 */
-	public int createUserAccount(User user) {
+	public int createUserAccount(HttpServletRequest request) {
+		User user = new User();
+
+		user.user_name = request.getParameterValues("username");
+		user.password = request.getParameterValues("password2");
+		user.user_class = request.getParameterValues("class").charAt(0);
+
+		user.first_name = request.getParameterValues("first-name");
+		user.last_name = request.getParameterValues("last-name");
+		user.address = request.getParameterValues("address");
+		user.email = request.getParameterValues("email");
+		user.phone = request.getParameterValues("phone");
 
 		Db database = new Db();
 
+		database.createUserAccount(user);
 
+		return 0;
 }
