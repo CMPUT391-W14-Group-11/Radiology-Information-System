@@ -9,7 +9,7 @@ import java.util.*;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 
-import main.*;
+import main.User;
 
 /**
  * Servlet implementation class Db
