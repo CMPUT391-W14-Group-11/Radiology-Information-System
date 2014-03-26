@@ -2,7 +2,7 @@
 	display: inline-block;
 	width: 32px;
 	height: 32px;
-	background-image: url(../img/sprites.svg);
+	background-image: url(../img/sprites_light.svg);
 	background-repeat: no-repeat;
 }
 .icon-home {
@@ -13,11 +13,21 @@
 	background-position: -48px 0;
 	width: 44px;
 }
+.icon-user-small {
+	zoom: 0.50;
+	background-position: -48px 0;
+	width: 44px;
+}
 .icon-friends {
 	background-position: -108px 0;
 	width: 32px;
 }
 .icon-uniF68D {
+	background-position: -156px 0;
+	width: 32px;
+}
+.icon-uniF68D {
+	zoom: 0.50;
 	background-position: -156px 0;
 	width: 32px;
 }
