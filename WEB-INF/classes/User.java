@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.*;
 import java.sql.Timestamp;
 
-import main.*;
+import main.Db;
 
 
 /**
