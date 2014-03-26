@@ -122,7 +122,9 @@ public class Db {
 		try {
 			if (rs.next()) {
 				return rs.getInt(1);
-		} catch (SQLException e) {
+			}
+		}
+		 catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
