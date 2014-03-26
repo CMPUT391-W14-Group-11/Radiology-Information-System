@@ -12,9 +12,6 @@ import java.sql.Timestamp;
 import main.User;
 
 /**
- * Servlet implementation class Db
- */
-/**
  * Class used to handle database connections and queries
  * 
  *  @author	Jessica Surya
@@ -150,13 +147,17 @@ public class Db {
 			+ "', '" + user.phone()
 			+ "');";
 
-		String stmt = "INSERT INTO users (user_name, password, class, person_id, date_registered) "
+		if(performUpdate(stmt)) {
+
+			stmt = "INSERT INTO users (user_name, password, class, person_id, date_registered) "
 			+ "VALUES ('" + user.getUsername() 
 			+ "', '" + user.getPassword()
 			+ "', '" + user.getClass()
 			+ "', '" + user.getPersonID()
 			+ "', '" + dateRegistered
 			+ "');";
+		
+		}
 		return performUpdate(stmt);
 	}
 }
