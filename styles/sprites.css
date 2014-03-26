@@ -22,6 +22,11 @@
 	background-position: -108px 0;
 	width: 32px;
 }
+.icon-friends-small {
+	zoom: 0.50;
+	background-position: -108px 0;
+	width: 32px;
+}
 .icon-uniF68D {
 	background-position: -156px 0;
 	width: 32px;
@@ -97,6 +102,14 @@
 .icon-paperclip {
 	background-position: -252px -48px;
 }
+.icon-list-small {
+	zoom: 0.50;
+	background-position: -204px -48px;
+}
+.icon-paperclip-small {
+	zoom: 0.50;
+	background-position: -252px -48px;
+}
 .icon-down {
 	background-position: -300px -48px;
 }
@@ -163,6 +176,18 @@
 .icon-zoomout {
 	background-position: -540px -96px;
 }
+.icon-magnifier-small {
+	zoom: 0.50;
+	background-position: -444px -96px;
+}
+.icon-zoomin-small {
+	zoom: 0.50;
+	background-position: -492px -96px;
+}
+.icon-zoomout-small {
+	zoom: 0.50;
+	background-position: -540px -96px;
+}
 .icon-checkmark2 {
 	background-position: -588px -96px;
 }
@@ -173,6 +198,10 @@
 	background-position: -684px -96px;
 }
 .icon-search {
+	background-position: -732px -96px;
+}
+.icon-search-small {
+	zoom: 0.50;
 	background-position: -732px -96px;
 }
 .icon-pictures {
@@ -194,5 +223,25 @@
 	background-position: -252px -144px;
 }
 .icon-search4 {
+	background-position: -300px -144px;
+}
+.icon-search2-small {
+	zoom: 0.50;
+	background-position: -108px -144px;
+}
+.icon-search3-small {
+	zoom: 0.50;
+	background-position: -156px -144px;
+}
+.icon-zoomin2-small {
+	zoom: 0.50;
+	background-position: -204px -144px;
+}
+.icon-zoomout2-small {
+	zoom: 0.50;
+	background-position: -252px -144px;
+}
+.icon-search4-small {
+	zoom: 0.50;
 	background-position: -300px -144px;
 }
