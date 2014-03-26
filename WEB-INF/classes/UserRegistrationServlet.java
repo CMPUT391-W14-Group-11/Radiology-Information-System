@@ -6,6 +6,8 @@ import javax.servlet.http.*;
 import java.util.*;
 import java.sql.*;
 
+import main.*;
+
 /**
  * Servlet implementation class UserRegistrationServlet
  */
