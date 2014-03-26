@@ -22,14 +22,11 @@
   </servlet-mapping>
 
   <servlet>
-    <description></description>
-    <display-name>login</display-name>
     <servlet-name>UserLoginServlet</servlet-name>
-    <jsp-file>/login.jsp</jsp-file>
+    <servlet-class>UserLoginServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserLoginServlet</servlet-name>
-    <servlet-class>UserLoginServlet</servlet-class>
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
   

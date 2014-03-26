@@ -12,15 +12,21 @@
 </head>
 
 <body>
+<br>
+	<div class="container" style="text-align:left;">
 
-	<div class="container">
+		<form name="login" class="form-signin" method="GET" action="login">
+		<span style="text-align:center;"> 
+			<h3>Welcome to the </h3>
+			<h1>Radiology Information System</h1> </span>
 
-		<form name="login" class="form-signin" method="POST" action="UserLoginServlet">
-			<h2 class="form-signin-heading">Welcome to the Radiology
-				Information System</h2>
 			<input type="text" name="user_name" class="input-block-level"
 				placeholder="Username"> <input name="password" type="password"
 				class="input-block-level" placeholder="Password">
+
+			<span style="color:red;">${param.message}</span>
+			<br>
+			<br>
 
 			<button class="button blue" type="submit" value="signin">Sign in</button>
 		</form>
