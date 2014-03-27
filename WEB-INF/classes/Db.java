@@ -140,8 +140,8 @@ public class Db {
 			String stmt2 = "INSERT INTO users (user_name, password, class, person_id, date_registered) "
 			+ "VALUES ('" + user.getUsername() 
 				+ "', '" + user.getPassword()
-				+ "', '" + "a"
-				+ "', " + user.getPersonID()
+				+ "', 'a',"
+				+ user.getPersonID()
 				+ " , CURRENT_DATE);";
 				
 			performUpdate(stmt2);
