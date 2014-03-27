@@ -15,7 +15,7 @@
 <%@ include file="/layout/nav_bar.jsp"%>
 	
 	<div class="container">
-		<span style="color:red;">${param.message}</span>
+		<span style="color:black;">${param.message}</span>
 		<span style="color:red;">${param.error}</span>
 		<br>
 		<!-- Main hero unit for a primary marketing message or call to action -->
