@@ -15,7 +15,7 @@
     <display-name>register</display-name>
     <servlet-name>UserRegistrationServlet</servlet-name>
     <servlet-class>UserRegistrationServlet</servlet-class>
-    <jsp-file>/user_registration_form.jsp</jsp-file>
+    <jsp-file>/user_form.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserRegistrationServlet</servlet-name>
