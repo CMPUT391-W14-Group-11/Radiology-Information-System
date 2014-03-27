@@ -33,6 +33,11 @@ public class UserLoginServlet extends HttpServlet {
 		if (db.verifyUser(username, password) == true) {
 			// if login succeeds create a session for this user attributes
 			createUserSession(username, session);
+
+			String message = "Welcome, " + username;
+			request.setAttribute("message", message);
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+			}
 			
 			return;
 		}
