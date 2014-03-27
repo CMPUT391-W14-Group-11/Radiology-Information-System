@@ -24,7 +24,7 @@
 				placeholder="Username"> <input name="password" type="password"
 				class="input-block-level" placeholder="Password">
 
-			<span style="color:red;">${param.message}</span>
+			<span style="color:red;">${param.error}</span>
 			<br>
 			<br>
 

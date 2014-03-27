@@ -16,6 +16,7 @@
 	
 	<div class="container">
 		<span style="color:red;">${param.message}</span>
+		<span style="color:red;">${param.error}</span>
 		<br>
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit" style="text-align:center">
