@@ -9,6 +9,7 @@
 	<footer>
 	<div class="container footer">
 		<div class="row">
+		<hr>
 			<div class="col-md-4 pull-right" style="height:40px">
 				<p></p>
 				

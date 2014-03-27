@@ -484,7 +484,8 @@ cite {
 
 ul,ol {
 	margin-top: 0;
-	margin-bottom: 10px
+	margin-bottom: 10px;
+	width: 100%;
 }
 
 ul ul,ol ul,ul ol,ol ol {

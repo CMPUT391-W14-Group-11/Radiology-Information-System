@@ -14,19 +14,17 @@
     <description></description>
     <display-name>register</display-name>
     <servlet-name>UserRegistrationServlet</servlet-name>
-    <jsp-file>/user_registration_form.jsp</jsp-file>
+    <servlet-class>UserRegistrationServlet</servlet-class>
+    <jsp-file>/user_form.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserRegistrationServlet</servlet-name>
-    <url-pattern>/UserRegistrationServlet</url-pattern>
+    <url-pattern>/register</url-pattern>
   </servlet-mapping>
 
   <servlet>
-    <description></description>
-    <display-name>login</display-name>
     <servlet-name>UserLoginServlet</servlet-name>
     <servlet-class>UserLoginServlet</servlet-class>
-    <jsp-file>/login.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserLoginServlet</servlet-name>
