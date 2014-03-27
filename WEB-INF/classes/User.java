@@ -1,17 +1,7 @@
-package main;
-
 import java.io.*;
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
+import java.sql.*;
 import java.util.*;
-import java.sql.Timestamp;
-
-import main.Db;
+import java.lang.Object;
 
 
 /**
@@ -45,9 +35,9 @@ import main.Db;
 
 	protected String user_name;
 	protected String password;
-	protected char user_class;
+	protected Character user_class;
 	protected int person_id;
-	protected Date date_registered;
+	protected java.util.Date date_registered;
 
 	protected String first_name;
 	protected String last_name;
@@ -56,7 +46,7 @@ import main.Db;
 	protected String phone;
 
 
-	public User(String user_name, String password, char user_class, int person_id) {
+	public User(String user_name, String password, Character user_class, int person_id) {
 		this.user_name = user_name;
 		this.password = password;
 		this.user_class = user_class;
@@ -145,7 +135,7 @@ import main.Db;
 	 * 
 	 * @return The user_class of the user.
 	 */
-	public char getUserClass() {
+	public Character getUserClass() {
 		return user_class;
 	}
 
@@ -155,7 +145,7 @@ import main.Db;
 	 * @param user_class
 	 *            The user_class to set for the user.
 	 */
-	public void setUserClass(char user_class) {
+	public void setUserClass(Character user_class) {
 		this.user_class = user_class;
 	}
 

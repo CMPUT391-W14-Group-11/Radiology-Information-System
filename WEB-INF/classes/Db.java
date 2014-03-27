@@ -1,15 +1,11 @@
-package main;
+// package main;
 
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.*;
+import java.sql.*;
 import java.util.*;
-import java.sql.PreparedStatement;
-import java.sql.Timestamp;
+import java.lang.Object;
 
-import main.User;
+// import main.*;
 
 /**
  * Class used to handle database connections and queries
@@ -20,60 +16,36 @@ import main.User;
 
 public class Db {
 
-	private Connection con = null;
-	private static String m_url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
-	private static String m_driverName = "oracle.jdbc.driver.OracleDriver";
-	private static String user = "jsurya";
-	private static String password = "";
-	
-	static Connection m_con;
-    	static String queryString = "";
+	protected Connection con = null;
+	private String url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
+	private String driverName = "oracle.jdbc.driver.OracleDriver";
+	private String user = "jsurya";
+	private String password = "ark123et";
 
-	public static void connect() {
+	public Db() {
 
 		/**
 		 * Instantiating a Db object will perform connection
 		 */
-		 Statement stmt;
-
 	       try
 	       {
-
-	              Class drvClass = Class.forName(m_driverName);
+	              Class drvClass = Class.forName(driverName);
 	              DriverManager.registerDriver((Driver)
 	              drvClass.newInstance());
+	              this.con = DriverManager.getConnection(this.url, this.user,
+			this.password);
 
-	       } catch(Exception e)
-	       {
-
-	              System.err.print("ClassNotFoundException: ");
-	              System.err.println(e.getMessage());
-
+	       } catch(Exception e) {
+			e.printStackTrace();
+	        	System.err.println(e.getMessage());
 	       }
-
-	       try
-	       {
-
-	              m_con = DriverManager.getConnection(m_url, user,
-	              password);
-
-	              stmt = m_con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-	              ResultSet rset = stmt.executeQuery(queryString);
-	       } catch(SQLException ex) {
-
-	              System.err.println("SQLException: " +
-	              ex.getMessage());
-
-	       }
-
-		
 	}
 
 	/**
 	 * Performs a database query
 	 * 
 	 * @param String stmt
-	 * @returns ResultSet rs
+	 * @return ResultSet rs
 	 */
 	public ResultSet performQuery(String stmt) {
 		Statement st = null;
@@ -91,7 +63,7 @@ public class Db {
 	 * Executes a INSERT, UPDATE, or DELETE statement  
 	 * 
 	 * @param String stmt
-	 * @returns int succcess
+	 * @return int succcess
 	 */
 	public int performUpdate(String stmt) {
 		Statement st = null;
@@ -116,11 +88,15 @@ public class Db {
 	}
 
 	public int getNextPersonID() {
-		ResultSet rs = performQuery("SELECT users, MAX(person_id)");
-
+		ResultSet rs = performQuery("SELECT MAX(person_id) FROM persons");
+		
 		try {
-			if (rs.next()) {
-				return rs.getInt(1);
+			if(rs.next()) {
+				int num = rs.getInt(1) + 1;
+				while(checkValidity(num) == false) {
+					num++;
+				}
+				return num;
 			}
 		}
 		 catch (SQLException e) {
@@ -130,34 +106,49 @@ public class Db {
 		return 0;
 	}
 
+	public boolean checkValidity(int num) {
+		ResultSet check = performQuery("SELECT * FROM persons WHERE person_id =" + num);
+		
+		try {
+			if(check.next()) {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
 	public boolean verifyUser(String username, String password2) {
 
 		return false;
 	}
 
-	public int createUserAccount(User user) {
-		Date dateRegistered = new SimpleDateFormat("EEE, d MMM yyyy HH:mm").format(rs.getTimestamp("date_registered"));
-
-		String stmt = "INSERT INTO persons (person_id, first_name, last_name, address, email, phone) "
-			+ "VALUES ('" + user.getPersonID() 
-			+ "', '" + user.getFirstName()
-			+ "', '" + user.getLastName()
-			+ "', '" + user.address()
-			+ "', '" + user.email()
-			+ "', '" + user.phone()
-			+ "');";
-
-		if(performUpdate(stmt)) {
-
-			stmt = "INSERT INTO users (user_name, password, class, person_id, date_registered) "
-			+ "VALUES ('" + user.getUsername() 
-			+ "', '" + user.getPassword()
-			+ "', '" + user.getClass()
-			+ "', '" + user.getPersonID()
-			+ "', '" + dateRegistered
-			+ "');";
+	public int insertUserAccount(User user) {
 		
+		try {
+			PreparedStatement stmt = 
+				con.prepareStatement("INSERT INTO persons (person_id, first_name, last_name, address, email, phone) "
+				+ "VALUES (?, ?, ?, ?, ?, ?)");
+			stmt.setInt(1, user.getPersonID()); 
+			stmt.setString(2, user.getFirstName());
+			stmt.setString(3, user.getLastName());
+			stmt.setString(4, user.getAddress());
+			stmt.setString(5, user.getEmail());
+			stmt.setString(6, user.getPhone());
+
+			String stmt2 = "INSERT INTO users (user_name, password, class, person_id, date_registered) "
+			+ "VALUES ('" + user.getUsername() 
+				+ "', '" + user.getPassword()
+				+ "', '" + "a"
+				+ "', " + user.getPersonID()
+				+ " , CURRENT_DATE);";
+				
+			performUpdate(stmt2);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return performUpdate(stmt);
+		return 0;
 	}
 }
