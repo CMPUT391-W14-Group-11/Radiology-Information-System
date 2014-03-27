@@ -15,7 +15,8 @@
 <%@ include file="/layout/nav_bar.jsp"%>
 	
 	<div class="container">
-
+		<span style="color:red;">${param.message}</span>
+		<br>
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit" style="text-align:center">
 			<h1>Search Records</h1>

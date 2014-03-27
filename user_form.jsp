@@ -20,7 +20,7 @@
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit" style="text-align: center">
 		<h1>User Registration</h1>
-			<form method="POST" action="/UserRegistrationServlet" />
+			<form name="register" method="POST" action="register"/>
 			<table>
 				<tr>
 					<td><label for="username">Username:</label></td>
@@ -75,7 +75,7 @@
 				<tr>
 					<td style="vertical-align: middle;"><label for="address">Address:</label></span></td>
 					<td colspan="2"><textarea class="form-control" rows="4"
-							cols="5" name="Address"></textarea></td>
+							cols="5" name="address"></textarea></td>
 				</tr>
 
 				<tr>
