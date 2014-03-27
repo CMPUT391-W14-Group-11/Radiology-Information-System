@@ -35,7 +35,7 @@ import java.lang.Object;
 
 	protected String user_name;
 	protected String password;
-	protected Character user_class;
+	protected String user_class;
 	protected int person_id;
 	protected java.util.Date date_registered;
 
@@ -46,7 +46,7 @@ import java.lang.Object;
 	protected String phone;
 
 
-	public User(String user_name, String password, Character user_class, int person_id) {
+	public User(String user_name, String password, String user_class, int person_id) {
 		this.user_name = user_name;
 		this.password = password;
 		this.user_class = user_class;
@@ -135,7 +135,7 @@ import java.lang.Object;
 	 * 
 	 * @return The user_class of the user.
 	 */
-	public Character getUserClass() {
+	public String getUserClass() {
 		return user_class;
 	}
 
@@ -145,7 +145,7 @@ import java.lang.Object;
 	 * @param user_class
 	 *            The user_class to set for the user.
 	 */
-	public void setUserClass(Character user_class) {
+	public void setUserClass(String user_class) {
 		this.user_class = user_class;
 	}
 
