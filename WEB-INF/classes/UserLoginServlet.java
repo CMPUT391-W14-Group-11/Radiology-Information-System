@@ -24,43 +24,40 @@ public class UserLoginServlet extends HttpServlet {
 		request.removeAttribute("user_name");
 		request.removeAttribute("password");
 		session.removeAttribute("failureMessage");
-		String failureMessage = 
-				"Authentication failed for " 
-				+ username + ".";
 		
 		Db db = new Db();
 		
 		if (db.verifyUser(username, password) == true) {
 			// if login succeeds create a session for this user attributes
-			createUserSession(username, session);
+			System.out.println("Login successful");
+			db.close();
 
-			String message = "Welcome, " + username;
+			// createUserSession(username, session);
+
+			String message = "Welcome, " + username + "!";
 			request.setAttribute("message", message);
-			request.getRequestDispatcher("index.jsp").forward(request, response);
-			}
+
+			response.sendRedirect("index.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
 			
-			return;
 		}
+		
 		else {
 			// if login is unsuccessful 
-			System.err.print("IncorrectLoginException \n");
+			db.close();
+			System.err.print("Incorrect Login Exception \n");
 			
 			// set failure message
-			session.setAttribute("failureMessage", failureMessage);
-			request.setAttribute("failureMessage", failureMessage);
+			
 			if (username != null) {
 				String message = "Incorrect Username or Password Combination";
-				request.setAttribute("message", message);
-				response.sendRedirect("login.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
+				request.setAttribute("error", message);
+				response.sendRedirect("login.jsp?error=" + URLEncoder.encode(message, "UTF-8"));
 			} else {
 				String message = "Invalid Login";
-				request.setAttribute("message", message);
+				request.setAttribute("error", message);
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
-			return;
 		}
-
-
 	}
 	
 	/**
@@ -68,7 +65,7 @@ public class UserLoginServlet extends HttpServlet {
 	 * @param username
 	 * @param session
 	 */
-	private void createUserSession(String username, HttpSession session){
+	private void createUserSession(String username, HttpSession session) {
 		//Setup Permissions
 		Db db = new Db();
 		
@@ -76,8 +73,6 @@ public class UserLoginServlet extends HttpServlet {
 		
 		
 		//set session variables
-
-		
 		db.close();
 		
 	}
