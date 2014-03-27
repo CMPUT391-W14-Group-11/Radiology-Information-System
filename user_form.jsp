@@ -80,7 +80,9 @@
 
 				<tr>
 					<td><label for="email">Email Address:</label></td>
-					<td><input required type="email" name="email" id="email" /></td>
+					<td><input required type="email" name="email" id="email" />
+					<span style="color:red;">${param.message}</span>
+					</td>
 				</tr>
 				<tr>
 					<td><label for="phone">Phone Number:</label></td>

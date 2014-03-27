@@ -4,6 +4,7 @@ import java.util.*;
 import java.lang.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import java.net.*;
 
 /**
  * Servlet implementation class UserRegistrationServlet
@@ -25,21 +26,16 @@ public class UserRegistrationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 
-		String message = "OK " + createUserAccount(request);;
-		PrintWriter out = response.getWriter();
-      		out.println("<h1>" + message + "</h1>");
-      		out.println("<body><ul>");
-      		out.println("<li>" + request.getParameter("username") + "</li>");
-      		out.println("<li>" + request.getParameter("password2") + "</li>");
-      		out.println("<li>" + (request.getParameter("class")).charAt(0) + "</li>");
-      		out.println("<li>" + request.getParameter("first-name") + "</li>");
-      		out.println("<li>" + request.getParameter("last-name") + "</li>");
-      		String addr =  request.getParameter("address") + "";
-      		out.println("<li>" + addr  + "</li>");
-      		out.println("<li>" + request.getParameter("email") + "</li>");
-      		out.println("<li>" + request.getParameter("phone") + "</li>");
-      		out.println("</body>");
-
+		if (createUserAccount(request) == 1) {
+			String message = "Error: Email address is already registered in the database";
+			request.setAttribute("message", message);
+			response.sendRedirect("user_form.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
+		}
+		else {
+			String message = "Accout for user '" + request.getParameter("username") + "' has been successfully created.";
+			request.setAttribute("message", message);
+			request.getRequestDispatcher("index.jsp").forward(request, response);	
+		}
 	}
 
 	/**
@@ -54,7 +50,7 @@ public class UserRegistrationServlet extends HttpServlet {
 
 		String user_name = request.getParameter("username");
 		String password = request.getParameter("password2");
-		Character user_class = (request.getParameter("class")).charAt(0);
+		String user_class = request.getParameter("class");
 		
 		Db database = new Db();
 		int person_id = database.getNextPersonID();

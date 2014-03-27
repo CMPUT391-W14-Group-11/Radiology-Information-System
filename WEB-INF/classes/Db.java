@@ -119,35 +119,63 @@ public class Db {
 		return true;
 	}
 
-	public boolean verifyUser(String username, String password2) {
+	public boolean verifyUser(String username, String password) {
+
+		try {
+			PreparedStatement stmt = 
+				con.prepareStatement("SELECT * FROM users WHERE user_name = ? AND password = ?");
+			stmt.setString(1, username);
+			stmt.setString(2, password);
+			
+			ResultSet rs = stmt.executeQuery();
+			boolean empty = true;
+			while( rs.next() ) {
+			    // ResultSet processing here
+			    empty = false;
+			}
+
+			if( empty ) {
+			    // Empty result set
+				return false;
+			} else {
+				return true;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		return false;
 	}
 
 	public int insertUserAccount(User user) {
-		
+		int personID = user.getPersonID();
 		try {
 			PreparedStatement stmt = 
 				con.prepareStatement("INSERT INTO persons (person_id, first_name, last_name, address, email, phone) "
 				+ "VALUES (?, ?, ?, ?, ?, ?)");
-			stmt.setInt(1, user.getPersonID()); 
+			stmt.setInt(1, personID); 
 			stmt.setString(2, user.getFirstName());
 			stmt.setString(3, user.getLastName());
 			stmt.setString(4, user.getAddress());
 			stmt.setString(5, user.getEmail());
 			stmt.setString(6, user.getPhone());
 
-			String stmt2 = "INSERT INTO users (user_name, password, class, person_id, date_registered) "
-			+ "VALUES ('" + user.getUsername() 
-				+ "', '" + user.getPassword()
-				+ "', 'a',"
-				+ user.getPersonID()
-				+ " , CURRENT_DATE);";
+			stmt.executeUpdate();
+
+			PreparedStatement stmt2 = 
+				con.prepareStatement("INSERT INTO users (user_name, password, class, person_id, date_registered)" 
+				+ "VALUES (?, ?, ?, ?, CURRENT_DATE)");
+			stmt2.setString(1, user.getUsername()); 
+			stmt2.setString(2, user.getPassword());
+			stmt2.setString(3, (user.getUserClass()));
+			stmt2.setInt(4, personID);
 				
-			performUpdate(stmt2);
+			stmt2.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return e.getErrorCode();
 		}
 		return 0;
 	}
