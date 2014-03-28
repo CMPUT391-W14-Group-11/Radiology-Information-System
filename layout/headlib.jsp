@@ -21,7 +21,6 @@
 <link href="styles/bootstrap-responsive.css" rel="stylesheet">
 
 <!-- Navbar css -->
-<link href="styles/sprites_light.css" rel="stylesheet">
 
 <!-- Favicon -->	
 
