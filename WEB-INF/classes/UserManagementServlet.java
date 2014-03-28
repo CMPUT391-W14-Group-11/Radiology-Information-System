@@ -1,9 +1,12 @@
 import java.io.*;
+import java.sql.*;
+import java.util.*;
+import java.lang.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import java.util.*;
-import java.sql.*;
 import java.net.*;
+
+import entities.*;
 
 /**
  * Servlet implementation class UserLoginServlet
@@ -18,36 +21,60 @@ public class UserManagementServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		response.setContentType("text/html");
-		Db db = new Db();
-		Template template = new Template();
-		ArrayList<User> users = db.getUserAccounts();
 
-		ArrayList<String> usernames = new ArrayList<String>();
-		ArrayList<String> firstnames = new ArrayList<String>();
-		ArrayList<String> lastnames = new ArrayList<String>();
-		ArrayList<String> classes = new ArrayList<String>();
-		ArrayList<String> addresses = new ArrayList<String>();
-		ArrayList<String> emails = new ArrayList<String>();
-		ArrayList<String> phones = new ArrayList<String>();
-		
-		for (User u : users) {
-			usernames.add(u.getUsername());
-			firstnames.add(u.getFirstName());
-			lastnames.add(u.getLastName());
-			classes.add(u.getUserClass());
-			addresses.add(u.getAddress());
-			emails.add(u.getEmail());
-			phones.add(u.getPhone()); 
+		if (request.getParameter("editUser") != null) {
+			editUser(request, response);
+		}
+	}
+
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+
+		String username = request.getParameter("searchUser");
+
+		if (username != null) {
+			System.out.println(username);
+			// String message = "Error: Email address is already registered in the database";
+			// request.setAttribute("message", message);
+			// response.sendRedirect("user_form.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
+		}
+		else {
+			String error = " User not found.";
+			request.setAttribute("error", error);
+			response.sendRedirect("user_management.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
 		}
 
-		request.setAttribute("userAccounts_usernames", usernames);
-		request.setAttribute("userAccounts_firstnames", firstnames);
-		request.setAttribute("userAccounts_lastnames", lastnames);
-		request.setAttribute("userAccounts_classes", classes);
-		request.setAttribute("userAccounts_addresses", addresses);
-		request.setAttribute("userAccounts_emails", emails);
-		request.setAttribute("userAccounts_phones", phones);
-		request.getRequestDispatcher("user_list.jsp").forward(request, response);
+		editUser(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void editUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String view = request.getParameter("editUser");
+
+		if (view != null) {
+			System.out.println(view);
+
+			Db database = new Db();
+			User user = database.getUser(view);
+			request.setAttribute("Username", user.getUsername());
+			request.setAttribute("Password", user.getPassword());
+			request.setAttribute("FirstName", user.getFirstName());
+			request.setAttribute("LastName", user.getLastName());
+			request.setAttribute("Address", user.getAddress());
+			request.setAttribute("Email", user.getEmail());
+			request.setAttribute("Phone", user.getPhone());
+
+			request.getRequestDispatcher("user_form.jsp").forward(request, response);	
+
+		}
+		
 	}
 		
 }

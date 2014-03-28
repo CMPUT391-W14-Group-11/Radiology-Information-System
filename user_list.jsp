@@ -8,17 +8,11 @@
 <meta name="description" content="Radiology Information System Home">
 <meta name="author" content="">
 
-<%@ page import="java.util.ArrayList, java.util.List"%>
+<%@ page import="entities.*, java.util.ArrayList, java.util.List"%>
 <% 
-	ArrayList<String> usernames = (ArrayList<String>)request.getAttribute("usernames");
-	ArrayList<String> firstnames = (ArrayList<String>)request.getAttribute("firstnames");
-	ArrayList<String> lastnames = (ArrayList<String>)request.getAttribute("lastnames");
-	ArrayList<String> classes = (ArrayList<String>)request.getAttribute("classes");
-	ArrayList<String> addresses = (ArrayList<String>)request.getAttribute("addresses");
-	ArrayList<String> emails = (ArrayList<String>)request.getAttribute("emails");
-	ArrayList<String> phones = (ArrayList<String>)request.getAttribute("phones");
-
-	int arraySize = usernames.size();
+	Db database = new Db();
+	ArrayList<User> users = database.getUserAccounts(); 
+	database.close();
 %>
 
 </head>
@@ -30,7 +24,7 @@
 
 	<div class="container">
 		<!-- Main hero unit for a primary marketing message or call to action -->
-		<div class="hero-unit" style="text-align: center">
+		<div class="hero-unit" style="text-align:center">
 		<h1>Registered Users</h1>
 			<table id="user-table">
 			<thead>
@@ -46,21 +40,24 @@
 			</tr>
 
 			</thead>
+			<br>
 			<tbody>
+			<form action="users" method="GET" >   
 			<%
-			int i = 0;
-			while(i < arraySize) {
-				out.println("<td>" + usernames.get(i) + "</td>");
-				out.println("<td>" + firstnames.get(i) + "</td>");
-				out.println("<td>" + lastnames.get(i) + "</td>");
-				out.println("<td>" + classes.get(i) + "</td>");
-				out.println("<td>" + addresses.get(i) + "</td>");
-				out.println("<td>" + emails.get(i) + "</td>");
-				out.println("<td>" + phones.get(i) + "</td>");
-				out.println("<td><button value='editUser' type='submit' class='button'>View</td>");
+			for (User u : users) {
+
+				out.println("<td>" + u.getUsername() + "</td>");
+				out.println("<td>" + u.getFirstName() + "</td>");
+				out.println("<td>" + u.getLastName() + "</td>");
+				out.println("<td>" + u.getUserClass() + "</td>");
+				out.println("<td>" + u.getAddress() + "</td>");
+				out.println("<td>" + u.getEmail() + "</td>");
+				out.println("<td>" + u.getPhone() + "</td>");
+				out.println("<td><button name='editUser' type='submit' class='button' value='" + u.getUsername() + "'>View</td>");
 				out.println("</tr>");
 			}
 			%>
+			</form>
 			</tbody>
 
 			</table>
