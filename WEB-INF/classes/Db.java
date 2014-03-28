@@ -179,4 +179,40 @@ public class Db {
 		}
 		return 0;
 	}
+
+	public ArrayList<User> getUserAccounts() {
+		ArrayList<User> users = new ArrayList<User>();
+
+		try {
+			PreparedStatement stmt = 
+				con.prepareStatement("SELECT p.person_id, u.user_name, p.first_name, p.last_name, u.class, p.address, p.email, p.phone" +
+				" FROM persons p, users u WHERE p.person_id = u.person_id ORDER BY last_name DESC");
+			
+			ResultSet rs = stmt.executeQuery();
+
+			while( rs.next() ) {
+			    // ResultSet processing here
+				int person_id = rs.getInt("person_id");
+			    	String user_name = rs.getString("user_name");
+				String first_name = rs.getString("first_name");
+				String last_name = rs.getString("last_name");
+				String user_class = rs.getString("class");
+				String address =  rs.getString("address");
+				String phone =  rs.getString("phone");
+				
+				User user = new User(user_name, user_class, person_id);
+
+				user.setFirstName(first_name);
+				user.setLastName(last_name);
+				user.setAddress(address);
+				user.setPhone(phone);
+
+				users.add(user);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return users;
+	}
 }
