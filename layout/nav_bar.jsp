@@ -43,7 +43,7 @@
 					<li><a href="#myAccount"><i class="icon-light icon-user-small" ></i><span style="vertical-align:top;"> My Account</span></a></li>
 				</ul>
 				<ul class="nav" style="width:10%; float:left;">
-					<li><a href="#logout"><i class="icon-light icon-uniF68E-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">Logout</span></a></li>
+					<li><a href="logout.jsp"><i class="icon-light icon-uniF68E-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">Logout</span></a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
