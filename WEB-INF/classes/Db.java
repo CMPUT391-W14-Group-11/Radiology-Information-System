@@ -1,5 +1,3 @@
-// package main;
-
 import java.io.*;
 import java.sql.*;
 import java.util.*;
@@ -9,7 +7,7 @@ import java.lang.Object;
 
 /**
  * Class used to handle database connections and queries
- * 
+ *  	
  *  @author	Jessica Surya
  *  @author	
  */
