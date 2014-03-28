@@ -5,6 +5,8 @@ import java.util.*;
 import java.sql.*;
 import java.net.*;
 
+import entities.*;
+
 /**
  * Servlet implementation class UserLoginServlet
  */
