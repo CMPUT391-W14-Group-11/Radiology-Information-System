@@ -38,7 +38,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>UserManagementServlet</servlet-name>
-    <url-pattern>/list</url-pattern>
+    <url-pattern>/users</url-pattern>
   </servlet-mapping>
   
       <servlet>
