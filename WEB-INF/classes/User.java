@@ -45,10 +45,24 @@ import java.lang.Object;
 	protected String email;
 	protected String phone;
 
-
+	/**
+	 * Constructor method for new users
+	 * 
+	 *
+	 */
 	public User(String user_name, String password, String user_class, int person_id) {
 		this.user_name = user_name;
 		this.password = password;
+		this.user_class = user_class;
+		this.person_id = person_id;
+	}
+
+	/**
+	 * Constructor method without requiring password
+	 * 
+	 */
+	public User(String user_name, String user_class, int person_id) {
+		this.user_name = user_name;
 		this.user_class = user_class;
 		this.person_id = person_id;
 	}
