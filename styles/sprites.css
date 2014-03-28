@@ -5,6 +5,266 @@
 	background-image: url(../img/sprites_light.svg);
 	background-repeat: no-repeat;
 }
+
+[class*="dark-"] {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	background-image: url(../img/sprites.svg);
+	background-repeat: no-repeat;
+
+}
+.dark-home {
+	background-position: 0 0;
+	width: 32px;
+}
+.dark-user {
+	background-position: -48px 0;
+	width: 44px;
+}
+.dark-user-small {
+	zoom: 0.50;
+	background-position: -48px 0;
+	width: 44px;
+}
+.dark-friends {
+	background-position: -108px 0;
+	width: 32px;
+}
+.dark-friends-small {
+	zoom: 0.50;
+	background-position: -108px 0;
+	width: 32px;
+}
+.dark-uniF68D {
+	background-position: -156px 0;
+	width: 32px;
+}
+.dark-uniF68D {
+	zoom: 0.50;
+	background-position: -156px 0;
+	width: 32px;
+}
+.dark-uniF68E {
+	background-position: -204px 0;
+	width: 32px;
+}
+.dark-uniF68E-small {
+	zoom: 0.50;
+	background-position: -204px 0;
+	width: 32px;
+}
+.dark-uniF681 {
+	background-position: -252px 0;
+	width: 32px;
+}
+.dark-plus {
+	background-position: -300px 0;
+	width: 32px;
+}
+.dark-minus {
+	background-position: -348px 0;
+	width: 32px;
+}
+.dark-capslock {
+	background-position: -396px 0;
+	width: 32px;
+}
+.dark-capslock-small {
+	zoom: 0.50;
+	background-position: -396px 0;
+	width: 32px;
+}
+.dark-checkmark {
+	background-position: -444px 0;
+	width: 32px;
+}
+.dark-multiply {
+	background-position: -492px 0;
+	width: 32px;
+}
+.dark-uniF602 {
+	background-position: -540px 0;
+	width: 32px;
+}
+.dark-uniF5C6 {
+	background-position: -588px 0;
+	width: 32px;
+}
+.dark-uniF4A1 {
+	background-position: -636px 0;
+	width: 32px;
+}
+.dark-uniF485 {
+	background-position: -684px 0;
+	width: 32px;
+}
+.dark-pigpenu {
+	background-position: -732px 0;
+	width: 32px;
+}
+.dark-pigpent {
+	background-position: 0 -48px;
+}
+.dark-pigpenv {
+	background-position: -48px -48px;
+}
+.dark-uniF480 {
+	background-position: -108px -48px;
+}
+.dark-save {
+	background-position: -156px -48px;
+}
+.dark-list {
+	background-position: -204px -48px;
+}
+.dark-paperclip {
+	background-position: -252px -48px;
+}
+.dark-list-small {
+	zoom: 0.50;
+	background-position: -204px -48px;
+}
+.dark-paperclip-small {
+	zoom: 0.50;
+	background-position: -252px -48px;
+}
+.dark-down {
+	background-position: -300px -48px;
+}
+.dark-downleft {
+	background-position: -348px -48px;
+}
+.dark-downright {
+	background-position: -396px -48px;
+}
+.dark-up {
+	background-position: -444px -48px;
+}
+.dark-upleft {
+	background-position: -492px -48px;
+}
+.dark-upright {
+	background-position: -540px -48px;
+}
+.dark-right {
+	background-position: -588px -48px;
+}
+.dark-left {
+	background-position: -636px -48px;
+}
+.dark-settings2 {
+	background-position: -684px -48px;
+}
+.dark-uniF471 {
+	background-position: -732px -48px;
+}
+.dark-uniF470 {
+	background-position: 0 -96px;
+}
+.dark-uniF472 {
+	background-position: -48px -96px;
+}
+.dark-uniF473 {
+	background-position: -108px -96px;
+}
+.dark-uniF474 {
+	background-position: -156px -96px;
+}
+.dark-uniF475 {
+	background-position: -204px -96px;
+}
+.dark-uniF476 {
+	background-position: -252px -96px;
+}
+.dark-uniF477 {
+	background-position: -300px -96px;
+}
+.dark-uniF478 {
+	background-position: -348px -96px;
+}
+.dark-uniF479 {
+	background-position: -396px -96px;
+}
+.dark-magnifier {
+	background-position: -444px -96px;
+}
+.dark-zoomin {
+	background-position: -492px -96px;
+}
+.dark-zoomout {
+	background-position: -540px -96px;
+}
+.dark-magnifier-small {
+	zoom: 0.50;
+	background-position: -444px -96px;
+}
+.dark-zoomin-small {
+	zoom: 0.50;
+	background-position: -492px -96px;
+}
+.dark-zoomout-small {
+	zoom: 0.50;
+	background-position: -540px -96px;
+}
+.dark-checkmark2 {
+	background-position: -588px -96px;
+}
+.dark-cancel {
+	background-position: -636px -96px;
+}
+.dark-uniF596 {
+	background-position: -684px -96px;
+}
+.dark-search {
+	background-position: -732px -96px;
+}
+.dark-search-small {
+	zoom: 0.50;
+	background-position: -732px -96px;
+}
+.dark-pictures {
+	background-position: 0 -144px;
+}
+.dark-images {
+	background-position: -48px -144px;
+}
+.dark-search2 {
+	background-position: -108px -144px;
+}
+.dark-search3 {
+	background-position: -156px -144px;
+}
+.dark-zoomin2 {
+	background-position: -204px -144px;
+}
+.dark-zoomout2 {
+	background-position: -252px -144px;
+}
+.dark-search4 {
+	background-position: -300px -144px;
+}
+.dark-search2-small {
+	zoom: 0.50;
+	background-position: -108px -144px;
+}
+.dark-search3-small {
+	zoom: 0.50;
+	background-position: -156px -144px;
+}
+.dark-zoomin2-small {
+	zoom: 0.50;
+	background-position: -204px -144px;
+}
+.dark-zoomout2-small {
+	zoom: 0.50;
+	background-position: -252px -144px;
+}
+.dark-search4-small {
+	zoom: 0.50;
+	background-position: -300px -144px;
+}
+
 .icon-home {
 	background-position: 0 0;
 	width: 32px;
