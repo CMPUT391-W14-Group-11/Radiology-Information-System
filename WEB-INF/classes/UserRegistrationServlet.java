@@ -28,7 +28,7 @@ public class UserRegistrationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		int result = -1;
-		
+
 		if (request.getParameter("person_id") == null) {
 
 			Db database = new Db();
