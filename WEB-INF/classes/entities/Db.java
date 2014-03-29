@@ -428,4 +428,229 @@ public class Db {
 		}
 		return result;
 	}
-}
+	public int insertInfo_Report(User user){
+		int PersonID=user.getPersonID;
+	 	try{
+		PreparedStatement stmt = null;
+	    ResultSet rset = null;
+	/*String sql = "select p.user_name, p.address, p.phone, r.record_id, to_char(r.test_date, 'DD-MON-YYYY') as test_date " +
+	"from radiology_record r,persons p where r.patient_name = p.user_name and " +
+	"r.diagnosis = ? and r.test_date BETWEEN ? and ? ORDER BY r.test_date asc";*/
+	     stmt.setdiagnosis(1, diagnosis);
+	     stmt.setStartDate(2, begin);
+	     stmt.setEndDate(3, end);
+	     rset = stmt.executeUpdate();
+	     }
+	        catch(SQLException e){
+	        	e.printStackTrace();
+	        	
+	        }
+	 	return 0;
+	 	
+	}
+	public ArrayList<User> getReport()
+	{
+		ArrayList<User> users = new ArrayList<User>();
+		ArrayList<String> id = new ArrayList<String>();
+	 	ArrayList<String> user_name = new ArrayList<String>();
+	 	ArrayList<String> phone = new ArrayList<String>();
+	 	ArrayList<String> address = new ArrayList<String>();
+	 	ArrayList<String> test_date = new ArrayList<String>();
+		try{
+			PreparedStatement stmt = con.prepareStatement("Select p.useif(id.sir_name, p.address, p.phone, r.record_id, to_char(r.test_date, 'DD-MON-YYYY') AS test_date " +
+		    "From radiology_record r,persons p Where r.patient_name = p.user_name and " +
+		     "r.diagnosis = ? and r.test_date BETWEEN ? and ? ORDER BY r.test_date asc");
+		     ResultSet rset=stmt.executeQuery();
+		     while(rset != null && rset.next()){
+		    	 user_name = (rset.getUsername("user_name"));
+		    	 address = (rset.getAddress("address"));
+		    	 phone = (rset.getPhone("phone"));
+		    	 test_date = (rset.getTest_Date("test_date"));
+	     }
+
+				User user = new User(user_name, user_class, person_id);
+				if(id.size()==0){}
+				else{
+					for(int i=0;i<id.size();i++)
+					{
+						user.get(i);
+					}
+				}
+
+	 	}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return users;
+	}
+	public int Info_forSearch(User user){
+		int RecordID=user.getRecordID;
+		String sql="select";
+	 	try{
+	 		PreparedStatement stmt = null;
+	 		ResultSet rset = null;
+	 		stmt = conn.prepareStatement(sql);
+	 		int i = 1;
+	 		if(!startDate.equals("")){
+	 			stmt.setString(i++, startDate);
+	 			}
+	 		if(!endDate.equals("")){
+	 			stmt.setString(i++, endDate);
+	 			}
+	 		if(!keywords.equals("")){
+	 			stmt.setString(i++, keywords);
+	 			stmt.setString(i++, keywords);
+	 			stmt.setString(i++, keywords);
+	 			}
+	 		if(!user_class.equals("a")){
+	 			stmt.setUserName(i++, user_name);
+	 		}
+	 	}catach(SQLException e)
+	 	{
+	 		e.printStackTrace();
+
+	 	return 0;
+	}
+	public ArrayList<User> getSearch_results()
+	{
+		ArrayList<String> clauses = new ArrayList<String>();
+	     //Add start and end date clauses
+	     if(!startDate.equals("")){
+	    	 clauses.add("test_date >= ? ");
+	     }
+	     
+	     if(!endDate.equals("")){
+	    	 clauses.add("test_date <= ? ");
+	     }
+	     if(!keywords.equals("")){
+	     //Add CONTAINS and SCRORE for rankings
+	    	 clauses.add("contains(r.patient_name, ?, 1) >= 0 and contains(r.diagnosis, ?, 2) >= 0 "+
+	     "and contains(r.description, ?, 3) >= 0 ");
+	     String score = "score(1)*6 + score(2)*3 + score(3) as rank, ";
+	     sql = sql.concat(score);
+	     }
+
+	     //Add extra clause depending on user class
+	     /*String userName = (String) session.getAttribute("name");
+	String classtype = (String) session.getAttribute("classtype");*/
+	if(user_class.equals("r")){
+		clauses.add("r.radiologist_name = ? ");
+	}
+	else if(user_class.equals("d")){
+		clauses.add("? IN (SELECT d.doctor_name from family_doctor d where d.patient_name = r.patient_name) ");
+	}
+	else if(user_class.equals("p")){
+		clauses.add("r.patient_name = ? ");
+	}
+	    
+	//Add ordering
+	     String orderBy = "";
+	     if(request.getParameter("order").equals("Rank")){
+	    	 orderBy = "rank DESC";
+	     }
+	     else if(request.getParameter("order").equals("Most-Recent-First")){
+	    	 orderBy = "r.test_date DESC";
+	     }
+	     else if(request.getParameter("order").equals("Most-Recent-Last")){
+	    	 orderBy = "r.test_date ASC";
+	     }
+	    
+	     //Columns for table
+	     String start = "r.record_id, r.patient_name, r.doctor_name, r.radiologist_name, r.test_type, "+
+	     "to_char(r.prescribing_date, 'DD-MON-YYYY') as prescribing_date, to_char(r.test_date, 'DD-MON-YYYY') as test_date, "+
+	     "r.diagnosis, r.description from radiology_record r ";
+	sql = sql.concat(start);
+
+	//Add in clauses to query
+	boolean first = true;
+	for (String value : clauses){
+	if(first){
+	first = false;
+	sql = sql.concat("WHERE "+ value);
+	}
+	else
+	sql = sql.concat(" AND "+ value);
+	}	
+	sql = sql.concat("ORDER BY "+orderBy);
+	}
+	//Get table column titles
+	ResultSet rset = stmt.executeQuery();
+	ResultSetMetaData rsmd = rset.getMetaData();
+	int colCount = rsmd.getColumnCount();
+	int loop = 1;
+	if(!keywords.equals("")){
+		loop = 2;
+	for (int j=loop; j<= colCount; j++) {
+		rsmd.getColumnName(j);
+	}
+	}
+	//Print rows
+	while(rset != null && rset.next()){
+		if(!(!keywords.equals("") && rset.getInt(1) == 0)){
+			int recid = 2;
+			if(keywords.equals(""))
+				recid = 1;
+			for(int k=loop;k<=colCount; k++) {
+				rset.getString(k);
+	}
+	}
+		//Print pictures corresponding to row
+		Statement picStmt = conn.createStatement();
+		String pquery = "select image_id from pacs_images where record_id = "+rset.getString(recid);
+		ResultSet picset = picStmt.executeQuery(pquery);
+		if(picset != null && picset.next()){
+			System.out.println("<tr><td COLSPAN="+colCount+">Images for record_id "+rset.getString(recid)+":");
+			String end = "rec="+rset.getString(recid)+"&pic="+picset.getString(1);
+	            out.println("<a href=\"GetOnePic?size=full&"+end+"\" target=\"_blank\">");
+	            out.println("<img src=\"GetOnePic?"+end+"\" height=\"45\" width=\"60\"></a>");
+	            while(picset.next()){
+	            	end = "rec="+rset.getString(recid)+"&pic="+picset.getString(1);
+	            	System.out.println("<a href=\"GetOnePic?size=full&"+end+"\" target=\"_blank\">");
+	            	System.out.println("<img src=\"GetOnePic?"+end+"\" height=\"45\" width=\"60\"></a>");
+	}
+	}
+	}
+	}
+
+	}
+	     catch(Exception ex){
+	    	 ex.printStackTrace();
+	}
+	     public int Upload_Record(User user){
+	 		int RadiologistID=user.getRadiologistID;
+	 		int RecordID=user.getRecordID;
+	 		Statement recstmt = conn.createStatement();
+	 		ResultSet recrset = recstmt.executeQuery("SELECT record_seq.nextval from dual");
+	 		recrset.next();
+	 		int recid = recrset.getInt(1);
+
+	 		//Insert record
+	 		PreparedStatement stmt = null;
+	 		     ResultSet rset = null;
+	 		String sql = "insert into radiology_record values("+recid+",?,?,?,?,?,?,?,?)";
+	 		try{
+	 		stmt = conn.prepareStatement(sql);
+	 		     stmt.setFirstname(1, first_name);
+	 		     stmt.setLastName(1, last_name);
+	 		     stmt.setDoctor_Name(2, doc_name);
+	 		     stmt.setUsername(3, user_ame);
+	 		     stmt.setTest_Type(4, testtype);
+	 		     stmt.setPres_Date(5, presdate);
+	 		     stmt.setTest_Date(6, testdate);
+	 		     stmt.setdiganosis(7, diag);
+	 		     stmt.setdescription(8, desc);
+	 		     stmt.executeUpdate();
+
+	 		conn.commit();
+	 		response.sendRedirect("uploadImage.jsp?recid="+recid+"&result=recok");
+	 		}
+	 		     catch(Exception ex){
+	 		         error = ex.getMessage();
+	 		}
+
+	 		try{
+	 		         conn.close();
+	 		      }
+	 		        catch(Exception ex){
+	 		        error = ex.getMessage();
+	 		        }
+	 		}

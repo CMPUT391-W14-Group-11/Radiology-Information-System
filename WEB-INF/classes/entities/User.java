@@ -46,6 +46,18 @@ import java.lang.Object;
 	protected String address;
 	protected String email;
 	protected String phone;
+	protected int record_int;
+	protected int patient_int;
+	protected int doctor_id;
+	protected int radiologist_id;
+	protected String test_type;
+	protected String prescribing_date;
+	protected String test_date;
+	protected String diagnosis;
+	protected String description;
+	protected String begin;
+	protected String end;
+	
 
 	/**
 	 * Constructor method for new users
@@ -240,6 +252,76 @@ import java.lang.Object;
 	public void setPersonID(int person_id) {
 		this.person_id = person_id;
 	}
+	public int getRecordID(){
+		return record_id;
+	}
+	public void setRecordID(int record_id){
+		this.record_id=record_id;
+	}
+	public getPateintID(){
+		return patient_id;
+	}
+	public setPatientID(){
+		this.patient_id=patient_id;
+	}
+	//public getDoctorID(){
+		return doctor_id;
+	}
+	public setDoctorID(){
+		this.doctor_id=doctor_id;
+	}
+	public getRadiologistID(){
+		return radiologist_id;
+	}
+	public setRadiologistID(){
+		this.radiologist_id=radiologist_id;
+	}
+	public getTestType(){
+		return test_type;
+	}
+	public setTestType(){
+		this.test_type=test_type;
+	}
+	public getPresDate(){
+		return prescribing_date;
+	}
+	public setPresDate(){
+		this.prescribing_date=prescribing_date;
+	}
+	public getTestDate(){
+		return test_date;
+	}
+	public setTestDate(){
+		this.test_date=test_date;
+	}
+	public getdiagnosis(){
+		return diagnosis;
+	}
+	public setdiagnosis(){
+		this.diagnosis=diagnosis;
+	}
+	public getdescription(){
+		return patient_id;
+	}
+	public setdescription(){
+		this.description=description;
+	}
+	public getStartDate(){
+	return begin;
+}
+	public setStartDate(){
+	this.begin=begin;
+}
+
+	public EndDate(){
+	return end;
+}
+	public setEndDate(){
+	this.end=end;
+}
+
+	
+	
 
 
 
