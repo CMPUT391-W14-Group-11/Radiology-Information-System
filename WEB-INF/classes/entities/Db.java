@@ -195,6 +195,12 @@ public class Db {
 		return 0;
 	}
 
+	/**
+	 * Get all users from the database by username  
+	 * 
+	 * 
+	 * @return ArrayList<User> objects
+	 */
 	public ArrayList<User> getUserAccounts() {
 		ArrayList<User> users = new ArrayList<User>();
 
@@ -233,20 +239,26 @@ public class Db {
 		return users;
 	}
 
-	public User getUser(String username) {
+	/**
+	 * Get a user from the database by person_id 
+	 * 
+	 * @param int person_id
+	 * @return User object
+	 */
+	public User getUser(int person_id) {
 		User user;
 
 		try {
 			PreparedStatement stmt = 
-				con.prepareStatement("SELECT p.person_id, p.first_name, p.last_name, u.class, u.password, p.address, p.email, p.phone "
-				+ "FROM persons p, users u WHERE p.person_id = u.person_id AND u.user_name = ?");
-			stmt.setString(1, username); 
+				con.prepareStatement("SELECT p.person_id, u.user_name, p.first_name, p.last_name, u.class, u.password, p.address, p.email, p.phone "
+				+ "FROM persons p, users u WHERE p.person_id = u.person_id AND p.person_id = ?");
+			stmt.setInt(1, person_id); 
 
 			ResultSet rs = stmt.executeQuery();
 
 			if ( rs.next() ) {
 			    // ResultSet processing here
-				int person_id = rs.getInt("person_id");
+				String username = rs.getString("user_name");
 				String first_name = rs.getString("first_name");
 				String last_name = rs.getString("last_name");
 				String user_class = rs.getString("class");
@@ -318,5 +330,102 @@ public class Db {
 			return e.getErrorCode();
 		}
 		return 0;
+	}
+
+	/**
+	 * Get all patients from the database by doctor  
+	 * 
+	 * 
+	 * @return ArrayList<User> objects
+	 */
+	public ArrayList<User> getPatients(int doctor_id) {
+		ArrayList<User> patients = new ArrayList<User>();
+
+		try {
+			PreparedStatement stmt = 
+				con.prepareStatement("SELECT p.person_id, u.user_name, p.first_name, p.last_name, u.class, u.password, p.address, p.email, p.phone " +
+				" FROM persons p, family_doctor f , users u WHERE p.person_id = f.patient_id AND  u.person_id = f.patient_id AND f.doctor_id = ? ORDER BY p.last_name DESC");
+			stmt.setInt(1, doctor_id);
+
+			ResultSet rs = stmt.executeQuery();
+
+			while( rs.next() ) {
+			    // ResultSet processing here
+				int person_id = rs.getInt("person_id");
+			    	String user_name = rs.getString("user_name");
+				String first_name = rs.getString("first_name");
+				String last_name = rs.getString("last_name");
+				String user_class = rs.getString("class");
+				String address =  rs.getString("address");
+				String email =  rs.getString("email");
+				String phone =  rs.getString("phone");
+				
+				User user = new User(user_name, user_class, person_id);
+
+				user.setFirstName(first_name);
+				user.setLastName(last_name);
+				user.setAddress(address);
+				user.setEmail(email);
+				user.setPhone(phone);
+
+				patients.add(user);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return patients;
+	}
+
+	/**
+	 * Get all users of in a class from the database
+	 * 
+	 * 
+	 * @return ArrayList<Integer> person_id
+	 */
+	public ArrayList<Integer> getClassMembers(String userClass) {
+		ArrayList<Integer> members = new ArrayList<Integer>();
+
+		try {
+			PreparedStatement stmt = 
+				con.prepareStatement("SELECT p.person_id "
+				+ "FROM persons p, users u WHERE p.person_id = u.person_id AND u.class = ? ORDER BY p.last_name DESC");
+			stmt.setString(1, userClass);
+			ResultSet rs = stmt.executeQuery();
+
+			while( rs.next() ) {
+			    // ResultSet processing here
+				Integer person_id = Integer.valueOf(rs.getInt("person_id"));
+				members.add(person_id);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return members;
+	}
+
+
+	/**
+	 * Remove patients from family_doctor table
+	 * 
+	 * 
+	 * @return int 0 on success
+	 */
+	public int removePatient(int doctor_id, int patient_id) {
+		int result = -1;
+		try {
+			PreparedStatement stmt = 
+				con.prepareStatement("DELETE FROM family_doctor " +
+				" WHERE patient_id = ? AND  doctor_id = ? ");
+			stmt.setInt(1, patient_id);
+			stmt.setInt(2, doctor_id);
+
+			result = stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

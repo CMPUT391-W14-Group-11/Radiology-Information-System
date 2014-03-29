@@ -33,7 +33,7 @@
 			<span style="color:red;">${param.error}</span>
 			<input name="editUser" type="text" method="POST" placeholder="Enter username" style="width:90%; height:30px;">
 
-			<button class="button blue" type="submit" value="search">Search</button>
+			<button class="button blue" type="submit" name="searchUser">Search</button>
 			</form>
 		</div>
 			<table id="user-table">
@@ -63,7 +63,7 @@
 				out.println("<td>" + u.getAddress() + "</td>");
 				out.println("<td>" + u.getEmail() + "</td>");
 				out.println("<td>" + u.getPhone() + "</td>");
-				out.println("<td><button name='editUser' type='submit' class='button' value='" + u.getUsername() + "'>View</td>");
+				out.println("<td><button name='editUser' type='submit' class='button' value='" + u.getPersonID() + "'>View</td>");
 				out.println("</tr>");
 			}
 			%>

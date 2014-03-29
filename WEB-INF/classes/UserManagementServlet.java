@@ -35,6 +35,8 @@ public class UserManagementServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		String username = request.getParameter("searchUser");
+		String deletion = request.getParameter("submitRemoval");
+		String[] removePatients = request.getParameterValues("removePatient");
 
 		if (username != null) {
 			System.out.println(username);
@@ -45,6 +47,15 @@ public class UserManagementServlet extends HttpServlet {
 			request.setAttribute("error", error);
 			response.sendRedirect("user_list.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
 		}
+
+		if (deletion != null && removePatients.length > 0) {
+			if (removePatients(request, response) == 0) {
+				String message = "Patient has been successfully removed.";
+				request.setAttribute("message", message);
+				response.sendRedirect("patient_list.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
+			}
+		}
+
 	}
 
 	/**
@@ -55,10 +66,12 @@ public class UserManagementServlet extends HttpServlet {
 		String view = request.getParameter("editUser");
 
 		if (view != null) {
-			System.out.println(view);
+
+			int person_id = Integer.valueOf(request.getParameter("editUser"));
+			System.out.println(person_id);
 
 			Db database = new Db();
-			User user = database.getUser(view);
+			User user = database.getUser(person_id);
 			request.setAttribute("Username", user.getUsername());
 			request.setAttribute("Password", user.getPassword());
 			request.setAttribute("FirstName", user.getFirstName());
@@ -88,6 +101,24 @@ public class UserManagementServlet extends HttpServlet {
 
 		}
 		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected int removePatients(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String[] removePatients = request.getParameterValues("removePatient");
+		int doc = Integer.valueOf(request.getParameter("submitRemoval"));
+		System.out.println("doctor_id: " + doc);
+		Db database = new Db();
+		for (int i = 0; i < removePatients.length ; i++) {
+			System.out.println(Integer.valueOf(removePatients[i]));
+			database.removePatient(doc, Integer.valueOf(removePatients[i]));	
+		}
+
+		database.close();
+		return 0;
 	}
 		
 }

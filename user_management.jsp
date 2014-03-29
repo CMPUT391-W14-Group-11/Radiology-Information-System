@@ -23,7 +23,10 @@
 			<li><a href="user_form.jsp"><i class="dark dark-plus" style="margin-right: 15px;"></i><span style="vertical-align:top;">Create New User</span></a></li>
 		</ul>
 		<ul class="nav" style="width:20%; float:left;">
-		<li><a href="user_list.jsp"><i class="dark dark-uniF5C6-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">View Users</span></a></li>
+		<li><a href="user_list.jsp"><i class="dark dark-friends-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">View Users</span></a></li>
+		</ul>	
+		<ul class="nav" style="width:25%; float:left;">
+		<li><a href="patient_list.jsp"><i class="dark dark-uniF480-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">Manage Patients</span></a></li>
 		</ul>	
 		</div>
 
