@@ -33,6 +33,10 @@ INSERT INTO persons VALUES (
 	6, 'person6-first_name', 'person6-last_name', 'address', 'person6-email', 'phone'
 );
 
+INSERT INTO persons VALUES (
+	7, 'person7-first_name', 'person7-last_name', 'address', 'person7-email', 'phone7'
+);
+
 INSERT INTO users VALUES (
 	'admin', 'password', 'a', 0, CURRENT_DATE
 );
@@ -66,5 +70,11 @@ INSERT INTO users VALUES (
 );
 
 INSERT INTO family_doctor VALUES (
-	1, 1
+	7, 3
+);
+INSERT INTO family_doctor VALUES (
+	7, 4
+);
+INSERT INTO family_doctor VALUES (
+	7, 5
 );
