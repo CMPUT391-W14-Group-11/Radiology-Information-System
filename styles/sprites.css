@@ -117,6 +117,10 @@
 .dark-uniF480 {
 	background-position: -108px -48px;
 }
+.dark-uniF480-small {
+	zoom: 0.50;
+	background-position: -108px -48px;
+}
 .dark-save {
 	background-position: -156px -48px;
 }
