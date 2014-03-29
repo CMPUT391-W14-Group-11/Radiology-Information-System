@@ -26,6 +26,16 @@
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit" style="text-align:center">
 		<h1>Registered Users</h1>
+		<br>
+		<span style="color:black;">${param.message}</span>
+		<div>
+			<form method="POST" action="users">
+			<span style="color:red;">${param.error}</span>
+			<input name="editUser" type="text" method="POST" placeholder="Enter username" style="width:90%; height:30px;">
+
+			<button class="button blue" type="submit" value="search">Search</button>
+			</form>
+		</div>
 			<table id="user-table">
 			<thead>
 			<tr>

@@ -27,18 +27,18 @@
 				<tr>
 					<td><label for="username">Username:</label></td>
 					<td><input type="text" name="username" required
-						title="Username " value=${Username}></td>
+						title="Username " value=${Username}></td><span style="color:red;">${param.error2}</span>
 				</tr>
 
 				<tr>
 					<td><label for="password">Password:</label></td>
-					<td><input repopulate="true" type="password" name="password" id="password"
+					<td><input type="password" name="password" id="password"
 						required value=${Password}></td>
 				</tr>
 
 				<tr>
 					<td><label for="password2">Confirm Password:</label></td>
-					<td><input required repopulate="true" type="password" name="password2" 
+					<td><input required type="password" name="password2" 
 						id="password2" onkeyup="checkPass(); return false;" value=${Password}> <span
 						id="confirmMessage" class="confirmMessage"></span></td>
 				</tr>
@@ -47,10 +47,10 @@
 					<td><label for="class">Class: </label></td>
 					<td><select name="class" required>
 						<option disabled selected>-- Assign Role --</option>
-						<option value="a">Administrator</option>
-						<option value="p">Patient</option>
-						<option value="d">Doctor</option>
-						<option value="r">Radiologist</option>
+						<option value="a" ${SelectA}>Administrator</option>
+						<option value="p" ${SelectP}>Patient</option>
+						<option value="d" ${SelectD}>Doctor</option>
+						<option value="r" ${SelectR}>Radiologist</option>
 					</select></td>
 				</tr>
 
@@ -77,13 +77,13 @@
 				<tr>
 					<td style="vertical-align: middle;"><label for="address">Address:</label></span></td>
 					<td colspan="2"><textarea class="form-control" rows="4"
-							cols="5" name="address" value=${Address}></textarea></td>
+							cols="5" name="address" >${Address}</textarea></td>
 				</tr>
 
 				<tr>
 					<td><label for="email">Email Address:</label></td>
 					<td><input required type="email" name="email" id="email" value=${Email} />
-					<span style="color:red;">${param.message}</span>
+					<span style="color:red;">${param.error1}</span>
 					</td>
 				</tr>
 				<tr>
@@ -91,7 +91,9 @@
 					<td><input type="text" name="phone" id="phone" value=${Phone}></td>
 				</tr>
 			</table>
-			<br> <br> <input type="submit" name="demand" value="Save">
+			<br> <br> 
+			<input type="hidden" id="person_id" name="person_id" value=${PersonID}>
+			<input type="submit" name="demand" value="Save">
 
 			</form>
 

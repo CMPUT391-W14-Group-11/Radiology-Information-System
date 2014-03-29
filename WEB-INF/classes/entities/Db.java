@@ -148,6 +148,16 @@ public class Db {
 		return false;
 	}
 
+	/**
+	 * Creates an existing User in the database
+	 * 
+	 * @see User
+	 * @param User
+	 *            
+	 * @return int 0 on success
+	 * @return int 1 on invalid email
+	 * @return int 2 on invalid username
+	 */
 	public int insertUserAccount(User user) {
 		int personID = user.getPersonID();
 		try {
@@ -161,7 +171,10 @@ public class Db {
 			stmt.setString(5, user.getEmail());
 			stmt.setString(6, user.getPhone());
 
-			stmt.executeUpdate();
+			
+			if (stmt.executeUpdate() == 1) {
+				return 1;
+			}
 
 			PreparedStatement stmt2 = 
 				con.prepareStatement("INSERT INTO users (user_name, password, class, person_id, date_registered)" 
@@ -171,7 +184,9 @@ public class Db {
 			stmt2.setString(3, (user.getUserClass()));
 			stmt2.setInt(4, personID);
 				
-			stmt2.executeUpdate();
+			if (stmt2.executeUpdate() == 2) {
+				return 2;
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -257,5 +272,51 @@ public class Db {
 		}
 		return null;
 
+	}
+
+	/**
+	 * Updates an existing User in the database
+	 * 
+	 * @see User
+	 * @param User
+	 *            
+	 * @return int 0 on success
+	 * @return int 1 on invalid email
+	 * @return int 2 on invalid username
+	 */
+	public int updateUserAccount(User user) {
+		int personID = user.getPersonID();
+		try {
+			PreparedStatement stmt = 
+				con.prepareStatement("UPDATE persons SET first_name = ?, last_name = ?, address = ?, email = ?, phone = ?"
+				+ " WHERE person_id = ?");
+			stmt.setString(1, user.getFirstName());
+			stmt.setString(2, user.getLastName());
+			stmt.setString(3, user.getAddress());
+			stmt.setString(4, user.getEmail());
+			stmt.setString(5, user.getPhone());
+			stmt.setInt(6, personID); 
+
+			if (stmt.executeUpdate() < 1) {
+				return 1;
+			}
+
+			PreparedStatement stmt2 = 
+				con.prepareStatement("UPDATE users SET user_name = ?, password = ?, class = ?" 
+				+ " WHERE person_id = ?");
+			stmt2.setString(1, user.getUsername()); 
+			stmt2.setString(2, user.getPassword());
+			stmt2.setString(3, (user.getUserClass()));
+			stmt2.setInt(4, personID);
+
+			if (stmt2.executeUpdate() < 1) {
+				return 2;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return e.getErrorCode();
+		}
+		return 0;
 	}
 }

@@ -19,7 +19,6 @@
 		<div class="hero-unit" style="text-align: center">
 		<h1>User Management</h1>
 		<br>
-		<div>
 		<ul class="nav" style="width:25%; float:left;">
 			<li><a href="user_form.jsp"><i class="dark dark-plus" style="margin-right: 15px;"></i><span style="vertical-align:top;">Create New User</span></a></li>
 		</ul>
@@ -27,19 +26,7 @@
 		<li><a href="user_list.jsp"><i class="dark dark-uniF5C6-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">View Users</span></a></li>
 		</ul>	
 		</div>
-		<div>
-			<form method="POST" action="users">
 
-			<input name="searchUser" type="text" method="POST" placeholder="Enter username" style="width:70%; height:30px;">
-			<span style="color:red;">${param.error}</span>
-			<br><br>
-			
-				<p>
-				<button class="button blue" type="submit" value="search">Search</button>
-			</p>
-			</form>
-		</div>
-		</div>
 	</div>
 
 	<%@ include file="/layout/footer.jsp"%>

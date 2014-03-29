@@ -38,17 +38,13 @@ public class UserManagementServlet extends HttpServlet {
 
 		if (username != null) {
 			System.out.println(username);
-			// String message = "Error: Email address is already registered in the database";
-			// request.setAttribute("message", message);
-			// response.sendRedirect("user_form.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
+			editUser(request, response);
 		}
 		else {
 			String error = " User not found.";
 			request.setAttribute("error", error);
-			response.sendRedirect("user_management.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
+			response.sendRedirect("user_list.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
 		}
-
-		editUser(request, response);
 	}
 
 	/**
@@ -70,6 +66,23 @@ public class UserManagementServlet extends HttpServlet {
 			request.setAttribute("Address", user.getAddress());
 			request.setAttribute("Email", user.getEmail());
 			request.setAttribute("Phone", user.getPhone());
+			request.setAttribute("PersonID", user.getPersonID());
+
+			if(user.getUserClass().equals("a")) {
+		           	request.setAttribute("SelectA", "selected");
+		        }
+		        else if(user.getUserClass().equals("p")) {
+		            	request.setAttribute("SelectP", "selected");
+		        }
+		        else if(user.getUserClass().equals("d")) {
+		            	request.setAttribute("SelectD", "selected");
+		        }
+		        else if(user.getUserClass().equals("r")) {
+		            	request.setAttribute("SelectR", "selected");
+		        }
+		        else {
+		        	System.out.println("failed");
+		        }
 
 			request.getRequestDispatcher("user_form.jsp").forward(request, response);	
 
