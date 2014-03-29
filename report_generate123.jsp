@@ -17,7 +17,7 @@
 
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit" style="text-align: center">
-			<form method="POST" action="report_generate.jsp" />
+			<form method="POST" action="ReportServlet" />
 			<table>
 			<p></p>
                         <p>Time format: DD-MON-YYYY</p>

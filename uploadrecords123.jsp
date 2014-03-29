@@ -17,7 +17,7 @@
 
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit" style="text-align: center">
-			<form method="POST" action="/newrecord.jsp" />
+			<form method="POST" action="/UploadRecordServlet" />
 			<table>
 				<TR VALIGN=TOP ALIGN=LEFT>
                                 <TH>Patient Name:</TH>
