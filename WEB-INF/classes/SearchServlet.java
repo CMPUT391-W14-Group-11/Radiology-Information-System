@@ -28,40 +28,49 @@ public class ReportServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if (Info_forSearch(request)==1){
+		
+		String search = request.getParameter("searchRecords");
+
+		if (search != null) {
 			String message = "Error:";
 			request.setAttribute("message", message);
 			response.sendRedirect("login.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
 		}
-		else
-			String message = "Enter in the required spaces" + request.getParameter("keywords") + request.getParameter("startdate") + request.getParameter("enddate")";
-		    request.setAttribute("message", message);
-		    request.getRequestDispatcher("search123.jsp").forward(request, response);	
+		else {
+			String message = "Error: No records found";
+		    	request.setAttribute("error", error);
+		    	response.sendRedirect("advanced_search.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
 		}
-	public int Info_forSearch(HttpServletRequest request) {
+	}
 
-		String user_name = request.getParameter("username");
-		String password = request.getParameter("password2");
-		String user_class = request.getParameter("class");
+	public ArrayList<Record> searchRecords() {
 		
-		Db database = new Db();
-		//int person_id = database.getNextPersonID();
+		ArrayList<RadiologyRecord> reports = new ArrayList<RadiologyRecord>();
+		
+		try {
+			String search = request.getParameter("searchRecords");
+			String fDate = request.getParameter("fDate");
+			String tDate = request.getParameter("tDate");
+			java.util.Date date1 = new SimpleDateFormat("yyy-MM-dd").parse(fDate);
+			java.util.Date date2 = new SimpleDateFormat("yyy-MM-dd").parse(tDate);
+			
+			boolean check = (tDate.equals("") || fDate.equals("") || searchRecords.equals(""));	
+			
+			if(!check) {
+			
+				Db database = new Db();
+				ArrayList<Record> records = database.searchRecords(search);
+				
+				for (Record r : records) {
+					User patient = database.getUser(r.getPatientID()); 
+					reports.add(new RadiologyRecord(patient, r));
+				}
+				database.close();
+			}
 
-		User user = new User(user_name, password, user_class, person_id);
-		boolean check = (startdate.equals("") || enddate.equals("") || keywords.equals(""));	
-		if(user_name("username") && user_class("a") && !check){
-			user.setkeywords(request.getParameter("Keywords"));
-			user.setStartDate(request.getParameter("startdate"));
-			user.setEndDate(request.getParameter("enddate"));
-			user.setOrder(request.getParameter("class"));
-                        int result=database.Info_forSearch(user);
+		} catch (ParseException e) {  
+    			e.printStackTrace();  
 		}
-		else{
-			String message = "You are not an authorized to search this";
-			request.setAttribute("message", message);
-			response.sendRedirect("login.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
-		}
-
 
 		return result;
 	}

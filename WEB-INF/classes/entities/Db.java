@@ -35,15 +35,15 @@ public class Db {
 		 * Instantiating a Db object will perform connection
 		 */
 	       try {
-	              Class drvClass = Class.forName(driverName);
-	              DriverManager.registerDriver((Driver)
-	              drvClass.newInstance());
-	              this.con = DriverManager.getConnection(this.url, this.user,
+			Class drvClass = Class.forName(driverName);
+			DriverManager.registerDriver((Driver)
+			drvClass.newInstance());
+			this.con = DriverManager.getConnection(this.url, this.user,
 			this.password);
 
 	       } catch(Exception e) {
 			e.printStackTrace();
-	        	System.err.println(e.getMessage());
+			System.err.println(e.getMessage());
 	       }
 	}
 
@@ -244,7 +244,7 @@ public class Db {
 			while( rs.next() ) {
 			    // ResultSet processing here
 				int person_id = rs.getInt("person_id");
-			    	String user_name = rs.getString("user_name");
+				String user_name = rs.getString("user_name");
 				String first_name = rs.getString("first_name");
 				String last_name = rs.getString("last_name");
 				String user_class = rs.getString("class");
@@ -437,7 +437,7 @@ public class Db {
 			while( rs.next() ) {
 			    // ResultSet processing here
 				int person_id = rs.getInt("person_id");
-			    	String user_name = rs.getString("user_name");
+				String user_name = rs.getString("user_name");
 				String first_name = rs.getString("first_name");
 				String last_name = rs.getString("last_name");
 				String user_class = rs.getString("class");
@@ -529,135 +529,148 @@ public class Db {
 
 	/**
 	 * 
- 	 * Report Generation Module
- 	 *
- 	 * Gets all radiology records associated with a user (patient)
- 	 * @param int person_id
- 	 *
+	 * Report Generation Module
+	 *
+	 * Gets all radiology records associated with a user (patient)
+	 * @param int person_id
+	 *
 	**/
 	public ArrayList<Record> getRecords(int person_id) {
 		ArrayList<Record> recs = new ArrayList<Record>();
 
-	 	try{
+		try{
 			PreparedStatement stmt = con.prepareStatement("SELECT * FROM radiology_record " 
 			+ "WHERE patient_id = ? ");
-	     		stmt.setInt(1, person_id);
-	     		ResultSet rset = stmt.executeQuery();
+			stmt.setInt(1, person_id);
+			ResultSet rset = stmt.executeQuery();
 
-	     		while(rset != null && rset.next()) {
-	     			int record_id = (rset.getInt("record_id"));
-		    	 	int patient_id = (rset.getInt("patient_id"));
-		    	 	int doctor_id = (rset.getInt("doctor_id"));
-		    	 	int radiologist_id = (rset.getInt("radiologist_id"));
-		    	 	String test_type = (rset.getString("test_type"));
-		    	 	java.util.Date prescribing_date = (rset.getDate("prescribing_date"));
-		    	 	java.util.Date test_date = (rset.getDate("test_date"));
-		    	 	String diagnosis = (rset.getString("diagnosis"));
-		    	 	String description = (rset.getString("description"));
-		    	 	
-		    	 	Record rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
+			while(rset != null && rset.next()) {
+				int record_id = (rset.getInt("record_id"));
+				int patient_id = (rset.getInt("patient_id"));
+				int doctor_id = (rset.getInt("doctor_id"));
+				int radiologist_id = (rset.getInt("radiologist_id"));
+				String test_type = (rset.getString("test_type"));
+				java.util.Date prescribing_date = (rset.getDate("prescribing_date"));
+				java.util.Date test_date = (rset.getDate("test_date"));
+				String diagnosis = (rset.getString("diagnosis"));
+				String description = (rset.getString("description"));
+				
+				Record rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
 
-		    	 	rec.setPrescribingDate(prescribing_date);
-		    	 	rec.setTestDate(test_date);
-		    	 	rec.setDiagnosis(diagnosis);
-		    	 	rec.setDescription(description);
+				rec.setPrescribingDate(prescribing_date);
+				rec.setTestDate(test_date);
+				rec.setDiagnosis(diagnosis);
+				rec.setDescription(description);
 
-		    	 	recs.add(rec);
-		    	}
-		    	stmt.close();
+				recs.add(rec);
+			}
+			stmt.close();
 			rset.close();
 
 	     }
-	        catch(SQLException e){
-	        	e.printStackTrace();
-	        	
-	        }
-	 	return recs;
+		catch(SQLException e){
+			e.printStackTrace();
+			
+		}
+		return recs;
 	}
 
 	/**
 	 * 
- 	 * Report Generation Module
- 	 *
- 	 * Gets the list of all patients with a specified diagnosis for a given time period. 
- 	 * For each patient, the list must contain the name, address and phone number of the 
- 	 * patient, and testing date of the first radiology record that contains the 
- 	 * specified diagnosis.
- 	 *
+	 * Report Generation Module
+	 *
+	 * Gets the list of all patients with a specified diagnosis for a given time period. 
+	 * For each patient, the list must contain the name, address and phone number of the 
+	 * patient, and testing date of the first radiology record that contains the 
+	 * specified diagnosis.
+	 *
 	**/
 	public ArrayList<Record> getDiagnosisReports(String diagnosis, java.util.Date fDate, java.util.Date tDate) {
 		ArrayList<Record> records = new ArrayList<Record>();
 		
 		try{
 			PreparedStatement stmt = con.prepareStatement("SELECT * " 
-		    		+ "FROM radiology_record r"
-		    		+ "WHERE r.diagnosis LIKE ? "
-		     		+ "AND r.test_date BETWEEN ? AND ? ORDER BY r.test_date ASC");
+				+ "FROM radiology_record r"
+				+ "WHERE r.diagnosis LIKE ? "
+				+ "AND r.test_date BETWEEN ? AND ? ORDER BY r.test_date ASC");
 
 			stmt.setString(1, "%" + diagnosis + "%");
-	     		stmt.setDate(2, new java.sql.Date(fDate.getTime()));
-	     		stmt.setDate(3, new java.sql.Date(tDate.getTime()));
+			stmt.setDate(2, new java.sql.Date(fDate.getTime()));
+			stmt.setDate(3, new java.sql.Date(tDate.getTime()));
 
-		    	ResultSet rset = stmt.executeQuery();
+			ResultSet rset = stmt.executeQuery();
 
-		     	while(rset != null && rset.next()) {
-		     		int record_id = (rset.getInt("record_id"));
-		    	 	int patient_id = (rset.getInt("patient_id"));
-		    	 	int doctor_id = (rset.getInt("doctor_id"));
-		    	 	int radiologist_id = (rset.getInt("radiologist_id"));
-		    	 	String test_type = (rset.getString("test_type"));
-		    	 	java.util.Date prescribing_date = (rset.getDate("prescribing_date"));
-		    	 	java.util.Date test_date = (rset.getDate("test_date"));
-		    	 	String r_diagnosis = (rset.getString("diagnosis"));
-		    	 	String description = (rset.getString("description"));
-		    	 	
-		    	 	Record rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
+			while(rset != null && rset.next()) {
+				int record_id = (rset.getInt("record_id"));
+				int patient_id = (rset.getInt("patient_id"));
+				int doctor_id = (rset.getInt("doctor_id"));
+				int radiologist_id = (rset.getInt("radiologist_id"));
+				String test_type = (rset.getString("test_type"));
+				java.util.Date prescribing_date = (rset.getDate("prescribing_date"));
+				java.util.Date test_date = (rset.getDate("test_date"));
+				String r_diagnosis = (rset.getString("diagnosis"));
+				String description = (rset.getString("description"));
+				
+				Record rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
 
-		    	 	rec.setPrescribingDate(prescribing_date);
-		    	 	rec.setTestDate(test_date);
-		    	 	rec.setDiagnosis(r_diagnosis);
-		    	 	rec.setDescription(description);
+				rec.setPrescribingDate(prescribing_date);
+				rec.setTestDate(test_date);
+				rec.setDiagnosis(r_diagnosis);
+				rec.setDescription(description);
 
-		    	 	records.add(rec);
-		    	}
-		    	stmt.close();
+				records.add(rec);
+			}
+			stmt.close();
 			rset.close();
 
-	 	} catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return records;
 	}
 
-	// public int Info_forSearch(User user){
-	// 	int RecordID=user.getRecordID;
-	// 	String sql="select";
-	//  	try{
-	//  		PreparedStatement stmt = null;
-	//  		ResultSet rset = null;
-	//  		stmt = conn.prepareStatement(sql);
-	//  		int i = 1;
-	//  		if(!startDate.equals("")){
-	//  			stmt.setString(i++, startDate);
-	//  			}
-	//  		if(!endDate.equals("")){
-	//  			stmt.setString(i++, endDate);
-	//  			}
-	//  		if(!keywords.equals("")){
-	//  			stmt.setString(i++, keywords);
-	//  			stmt.setString(i++, keywords);
-	//  			stmt.setString(i++, keywords);
-	//  			}
-	//  		if(!user_class.equals("a")){
-	//  			stmt.setUserName(i++, user_name);
-	//  		}
-	//  	}catach(SQLException e)
-	//  	{
-	//  		e.printStackTrace();
+	public ArrayList<Record> searchRecords(String keyword) {
+		
+	 	try{
+			PreparedStatement stmt = con.prepareStatement("SELECT * " 
+				+ "FROM radiology_record r"
+				+ "WHERE r.diagnosis LIKE ? "
+				+ "ORDER BY r.test_date ASC");
 
-	//  	return 0;
-	// }
+			stmt.setString(1, "%" + keyword + "%");
+
+			ResultSet rset = stmt.executeQuery();
+
+			while(rset != null && rset.next()) {
+				int record_id = (rset.getInt("record_id"));
+				int patient_id = (rset.getInt("patient_id"));
+				int doctor_id = (rset.getInt("doctor_id"));
+				int radiologist_id = (rset.getInt("radiologist_id"));
+				String test_type = (rset.getString("test_type"));
+				java.util.Date prescribing_date = (rset.getDate("prescribing_date"));
+				java.util.Date test_date = (rset.getDate("test_date"));
+				String r_diagnosis = (rset.getString("diagnosis"));
+				String description = (rset.getString("description"));
+				
+				Record rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
+
+				rec.setPrescribingDate(prescribing_date);
+				rec.setTestDate(test_date);
+				rec.setDiagnosis(r_diagnosis);
+				rec.setDescription(description);
+
+				records.add(rec);
+			}
+			stmt.close();
+			rset.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return records;
+	}
 
 	// public ArrayList<User> getSearch_results() {
 	// 	ArrayList<String> clauses = new ArrayList<String>();
@@ -766,19 +779,19 @@ public class Db {
 
 	/**
 	 * 
- 	 * Upload Module
- 	 *
- 	 * Add a new radiology record to the database 
- 	 * 
- 	 * Records are identified by a unquie record_id
- 	 *
+	 * Upload Module
+	 *
+	 * Add a new radiology record to the database 
+	 * 
+	 * Records are identified by a unquie record_id
+	 *
 	 * @param Record object	
- 	 * @return int 0 on success
- 	 *
+	 * @return int 0 on success
+	 *
 	 **/
-   	public int insertRadiologyRecord(Record record) {
+	public int insertRadiologyRecord(Record record) {
 
- 		//Insert record
+		//Insert record
 		try {
 			PreparedStatement stmt = 
 				con.prepareStatement("INSERT INTO radiology_record "
@@ -792,8 +805,8 @@ public class Db {
 			stmt.setInt(3, record.getDoctorID());
 			stmt.setInt(4, record.getRadiologistID());
 			stmt.setString(5, record.getTestType());
-	     		stmt.setDate(6, new java.sql.Date(record.getPrescribingDate().getTime()));
-	     		stmt.setDate(7, new java.sql.Date(record.getTestDate().getTime()));
+			stmt.setDate(6, new java.sql.Date(record.getPrescribingDate().getTime()));
+			stmt.setDate(7, new java.sql.Date(record.getTestDate().getTime()));
 			stmt.setString(8, record.getDiagnosis());
 			stmt.setString(9, record.getDescription());
 
@@ -809,100 +822,100 @@ public class Db {
 			return e.getErrorCode();
 		}
 		return 0;
- 	}
+	}
 
 	/**
 	 * 
- 	 * Upload Module
- 	 *
- 	 * Upload an image stored in the user's local file system to the database 
- 	 * 
- 	 * Images are associated with a radiology record
- 	 *
- 	 *
+	 * Upload Module
+	 *
+	 * Upload an image stored in the user's local file system to the database 
+	 * 
+	 * Images are associated with a radiology record
+	 *
+	 *
 	 * Modified from UploadImage.java 
 	 * Copyright 2007 COMPUT 391 Team, CS, UofA
- 	 * Author: Fan Deng
+	 * Author: Fan Deng
 	 *
- 	 * Shrink function from
+	 * Shrink function from
 	 * http://www.java-tips.org/java-se-tips/java.awt.image/shrinking-an-image-by-skipping-pixels.html
- 	 *
- 	 *
+	 *
+	 *
 	 **/
 	private void insertPacRecord(FileItem item, Integer rid) {
-                
-                try{
+		
+		try{
 
-	                InputStream instream = item.getInputStream();
-	                BufferedImage img = ImageIO.read(instream);
-	                BufferedImage thumbNail = shrink(img, 10);
-                    
+			InputStream instream = item.getInputStream();
+			BufferedImage img = ImageIO.read(instream);
+			BufferedImage thumbNail = shrink(img, 10);
+		    
 			/*
 			* First, to generate a unique pic_id using an SQL sequence
 			*/
-	                int pic_id = getNextID("image_id", "pacs_images");
-	                    
-	               	PreparedStatement stmt = con.prepareStatement("INSERT INTO pacs_images"
-	                    + " VALUES(record_id = ? . image_id = ? , empty_blob(), empty_blob(), empty_blob())");
+			int pic_id = getNextID("image_id", "pacs_images");
+			    
+			PreparedStatement stmt = con.prepareStatement("INSERT INTO pacs_images"
+			    + " VALUES(record_id = ? . image_id = ? , empty_blob(), empty_blob(), empty_blob())");
 				stmt.setInt(1, rid);
-		     		stmt.setInt(2, pic_id);
+				stmt.setInt(2, pic_id);
 
 			ResultSet rset = stmt.executeQuery();
 
 			// to retrieve the lob_locator
 			// Note that you must use "FOR UPDATE" in the select statement
-	                PreparedStatement cmd = con.prepareStatement("SELECT * FROM pacs_images WHERE record_id = ? "
-	                	+ "AND image_id = ? FOR UPDATE");
-	            	stmt.setInt(1, rid);
-	     		stmt.setInt(2, pic_id);
+			PreparedStatement cmd = con.prepareStatement("SELECT * FROM pacs_images WHERE record_id = ? "
+				+ "AND image_id = ? FOR UPDATE");
+			stmt.setInt(1, rid);
+			stmt.setInt(2, pic_id);
 
-	            	rset = cmd.executeQuery();
-	            	rset.next();
-	            	BLOB thumbblob = ((OracleResultSet)rset).getBLOB(3);
+			rset = cmd.executeQuery();
+			rset.next();
+			BLOB thumbblob = ((OracleResultSet)rset).getBLOB(3);
 
 			//Write the image to the blob object
-		        OutputStream outstream = thumbblob.getBinaryOutputStream();
-		        ImageIO.write(thumbNail, "jpg", outstream);
-		        instream.close();
-		        outstream.close();	   
+			OutputStream outstream = thumbblob.getBinaryOutputStream();
+			ImageIO.write(thumbNail, "jpg", outstream);
+			instream.close();
+			outstream.close();	   
 
-		        BLOB regblob = ((OracleResultSet)rset).getBLOB(4);
+			BLOB regblob = ((OracleResultSet)rset).getBLOB(4);
 			//Write the image to the blob object
-	            	outstream = regblob.getBinaryOutputStream();
-		        ImageIO.write(img, "jpg", outstream);           
-		        instream.close();
-		        outstream.close();
-		        BLOB fullblob = ((OracleResultSet)rset).getBLOB(5);
+			outstream = regblob.getBinaryOutputStream();
+			ImageIO.write(img, "jpg", outstream);           
+			instream.close();
+			outstream.close();
+			BLOB fullblob = ((OracleResultSet)rset).getBLOB(5);
 			//Write the image to the blob object
-	                outstream = fullblob.getBinaryOutputStream();
-	                ImageIO.write(img, "jpg", outstream);
-	                instream.close();
-	                outstream.close();
-	                stmt.executeUpdate("commit");
+			outstream = fullblob.getBinaryOutputStream();
+			ImageIO.write(img, "jpg", outstream);
+			instream.close();
+			outstream.close();
+			stmt.executeUpdate("commit");
 
-	                stmt.close();
+			stmt.close();
 			rset.close();
-                    
-                } catch(Exception ex) {
-                    System.out.println( ex.getMessage());
-                }
-                
-        }
+		    
+		} catch(Exception ex) {
+		    System.out.println( ex.getMessage());
+		}
+		
+	}
 
-        //shrink image by a factor of n, and return the shrinked image
-        //
-        public static BufferedImage shrink(BufferedImage image, int n) {
-                
-                int w = image.getWidth() / n;
-                int h = image.getHeight() / n;
-                
-                BufferedImage shrunkImage =
-                        new BufferedImage(w, h, image.getType());
-                
-                for (int y=0; y < h; ++y)
-                        for (int x=0; x < w; ++x)
-                                shrunkImage.setRGB(x, y, image.getRGB(x*n, y*n));
-                
-                return shrunkImage;
-        }
+	//shrink image by a factor of n, and return the shrinked image
+	//
+	public static BufferedImage shrink(BufferedImage image, int n) {
+		
+		int w = image.getWidth() / n;
+		int h = image.getHeight() / n;
+		
+		BufferedImage shrunkImage =
+			new BufferedImage(w, h, image.getType());
+		
+		for (int y=0; y < h; ++y)
+			for (int x=0; x < w; ++x)
+				shrunkImage.setRGB(x, y, image.getRGB(x*n, y*n));
+		
+		return shrunkImage;
+	}
 }

@@ -13,50 +13,34 @@
 <body>
 	<%@ include file="/layout/nav_bar.jsp"%>
 	<div class="container">
-		<h1>Advanced Search Records</h1>
+		<h1>Advanced Search</h1>
 
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit" style="text-align: center">
+		<span style="color:red;">${param.error}</span>
 			<form method="POST" action="SearchServlet" />
 			<table>
 				<TR VALIGN=TOP ALIGN=LEFT>
                                 <TH>Keywords:</TH>
-                                <TD><INPUT TYPE="text" SIZE="50" NAME="keywords"></TD>
-                                </TR>
-                                <TR VALIGN=TOP ALIGN=LEFT>
-                                <TD COLSPAN=2><I>*Separate Keywords By Commas</I></TD>
-                                </TR>
-                                <tr><td><br></td></tr>
-                                <TR VALIGN=TOP ALIGN=LEFT>
-                                <TH COLSPAN=2><U>And/Or</U></TH>
-                                </TR>
-                                <TR VALIGN=TOP ALIGN=LEFT>
-                                <TH COLSPAN=2><I>Valid Date Format "DD-MON-YYYY"</I></TH>
-                                </TR>
+                                <TD><INPUT required TYPE="text" SIZE="60" NAME="keywords"> *Separate Keywords By Commas</TD>
                                 <TR VALIGN=TOP ALIGN=LEFT>
                                 <TH>Start Date:</TH>
-                                <TD><INPUT TYPE="text" NAME="startdate"></TD>
+                                <TD><INPUT placeholder="YYYY-MM-DD" TYPE="text" NAME="fDate"></TD>
                                 </TR>
                                 <TR VALIGN=TOP ALIGN=LEFT>
                                 <TH>End Date:</TH>
-                                <TD><INPUT TYPE="text" NAME="enddate"></TD>
+                                <TD><INPUT placeholder="YYYY-MM-DD" TYPE="text" NAME="tDate"></TD>
                                 </TR>
-                                <tr><td><br></td></tr>
                                 <TR VALIGN=TOP ALIGN=LEFT>
                                 <TH>Order By:</TH>
-                                <TH><SELECT NAME="order" SIZE="1">
-				<tr>
-					<td><label for="class">Class: </label></td>
-					<td><select name="class" required>
-							<option disabled selected>-- Rank --</option>
-							<option value="a">Most-Recent First</option>
-							<option value="p">Most-Recent Last</option>
-					</select></td>
-				</tr>
+                                <td><select name="order" required>
+					<option value="mrf" selected>Most-Recent First</option>
+					<option value="mfl">Most-Recent Last</option>
+				</select></td>
 
 			</table>
-			<br> <br> <input type="submit" name="demand"
-				value="Search Results">
+			<br> <br> <input type="submit" name="searchRecords"
+				value="Search Records">
 
 			</form>
 
