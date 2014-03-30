@@ -69,6 +69,30 @@
         <url-pattern>/UploadImage</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+    <description></description>
+    <display-name>reports</display-name>
+    <servlet-name>ReportServlet</servlet-name>
+    <servlet-class>ReportServlet</servlet-class>
+    <jsp-file>/reports.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReportServlet</servlet-name>
+    <url-pattern>/reports</url-pattern>
+  </servlet-mapping>
+
+   <servlet>
+    <description></description>
+    <display-name>upload records</display-name>
+    <servlet-name>UploadRecordServlet</servlet-name>
+    <servlet-class>UploadRecordServlet</servlet-class>
+    <jsp-file>/add_records.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UploadRecordServlet</servlet-name>
+    <url-pattern>/upload</url-pattern>
+  </servlet-mapping>
+
 
   
 
