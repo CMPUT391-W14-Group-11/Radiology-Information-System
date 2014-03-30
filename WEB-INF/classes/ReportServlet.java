@@ -54,8 +54,8 @@ public class ReportServlet extends HttpServlet {
 		boolean check = (tDate.equals("") || fDate.equals("") || diagnosis.equals(""));	
 		
 		try {
-			java.util.Date date1 = new SimpleDateFormat("YYYY-MM-DD").parse(fDate);
-			java.util.Date date2 = new SimpleDateFormat("YYYY-MM-DD").parse(tDate);
+			java.util.Date date1 = new SimpleDateFormat("yyy-MM-dd").parse(fDate);
+			java.util.Date date2 = new SimpleDateFormat("yyy-MM-dd").parse(tDate);
 		
 			if(!check) {
 			
