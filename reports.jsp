@@ -16,8 +16,6 @@
 <body>
 	<%@ include file="/layout/nav_bar.jsp"%>
 	<div class="container">
-		
-
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit" style="text-align: center">
 		<h1>Patient Reports</h1>
@@ -27,22 +25,21 @@
                         <tr VALIGN=TOP ALIGN=LEFT>
                         <span style="color:red;">${param.message}</span>
                         <th>Diagnosis:</th>
-                        <td><input TYPE="text" NAME="diagnosis" ></td>
+                        <td><input TYPE="text" required NAME="diagnosis" ></td>
                         </tr>
                         <tr VALIGN=TOP ALIGN=LEFT>
                         <th>From:</th>
-                        <td><input TYPE="date" NAME="fDate" placeholder="YYYY-MM-DD"></td>
+                        <td><input TYPE="date" required NAME="fDate" placeholder="YYYY-MM-DD"></td>
                         </tr>
                         <tr VALIGN=TOP ALIGN=LEFT>
                         <th>To:</th>
-                        <td><input TYPE="date" NAME="tDate" placeholder="YYYY-MM-DD"></td>
+                        <td><input TYPE="date" required NAME="tDate" placeholder="YYYY-MM-DD"></td>
                         </tr>
                         </table>
                         <br>
                         <input TYPE="submit" NAME="rSubmit" VALUE="Submit">
                         </form>	
 		</div>
-
 		<div class="hero-unit" style="text-align:center">
 		
 		<h1>Results</h1>
