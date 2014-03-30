@@ -26,19 +26,19 @@
 			<table>
 				<tr>
 					<td><label for="username">Username:</label></td>
-					<td><input type="text" name="username" required
+					<td><input type="text" size="24" name="username" required
 						title="Username " value=${Username}></td><span style="color:red;">${param.error2}</span>
 				</tr>
 
 				<tr>
 					<td><label for="password">Password:</label></td>
-					<td><input type="password" name="password" id="password"
+					<td><input type="password" size="24" name="password" id="password"
 						required value=${Password}></td>
 				</tr>
 
 				<tr>
 					<td><label for="password2">Confirm Password:</label></td>
-					<td><input required type="password" name="password2" 
+					<td><input required type="password" size="24" name="password2" 
 						id="password2" onkeyup="checkPass(); return false;" value=${Password}> <span
 						id="confirmMessage" class="confirmMessage"></span></td>
 				</tr>
@@ -64,31 +64,31 @@
 
 				<tr>
 					<td><label for="first-name">First Name:</label></td>
-					<td><input type="text" name="first-name" required
+					<td><input type="text" size="24" name="first-name" required
 						title="First Name " value=${FirstName}></td>
 				</tr>
 
 				<tr>
 					<td><label for="last-name">Last Name:</label></td>
-					<td><input type="text" name="last-name" required
+					<td><input type="text" size="24" name="last-name" required
 						title="Last Name " value=${LastName}></td>
 				</tr>
 
 				<tr>
 					<td style="vertical-align: middle;"><label for="address">Address:</label></span></td>
-					<td colspan="2"><textarea class="form-control" rows="4"
+					<td colspan="2"><textarea maxlength="128" class="form-control" rows="4"
 							cols="5" name="address" >${Address}</textarea></td>
 				</tr>
 
 				<tr>
 					<td><label for="email">Email Address:</label></td>
-					<td><input required type="email" name="email" id="email" value=${Email} />
+					<td><input required type="email" size="128" name="email" id="email" value=${Email} />
 					<span style="color:red;">${param.error1}</span>
 					</td>
 				</tr>
 				<tr>
 					<td><label for="phone">Phone Number:</label></td>
-					<td><input type="text" name="phone" id="phone" value=${Phone}></td>
+					<td><input type="tel" name="phone" size="10" id="phone" value=${Phone}></td>
 				</tr>
 			</table>
 			<br> <br> 
