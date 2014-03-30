@@ -5,7 +5,6 @@ import java.sql.*;
 import java.util.*;
 import java.lang.Object;
 
-
 /**
  * Report is a model class representing a radiology record in this web application
  * A report is associated with patients and contains the following information:
@@ -25,22 +24,23 @@ import java.lang.Object;
  **/
 
  public class Record {
-	
-	protected int patient_id;
-	protected int doctor_id;
-	protected int radiologist_id;
-	protected String test_type;
-	protected java.util.Date  prescribing_date;
-	protected java.util.Date test_date;
-	protected String diagnosis;
-	protected String description;
+	private int record_id;
+	private int patient_id;
+	private int doctor_id;
+	private int radiologist_id;
+	private String test_type;
+	private java.util.Date  prescribing_date;
+	private java.util.Date test_date;
+	private String diagnosis;
+	private String description;
 		
 	/**
 	 * Constructor method for new reports
 	 * 
 	 *
 	 */
-	public Record(int patient_id, int doctor_id, int radiologist_id, String test_type) {
+	public Record(int record_id, int patient_id, int doctor_id, int radiologist_id, String test_type) {
+		this.record_id = record_id;
 		this.patient_id = patient_id;
 		this.doctor_id = doctor_id;
 		this.radiologist_id = radiologist_id;
@@ -55,6 +55,26 @@ import java.lang.Object;
 		this.patient_id = patient_id;
 		this.doctor_id = doctor_id;
 		this.test_date = test_date;
+	}
+
+	/**
+	 * Get the record_id in the report
+	 * 
+	 * @return The record_id which is used to uniquely identify the user from
+	 *         other users.
+	 */
+	public int getRecordID() {
+		return record_id;
+	}
+
+	/**
+	 * Set the record_id in the report
+	 * 
+	 * @param record_id
+	 *            The record_id to set for the report.
+	 */
+	public void setRecordID(int record_id) {
+		this.record_id = record_id;
 	}
 
 	/**
