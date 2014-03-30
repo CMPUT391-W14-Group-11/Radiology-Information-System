@@ -32,7 +32,7 @@ public class UserRegistrationServlet extends HttpServlet {
 		if (request.getParameter("person_id") == null) {
 
 			Db database = new Db();
-			int person_id = database.getNextPersonID();
+			int person_id = database.getNextID("person_id", "persons");
 			User user = createUser(request, person_id);
 
 			result = createUserAccount(user);

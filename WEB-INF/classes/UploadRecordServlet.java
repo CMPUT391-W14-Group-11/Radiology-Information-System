@@ -24,7 +24,6 @@ public class UploadRecordServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	       	HttpSession session = request.getSession();
 	       	response.setContentType("text/html");
-
 	}
 
 	/**
@@ -32,7 +31,6 @@ public class UploadRecordServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-
 
 		FileItem file = null;
 		DiskFileUpload fu = new DiskFileUpload();
@@ -49,13 +47,8 @@ public class UploadRecordServlet extends HttpServlet {
 			request.setAttribute("message", message);
 			response.sendRedirect("upload_records.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
 		}
-		else if (result < 0 ) {
-			String error = "An error occured while saving";
-			request.setAttribute("error", error);
-			response.sendRedirect("upload_records.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
-		}
 		else {
-			String error = "Record has already been saved in the database";
+			String error = "An error occured while saving";
 			request.setAttribute("error", error);
 			response.sendRedirect("upload_records.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
 		}
@@ -64,7 +57,6 @@ public class UploadRecordServlet extends HttpServlet {
 	public int saveRecord(HttpServletRequest request) {
 
 		try {
-			
 			String p_username = request.getParameter("p_username");
 			String d_username = request.getParameter("d_username");
 
@@ -74,7 +66,6 @@ public class UploadRecordServlet extends HttpServlet {
 			String test_type = request.getParameter("test_type");
 			String prescription_date = request.getParameter("prescription_date");
 			String test_date = request.getParameter("test_date");
-
 			java.util.Date date1 = new SimpleDateFormat("yyy-MM-dd").parse(prescription_date);
 			java.util.Date date2 = new SimpleDateFormat("yyy-MM-dd").parse(test_date);
 		
