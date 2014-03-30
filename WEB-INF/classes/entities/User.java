@@ -35,30 +35,18 @@ import java.lang.Object;
 
  public class User {
 
-	protected String user_name;
-	protected String password;
-	protected String user_class;
-	protected int person_id;
-	protected java.util.Date date_registered;
+	private String user_name;
+	private String password;
+	private String user_class;
+	private int person_id;
+	private java.util.Date date_registered;
 
-	protected String first_name;
-	protected String last_name;
-	protected String address;
-	protected String email;
-	protected String phone;
-	protected int record_int;
-	protected int patient_int;
-	protected int doctor_id;
-	protected int radiologist_id;
-	protected String test_type;
-	protected String prescribing_date;
-	protected String test_date;
-	protected String diagnosis;
-	protected String description;
-	protected String begin;
-	protected String end;
+	private String first_name;
+	private String last_name;
+	private String address;
+	private String email;
+	private String phone;
 	
-
 	/**
 	 * Constructor method for new users
 	 * 
@@ -240,89 +228,7 @@ import java.lang.Object;
 	 * @return The person_id of the user.
 	 */
 	public int getPersonID() {
-		return person_id;
+		return this.person_id;
 	}
-
-	/**
-	 * Set the person_id of the user.
-	 * 
-	 * @param person_id
-	 *            The person_id to set for the user.
-	 */
-	public void setPersonID(int person_id) {
-		this.person_id = person_id;
-	}
-	public int getRecordID(){
-		return record_id;
-	}
-	public void setRecordID(int record_id){
-		this.record_id=record_id;
-	}
-	public getPateintID(){
-		return patient_id;
-	}
-	public setPatientID(){
-		this.patient_id=patient_id;
-	}
-	//public getDoctorID(){
-		return doctor_id;
-	}
-	public setDoctorID(){
-		this.doctor_id=doctor_id;
-	}
-	public getRadiologistID(){
-		return radiologist_id;
-	}
-	public setRadiologistID(){
-		this.radiologist_id=radiologist_id;
-	}
-	public getTestType(){
-		return test_type;
-	}
-	public setTestType(){
-		this.test_type=test_type;
-	}
-	public getPresDate(){
-		return prescribing_date;
-	}
-	public setPresDate(){
-		this.prescribing_date=prescribing_date;
-	}
-	public getTestDate(){
-		return test_date;
-	}
-	public setTestDate(){
-		this.test_date=test_date;
-	}
-	public getdiagnosis(){
-		return diagnosis;
-	}
-	public setdiagnosis(){
-		this.diagnosis=diagnosis;
-	}
-	public getdescription(){
-		return patient_id;
-	}
-	public setdescription(){
-		this.description=description;
-	}
-	public getStartDate(){
-	return begin;
-}
-	public setStartDate(){
-	this.begin=begin;
-}
-
-	public EndDate(){
-	return end;
-}
-	public setEndDate(){
-	this.end=end;
-}
-
-	
-	
-
-
 
 }
