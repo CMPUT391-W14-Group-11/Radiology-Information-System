@@ -9,7 +9,6 @@
 <meta name="author" content="">
 
 <%@ page import="entities.*, java.util.*"%>
-
 <% 
 	Db database = new Db();
 	ArrayList<Integer> doctors = database.getClassMembers("d"); 
