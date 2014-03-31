@@ -85,8 +85,6 @@
 	</div>
 	<script type="text/javascript" src="<c:url value ="/js/dynamicpatienttable.js"/>"></script>
 	<%@ include file="/layout/footer.jsp"%>
-
-
 </body>
 </html>
 
