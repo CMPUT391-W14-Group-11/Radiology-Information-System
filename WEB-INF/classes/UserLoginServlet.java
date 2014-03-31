@@ -9,6 +9,8 @@ import entities.*;
 
 /**
  * Servlet implementation class UserLoginServlet
+ *
+ * <url-pattern>/login</url-pattern>
  */
 public class UserLoginServlet extends HttpServlet {
        

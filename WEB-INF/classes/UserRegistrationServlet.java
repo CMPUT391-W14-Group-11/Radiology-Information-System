@@ -10,6 +10,12 @@ import entities.*;
 
 /**
  * Servlet implementation class UserRegistrationServlet
+ * Handles HTTPServletRequest from user_form.jsp
+ *
+ * <url-pattern>/register</url-pattern>
+ *
+ *  @author	Jessica Surya
+ *
  */
 public class UserRegistrationServlet extends HttpServlet {
 
@@ -122,7 +128,6 @@ public class UserRegistrationServlet extends HttpServlet {
 		String password = request.getParameter("password2");
 		String user_class = request.getParameter("class");
 		
-
 		User user = new User(user_name, password, user_class, person_id);
 
 		user.setFirstName(request.getParameter("first-name"));
