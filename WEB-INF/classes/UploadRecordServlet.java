@@ -15,6 +15,8 @@ import org.apache.commons.fileupload.FileItem;
 import entities.*;
 /**
  * Servlet implementation class UserRegistrationServlet
+ *
+ * <url-pattern>/upload</url-pattern>
  */
 public class UploadRecordServlet extends HttpServlet {
 
@@ -40,10 +42,19 @@ public class UploadRecordServlet extends HttpServlet {
 
 		if (save_record != null) {
 			result = saveRecord(request);
+			if(request.getParameter("filepath") != null) {
+				uploadImage(request, response);
+			}
 		}
 
 		if (result == 0 ) {
 			String message = "Record saved successfully";
+			request.setAttribute("message", message);
+			response.sendRedirect("upload_records.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
+		}
+
+		else if (result == 3 ) {
+			String message = "Error: image was not saved";
 			request.setAttribute("message", message);
 			response.sendRedirect("upload_records.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
 		}
@@ -52,6 +63,7 @@ public class UploadRecordServlet extends HttpServlet {
 			request.setAttribute("error", error);
 			response.sendRedirect("upload_records.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
 		}
+
 	}
 
 	public int saveRecord(HttpServletRequest request) {
@@ -92,6 +104,40 @@ public class UploadRecordServlet extends HttpServlet {
 		}
 
 		return -1;
-	}	
+	}
+
+	public int uploadImage(HttpServletRequest request,HttpServletResponse response)
+	 throws ServletException, IOException {
+
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
+		Integer rid = (Integer) session.getAttribute("saved_record");
+
+		try {
+		    //Parse the HTTP request to get the image stream
+		    DiskFileUpload fu = new DiskFileUpload();
+		    List FileItems = fu.parseRequest(request);
+		        
+		    // Process the uploaded items, assuming only 1 image file uploaded
+		    Iterator i = FileItems.iterator();
+		    FileItem item = (FileItem) i.next();
+		    while (i.hasNext() && item.isFormField()) {
+			item = (FileItem) i.next();
+		    }
+
+		    Db database = new Db();
+		    database.insertPacRecord(item, rid);
+		    database.close();
+
+		    return 0;
+		
+		} catch ( Exception e ) {
+
+	    		String response_message = e.getMessage();
+		}
+		
+		return 3;
+	}
+
 }
 

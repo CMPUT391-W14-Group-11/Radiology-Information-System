@@ -61,7 +61,7 @@
                                 </tr>
                                 </table>
                                 <br>
-                                <INPUT TYPE="submit" NAME="save_record" VALUE="Submit Record">
+                                <INPUT class="btn btn-primary btn-large" TYPE="submit" NAME="save_record" VALUE="Submit Record">
 			</form>
 
 		</div>
