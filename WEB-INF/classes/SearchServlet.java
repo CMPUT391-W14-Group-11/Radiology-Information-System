@@ -26,7 +26,7 @@ public class SearchServlet extends HttpServlet {
 	       	String[] keywords = request.getParameter("keywords");
 	       	String fDate = request.getParameter("fdate");
 	       	String tDate = request.getParameter("tdate");
-	       	String order = request.getParameter("Orderby");
+	       	String order = request.getParameter("order");
         
         /*
 * Changing format from yyyy-MM-dd to dd-MMM-yy for sql
