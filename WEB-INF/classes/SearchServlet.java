@@ -147,6 +147,8 @@ public class SearchServlet extends HttpServlet {
 	            		System.out.println("<img src=\"GetOnePic?"+end+"\" height=\"45\" width=\"60\"></a>");
 			}
 		}
+		Db database=new Db();
+		ArrayList<search>=getResultsByDateAndKeywords(keywords,fDate,tDate,OrderBy);
 		database.close();
 	}
 }
