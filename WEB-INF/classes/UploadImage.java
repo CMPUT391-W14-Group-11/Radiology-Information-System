@@ -1,7 +1,6 @@
 
 
 
-
 /***
 * A sample program to demonstrate how to use servlet to
 * load an image file from the client disk via a web browser
@@ -32,6 +31,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+import entities.*;
 
 /**
 * The package commons-fileupload-1.0.jar is downloaded from
