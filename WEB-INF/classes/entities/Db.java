@@ -15,7 +15,7 @@ import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 
 /**
- * Class used to handle database connections and queries
+ * Class used to handle all database connections and queries
  *  	
  *  @author	Jessica Surya
  * 	
@@ -580,9 +580,8 @@ public class Db {
 	 * Report Generation Module
 	 *
 	 * Gets the list of all patients with a specified diagnosis for a given time period. 
-	 * For each patient, the list must contain the name, address and phone number of the 
-	 * patient, and testing date of the first radiology record that contains the 
-	 * specified diagnosis.
+	 * 
+	 * TODO: Return only the first record for patients with qualifying multiple records
 	 *
 	**/
 	public ArrayList<Record> getDiagnosisReports(String diagnosis, java.util.Date fDate, java.util.Date tDate) {
@@ -591,8 +590,9 @@ public class Db {
 		try{
 			PreparedStatement stmt = con.prepareStatement("SELECT * " 
 				+ "FROM radiology_record r"
-				+ "WHERE r.diagnosis LIKE ? "
-				+ "AND r.test_date BETWEEN ? AND ? ORDER BY r.test_date ASC");
+				+ "WHERE LOWER(r.diagnosis) LIKE LOWER(?) "
+				+ "AND r.test_date BETWEEN ? AND ? "
+				+ "ORDER BY r.test_date ASC");
 
 			stmt.setString(1, "%" + diagnosis + "%");
 			stmt.setDate(2, new java.sql.Date(fDate.getTime()));
@@ -629,153 +629,6 @@ public class Db {
 
 		return records;
 	}
-
-	public ArrayList<Record> searchRecords(String keyword) {
-		
-	 	try{
-			PreparedStatement stmt = con.prepareStatement("SELECT * " 
-				+ "FROM radiology_record r"
-				+ "WHERE r.diagnosis LIKE ? "
-				+ "ORDER BY r.test_date ASC");
-
-			stmt.setString(1, "%" + keyword + "%");
-
-			ResultSet rset = stmt.executeQuery();
-
-			while(rset != null && rset.next()) {
-				int record_id = (rset.getInt("record_id"));
-				int patient_id = (rset.getInt("patient_id"));
-				int doctor_id = (rset.getInt("doctor_id"));
-				int radiologist_id = (rset.getInt("radiologist_id"));
-				String test_type = (rset.getString("test_type"));
-				java.util.Date prescribing_date = (rset.getDate("prescribing_date"));
-				java.util.Date test_date = (rset.getDate("test_date"));
-				String r_diagnosis = (rset.getString("diagnosis"));
-				String description = (rset.getString("description"));
-				
-				Record rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
-
-				rec.setPrescribingDate(prescribing_date);
-				rec.setTestDate(test_date);
-				rec.setDiagnosis(r_diagnosis);
-				rec.setDescription(description);
-
-				records.add(rec);
-			}
-			stmt.close();
-			rset.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return records;
-	}
-
-	// public ArrayList<User> getSearch_results() {
-	// 	ArrayList<String> clauses = new ArrayList<String>();
-	//      //Add start and end date clauses
-	//      if(!startDate.equals("")){
-	//     	 clauses.add("test_date >= ? ");
-	//      }
-	     
-	//      if(!endDate.equals("")){
-	//     	 clauses.add("test_date <= ? ");
-	//      }
-	//      if(!keywords.equals("")){
-	//      //Add CONTAINS and SCRORE for rankings
-	//     	 clauses.add("contains(r.patient_name, ?, 1) >= 0 and contains(r.diagnosis, ?, 2) >= 0 "+
-	//      "and contains(r.description, ?, 3) >= 0 ");
-	//      String score = "score(1)*6 + score(2)*3 + score(3) as rank, ";
-	//      sql = sql.concat(score);
-	//      }
-
-	//      //Add extra clause depending on user class
-	//      /*String userName = (String) session.getAttribute("name");
-	// String classtype = (String) session.getAttribute("classtype");*/
-	// if(user_class.equals("r")){
-	// 	clauses.add("r.radiologist_name = ? ");
-	// }
-	// else if(user_class.equals("d")){
-	// 	clauses.add("? IN (SELECT d.doctor_name from family_doctor d where d.patient_name = r.patient_name) ");
-	// }
-	// else if(user_class.equals("p")){
-	// 	clauses.add("r.patient_name = ? ");
-	// }
-	    
-	// //Add ordering
-	//      String orderBy = "";
-	//      if(request.getParameter("order").equals("Rank")){
-	//     	 orderBy = "rank DESC";
-	//      }
-	//      else if(request.getParameter("order").equals("Most-Recent-First")){
-	//     	 orderBy = "r.test_date DESC";
-	//      }
-	//      else if(request.getParameter("order").equals("Most-Recent-Last")){
-	//     	 orderBy = "r.test_date ASC";
-	//      }
-	    
-	//      //Columns for table
-	//      String start = "r.record_id, r.patient_name, r.doctor_name, r.radiologist_name, r.test_type, "+
-	//      "to_char(r.prescribing_date, 'DD-MON-YYYY') as prescribing_date, to_char(r.test_date, 'DD-MON-YYYY') as test_date, "+
-	//      "r.diagnosis, r.description from radiology_record r ";
-	// sql = sql.concat(start);
-
-	// //Add in clauses to query
-	// boolean first = true;
-	// for (String value : clauses){
-	// if(first){
-	// first = false;
-	// sql = sql.concat("WHERE "+ value);
-	// }
-	// else
-	// sql = sql.concat(" AND "+ value);
-	// }	
-	// sql = sql.concat("ORDER BY "+orderBy);
-	// }
-	// //Get table column titles
-	// ResultSet rset = stmt.executeQuery();
-	// ResultSetMetaData rsmd = rset.getMetaData();
-	// int colCount = rsmd.getColumnCount();
-	// int loop = 1;
-	// if(!keywords.equals("")){
-	// 	loop = 2;
-	// for (int j=loop; j<= colCount; j++) {
-	// 	rsmd.getColumnName(j);
-	// }
-	// }
-	// //Print rows
-	// while(rset != null && rset.next()){
-	// 	if(!(!keywords.equals("") && rset.getInt(1) == 0)){
-	// 		int recid = 2;
-	// 		if(keywords.equals(""))
-	// 			recid = 1;
-	// 		for(int k=loop;k<=colCount; k++) {
-	// 			rset.getString(k);
-	// }
-	// }
-	// 	//Print pictures corresponding to row
-	// 	Statement picStmt = conn.createStatement();
-	// 	String pquery = "select image_id from pacs_images where record_id = "+rset.getString(recid);
-	// 	ResultSet picset = picStmt.executeQuery(pquery);
-	// 	if(picset != null && picset.next()){
-	// 		System.out.println("<tr><td COLSPAN="+colCount+">Images for record_id "+rset.getString(recid)+":");
-	// 		String end = "rec="+rset.getString(recid)+"&pic="+picset.getString(1);
-	//             out.println("<a href=\"GetOnePic?size=full&"+end+"\" target=\"_blank\">");
-	//             out.println("<img src=\"GetOnePic?"+end+"\" height=\"45\" width=\"60\"></a>");
-	//             while(picset.next()){
-	//             	end = "rec="+rset.getString(recid)+"&pic="+picset.getString(1);
-	//             	System.out.println("<a href=\"GetOnePic?size=full&"+end+"\" target=\"_blank\">");
-	//             	System.out.println("<img src=\"GetOnePic?"+end+"\" height=\"45\" width=\"60\"></a>");
-	// }
-	// }
-	// }
-	// }
-
-	// }
-	//      catch(Exception ex){
-	//     	 ex.printStackTrace();
-	// }
 
 	/**
 	 * 
@@ -842,7 +695,7 @@ public class Db {
 	 *
 	 *
 	 **/
-	private void insertPacRecord(FileItem item, Integer rid) {
+	public void insertPacRecord(FileItem item, Integer rid) {
 		
 		try{
 
@@ -918,4 +771,141 @@ public class Db {
 		
 		return shrunkImage;
 	}
+
+	/**
+	 * 
+	 * Search Module
+	 *
+	 * Retrieve an image stored in the database 
+	 * 
+	 * Images are associated with a radiology record
+	 * 
+	 * @param String thumbnail/regular_size/full_size
+	 *
+	 **/
+	public Blob getImage(int image_id, String size) {
+		ResultSet pac_image;
+		Blob image = null;
+
+		try {
+
+			PreparedStatement stmt = con.prepareStatement("SELECT * FROM pacs_images WHERE record_id = ? "
+				+ "AND image_id = ?");
+			stmt.setInt(1, image_id);
+			pac_image = stmt.executeQuery();
+			pac_image.next();
+			image = ((OracleResultSet)pac_image).getBlob(size);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return image;
+	}
+
+	/**
+	* Returns an ArrayList of Records of the search by specified keywords and date
+	*
+	* Rank(record_id) = 6*frequency(patient_name) + 3*frequency(diagnosis) + frequency(description)
+	*
+	* @param String fromdate, String todate, String keywords, String order
+	* @return ArrayList<Record>
+	*/
+  	public ArrayList<Record> getResultsByDateAndKeywords(java.util.Date fDate, java.util.Date tDate, String[] keywords,
+                                                 String order) {
+  		ArrayList<Record> records = new ArrayList<Record>();
+  		for(int i = 0; i < keywords.length; i++) {
+
+		        String query = "SELECT score(1)*6 + score(2)*3 + score(3) AS score, "
+		                        + "record_id FROM radiology_record r, persons p WHERE "
+		                        + "p.person_id = r.patient_id AND "
+		                        + "((test_date BETWEEN '" + fDate + "' AND '" + tDate + " ') "
+		                        + "AND (contains(p.first_name, '" + keywords[i] + "', 1) > 0) OR "
+		                        + "(contains(p.last_name, '" + keywords[i] + "', 1) > 0) OR "
+		                        + "(contains(r.diagnosis, '" + keywords[i] + "', 2) > 0) OR "
+		                        + "(contains(r.description, '" + keywords[i] + "', 3) > 0)) " 
+					+ order;
+		        ResultSet rset = performQuery(query);
+		        try {
+			        while(rset != null && rset.next()) {
+					int record_id = (rset.getInt("record_id"));
+					int patient_id = (rset.getInt("patient_id"));
+					int doctor_id = (rset.getInt("doctor_id"));
+					int radiologist_id = (rset.getInt("radiologist_id"));
+					String test_type = (rset.getString("test_type"));
+					java.util.Date prescribing_date = (rset.getDate("prescribing_date"));
+					java.util.Date test_date = (rset.getDate("test_date"));
+					String r_diagnosis = (rset.getString("diagnosis"));
+					String description = (rset.getString("description"));
+					
+					Record rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
+
+					rec.setPrescribingDate(prescribing_date);
+					rec.setTestDate(test_date);
+					rec.setDiagnosis(r_diagnosis);
+					rec.setDescription(description);
+
+					records.add(rec);
+				}
+				rset.close();
+			} catch ( Exception e ) {
+				e.printStackTrace();
+			}
+		}
+		return records;
+	}
+
+    	/**
+	* Returns an ArrayList of Records of the search by specified keywords
+	*
+	* Rank(record_id) = 6*frequency(patient_name) + 3*frequency(diagnosis) + frequency(description)
+	*
+	* @param String[] keywords
+	* @return ArrayList<Record>
+	*/
+    	public ArrayList<Record> searchRecords(String[] keywords) {
+		ArrayList<Record> records = new ArrayList<Record>();
+	 	
+	 	for(int i = 0; i < keywords.length; i++) {
+
+			String query = "SELECT score(1)*6 + score(2)*3 + score(3) AS score, "
+	                        + "record_id FROM radiology_record r, persons p WHERE "
+	                        + "p.person_id = r.patient_id AND "
+	                        + "((contains(p.first_name, '" + keywords[i] + "', 1) > 0) OR "
+	                        + "(contains(p.last_name, '" + keywords[i] + "', 1) > 0) OR "
+	                        + "(contains(r.diagnosis, '" + keywords[i] +"', 2) > 0) OR "
+	                        + "(contains(r.description, '" + keywords[i] + "', 3) > 0)) "; 
+
+			ResultSet rset = performQuery(query);
+			try {
+				while(rset != null && rset.next()) {
+					int record_id = (rset.getInt("record_id"));
+					int patient_id = (rset.getInt("patient_id"));
+					int doctor_id = (rset.getInt("doctor_id"));
+					int radiologist_id = (rset.getInt("radiologist_id"));
+					String test_type = (rset.getString("test_type"));
+					java.util.Date prescribing_date = (rset.getDate("prescribing_date"));
+					java.util.Date test_date = (rset.getDate("test_date"));
+					String r_diagnosis = (rset.getString("diagnosis"));
+					String description = (rset.getString("description"));
+					
+					Record rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
+
+					rec.setPrescribingDate(prescribing_date);
+					rec.setTestDate(test_date);
+					rec.setDiagnosis(r_diagnosis);
+					rec.setDescription(description);
+
+					records.add(rec);
+				}
+
+				rset.close();
+			} catch (Exception e ) {
+				e.printStackTrace();
+			}
+		}
+
+		return records;
+	}
+
 }
