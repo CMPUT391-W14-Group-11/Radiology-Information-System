@@ -37,28 +37,29 @@
                         </tr>
                         </table>
                         <br>
-                        <input TYPE="submit" NAME="rSubmit" VALUE="Submit">
+                        <input class="btn btn-primary btn-large" TYPE="submit" NAME="rSubmit" VALUE="Search">
                         </form>	
 		</div>
 		<div class="hero-unit" style="text-align:center">
-		
-		<h1>Results</h1>
-			<table id="user-table">
-			<thead>
-			<tr>
-			<th>First Name</th>
-			<th>Last Name</th>
-			<th>Address</th>
-			<th>Phone Number</th>
-			<th>Testing Date</th>
-			</tr>
-			</thead>
+		<br>
 			<%
 
 			ArrayList<RadiologyRecord> reports  = (ArrayList<RadiologyRecord>) request.getAttribute("reports");
 
 			if(reports != null) {
 				
+				out.println("<h1>Results</h1>");
+				out.println("<table>");
+				out.println("<thead>");
+				out.println("<tr>");
+				out.println("<th>First Name</th>");
+				out.println("<th>Last Name</th>");
+				out.println("<th>Address</th>");
+				out.println("<th>Phone Number</th>");
+				out.println("<th>Testing Date</th>");
+				out.println("</tr>");
+				out.println("</thead>");
+
 				out.println("<tbody>");
 				for (RadiologyRecord r : reports) {
 					out.println("<td>" + r.getUser().getFirstName() + "</td>");
@@ -70,15 +71,6 @@
 				}
 				out.println("</tbody>");
 			}
-			else {
-				out.println("<p>No patients to display</p>");
-				out.println("<td></td>");
-				out.println("<td></td>");
-				out.println("<td></td>");
-				out.println("<td></td>");
-				out.println("<td></td>");
-				out.println("</tr>");
-			}
 
 			%>
 			
@@ -88,7 +80,6 @@
 	</div>
 	<%@ include file="/layout/footer.jsp"%>
 	
-	<script type="text/javascript" src="js/password_check.js"></script>
 	<script src="../assets/js/jquery.js"></script>
 	<script src="../assets/js/bootstrap-transition.js"></script>
 	<script src="../assets/js/bootstrap-alert.js"></script>

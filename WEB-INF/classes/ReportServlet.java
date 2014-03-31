@@ -10,7 +10,12 @@ import java.net.*;
 import entities.*;
 
 /**
- * Servlet implementation class UserRegistrationServlet
+ * Servlet implementation class ReportServlet
+ * Handles HTTPServletRequest from reports.jsp
+ *
+ * <url-pattern>/reports</url-pattern>
+ * 
+ *  @author	Jessica Surya
  */
 public class ReportServlet extends HttpServlet {
 
