@@ -23,11 +23,12 @@ public class SearchServlet extends HttpServlet {
 	       	HttpSession session = request.getSession();
 	       	response.setContentType("text/html");
 	       	Db database = new Db();
+	        String user_class=request.getParameter("user_class");
 	       	String[] keywords = request.getParameter("keywords");
 	       	String fDate = request.getParameter("fdate");
 	       	String tDate = request.getParameter("tdate");
 	       	String order = request.getParameter("order");
-        
+	        //int record_id = database.getNextID("record_id", "radiology_record");
         /*
 * Changing format from yyyy-MM-dd to dd-MMM-yy for sql
 */
@@ -37,6 +38,17 @@ public class SearchServlet extends HttpServlet {
         try {
             java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(fDate);
             java.util.Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(tDate);
+            
+            ArrayList<String> clauses = new ArrayList<String>();
+            if(user_class.equals("r")) {
+            	clauses.add("r.radiologist_name = ? ");
+            	}
+            else if(user_class.equals("d")) {
+            	clauses.add("? IN (SELECT d.doctor_name from family_doctor d where d.patient_name = r.patient_name) ");
+            	}
+            else if(user_class.equals("p")) {
+            	clauses.add("r.patient_name = ? ");
+            	}
         //PrintWriter out = response.getWriter();
 
         /*
