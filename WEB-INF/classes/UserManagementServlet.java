@@ -51,6 +51,7 @@ public class UserManagementServlet extends HttpServlet {
 			int d = doctors.get(0);
 			database = new Db();
 			for(int doctor_id : doctors) {
+				String addPatient = request.getParameter("addTo-" + doctor_id);
 				tableDoctor = request.getParameter("deletePatient-" + doctor_id);
 				String addPatientID = request.getParameter("addPatient-" + doctor_id);
 				doctorPatientList = request.getParameterValues("removePatient-" + doctor_id);
@@ -58,8 +59,9 @@ public class UserManagementServlet extends HttpServlet {
 					removePatientList(doctor_id, doctorPatientList);
 				}
 
-				if (tableDoctor != null && addPatientID != null) {
-					addPatient(doctor_id, addPatientID);
+				if (addPatient != null && addPatientID != null) {
+					User patient = database.getUser(addPatientID);
+					addPatient(doctor_id, patient_id.getPersonID());
 				}
 			}
 		}
