@@ -18,17 +18,19 @@
 					data-target=".nav-collapse">
 					<a class="brand" href="index.jsp"><i class="icon-light icon-home" style="margin-right: 15px;"></i></a>
 				</li>
+
 				<li class="btn btn-navbar" data-toggle="collapse"
 					data-target=".nav-collapse">
 				<span style="margin:0px; float:left; vertical-align:middle; color:#428bca; "> <h3><b>
-					Radiology Information System</b></h3></span>
-					</li>
+					Radiology Information System</b></h3></span> 
+					</li> <span style="float:right"><a href="help.jsp">Help</a></span>
 			</ul>
+
 			</div>
 			
 			<div class="nav-collapse collapse">
 				<ul class="nav" style="width:10%; float:left;">
-					<li><a href="#search"><i class="icon-light icon-search-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">Search</span></a></li>
+					<li><a href="advanced_search.jsp"><i class="icon-light icon-search-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">Search</span></a></li>
 				</ul>
 				<ul class="nav" style="width:10%; float:left;">
 					<li><a href="reports.jsp"><i class="icon-light icon-list-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">Reports</span></a></li>
@@ -45,6 +47,7 @@
 				<ul class="nav" style="width:10%; float:left;">
 					<li><a href="logout.jsp"><i class="icon-light icon-uniF68E-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">Logout</span></a></li>
 				</ul>
+
 			</div>
 			<!--/.nav-collapse -->
 		</div>
