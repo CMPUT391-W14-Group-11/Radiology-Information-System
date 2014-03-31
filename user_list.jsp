@@ -46,13 +46,13 @@
 			<th>Address</th>
 			<th>Email</th>
 			<th>Phone Number</th>
-			<th>Edit</th>
+			<th>Profile</th>
 			</tr>
 
 			</thead>
 			<br>
 			<tbody>
-			<form action="users" method="GET" >   
+			<form>   
 			<%
 			for (User u : users) {
 
@@ -60,10 +60,25 @@
 				out.println("<td>" + u.getFirstName() + "</td>");
 				out.println("<td>" + u.getLastName() + "</td>");
 				out.println("<td>" + u.getUserClass() + "</td>");
-				out.println("<td>" + u.getAddress() + "</td>");
-				out.println("<td>" + u.getEmail() + "</td>");
-				out.println("<td>" + u.getPhone() + "</td>");
-				out.println("<td><button name='editUser' type='submit' class='button' value='" + u.getPersonID() + "'>View</td>");
+				if(u.getAddress() != null) {
+					out.println("<td>" + u.getAddress() + "</td>");
+				}
+				else {
+					out.println("<td></td>");
+				}
+				if(u.getAddress() != null) {
+					out.println("<td>" + u.getEmail() + "</td>");
+				}
+				else {
+					out.println("<td></td>");
+				}
+				if(u.getAddress() != null) {
+					out.println("<td>" + u.getPhone() + "</td>");
+				}
+				else {
+					out.println("<td></td>");
+				}	
+				out.println("<td><button name='editUser' type='submit' class='button' value='" + u.getPersonID() + "'>Edit</td>");
 				out.println("</tr>");
 			}
 			%>

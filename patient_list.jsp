@@ -9,6 +9,7 @@
 <meta name="author" content="">
 
 <%@ page import="entities.*, java.util.*"%>
+
 <% 
 	Db database = new Db();
 	ArrayList<Integer> doctors = database.getClassMembers("d"); 
@@ -27,8 +28,10 @@
 		<div class="hero-unit" style="text-align:center">
 		<h1>Patients</h1>
 		<span style="color:black;">${param.message}</span>
+		<span style="color:red;">${param.error}</span>
 		</div>
-		<% 
+		<% if(doctors != null) {
+			int d = doctors.get(0);
 			database = new Db();
 			for(int doctor_id : doctors) {
 				ArrayList<User> patients = database.getPatients(doctor_id);
@@ -36,13 +39,12 @@
 				out.println("<span style=&quot;text-align:left&quot;>");
 				out.println("<h2>Dr. " + doc.getLastName() + ", " + doc.getFirstName() + "</h2>");
 				out.println("</span>");
-				out.println("<table>");
+				out.println("<table id='" + doc.getPersonID() + "-table'>");
 				out.println("<thead>");
 				out.println("<tr>");
 				out.println("<th>Username</th>");
 				out.println("<th>First Name</th>");
 				out.println("<th>Last Name</th>");
-				out.println("<th>User Class</th>");
 				out.println("<th>Address</th>");
 				out.println("<th>Email</th>");
 				out.println("<th>Phone Number</th>");
@@ -50,13 +52,11 @@
 				out.println("</tr>");
 				out.println("</thead>");
 				out.println("<tbody>");
-				out.println("<form action=&quot;users&quot; method=&quot;POST&quot;>");
-
+				out.println("<form action='users' method='POST'>");
 				for (User u : patients) {
-					out.println("<td>" + u.getUsername() + "</td>");
+					out.println("<td name='" + doc.getPersonID() + "-patientUsernames'>" + u.getUsername() + "</td>");
 					out.println("<td>" + u.getFirstName() + "</td>");
 					out.println("<td>" + u.getLastName() + "</td>");
-					out.println("<td>" + u.getUserClass() + "</td>");
 					out.println("<td>" + u.getAddress() + "</td>");
 					out.println("<td>" + u.getEmail() + "</td>");
 					out.println("<td>" + u.getPhone() + "</td>");
@@ -66,29 +66,27 @@
 				out.println("</tbody>");
 				out.println("</table>");
 				out.println("<br>");
-				out.println("<button style='float:right;' name='submitRemoval' type='submit' value='" + doc.getPersonID() + "'>Remove");
+
+				out.println("<div class='container'>");
+				
+				out.println("<button type='submit' value='save-" + doc.getPersonID() + "' style='float:left; margin-left:0px' name='save'>Save List</button>");
 				out.println("</form>");
+
+				out.println("<button value='addPatient' style='float:left; margin-left:10px''  name='addPatient' onclick='addRow(\"" + doc.getPersonID() + "-table\")'>Add Patient</button>");
+				out.println("<button value='delete' style='float: right; margin-right: 20px' name='delete' onclick='deleteRow(\"" + doc.getPersonID() + "-table\")'>Delete</button>");
+				out.println("</div>");
+
 			}
 			database.close();
+		}
 		%>	
 			
 	<br>	
 	</div>
-
+	<script type="text/javascript" src="<c:url value ="/js/dynamicpatienttable.js"/>"></script>
 	<%@ include file="/layout/footer.jsp"%>
-	<script src="../assets/js/jquery.js"></script>
-	<script src="../assets/js/bootstrap-transition.js"></script>
-	<script src="../assets/js/bootstrap-alert.js"></script>
-	<script src="../assets/js/bootstrap-modal.js"></script>
-	<script src="../assets/js/bootstrap-dropdown.js"></script>
-	<script src="../assets/js/bootstrap-scrollspy.js"></script>
-	<script src="../assets/js/bootstrap-tab.js"></script>
-	<script src="../assets/js/bootstrap-tooltip.js"></script>
-	<script src="../assets/js/bootstrap-popover.js"></script>
-	<script src="../assets/js/bootstrap-button.js"></script>
-	<script src="../assets/js/bootstrap-collapse.js"></script>
-	<script src="../assets/js/bootstrap-carousel.js"></script>
-	<script src="../assets/js/bootstrap-typeahead.js"></script>
+
+
 </body>
 </html>
 

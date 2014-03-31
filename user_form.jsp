@@ -64,13 +64,13 @@
 
 				<tr>
 					<td><label for="first-name">First Name:</label></td>
-					<td><input type="text" size="24" name="first-name" required
+					<td><input type="text" maxlength="24" name="first-name" required
 						title="First Name " value=${FirstName}></td>
 				</tr>
 
 				<tr>
 					<td><label for="last-name">Last Name:</label></td>
-					<td><input type="text" size="24" name="last-name" required
+					<td><input type="text" maxlength="24" name="last-name" required
 						title="Last Name " value=${LastName}></td>
 				</tr>
 
@@ -82,18 +82,18 @@
 
 				<tr>
 					<td><label for="email">Email Address:</label></td>
-					<td><input required type="email" size="128" name="email" id="email" value=${Email} />
+					<td><input required type="email" maxlength="128" name="email" id="email" value=${Email}>
 					<span style="color:red;">${param.error1}</span>
 					</td>
 				</tr>
 				<tr>
 					<td><label for="phone">Phone Number:</label></td>
-					<td><input type="tel" name="phone" size="10" id="phone" value=${Phone}></td>
+					<td><input type="tel" name="phone" maxlength="10" id="phone" value=${Phone}></td>
 				</tr>
 			</table>
 			<br> <br> 
 			<input type="hidden" id="person_id" name="person_id" value=${PersonID}>
-			<input type="submit" name="demand" value="Save">
+			<input class="btn btn-primary btn-large" type="submit" name="demand" value="Save">
 
 			</form>
 

@@ -34,13 +34,13 @@
 					<li><a href="reports.jsp"><i class="icon-light icon-list-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">Reports</span></a></li>
 				</ul>				
 				<ul class="nav" style="width:10%; float:left;">
-					<li><a href="#upload"><i class="icon-light icon-capslock-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">Upload</span></a></li>
+					<li><a href="upload_records.jsp"><i class="icon-light icon-capslock-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">Upload</span></a></li>
 				</ul>
 				<ul class="nav" style="width:18%; float:left;">
 					<li><a href="user_management.jsp"><i class="icon-light icon-friends-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">User Management</span></a></li>
 				</ul>
 				<ul class="nav" style="width:13%; float:left;">
-					<li><a href="#myAccount"><i class="icon-light icon-user-small" ></i><span style="vertical-align:top;"> My Account</span></a></li>
+					<li><a href="#myAccount"><i class="icon-light icon-user-small" ></i><span style="vertical-align:top;">My Account</span></a></li>
 				</ul>
 				<ul class="nav" style="width:10%; float:left;">
 					<li><a href="logout.jsp"><i class="icon-light icon-uniF68E-small" style="margin-right: 15px;"></i><span style="vertical-align:top;">Logout</span></a></li>
