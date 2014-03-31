@@ -39,9 +39,32 @@ public class UserManagementServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 
+		Db database = new Db();
+	
+		ArrayList<Integer> doctors = database.getClassMembers("d"); 
+		database.close();
+
+		String tableDoctor;
+		String[] doctorPatientList;
+
+		if(doctors != null) {
+			int d = doctors.get(0);
+			database = new Db();
+			for(int doctor_id : doctors) {
+				tableDoctor = request.getParameter("deletePatient-" + doctor_id);
+				String addPatientID = request.getParameter("addPatient-" + doctor_id);
+				doctorPatientList = request.getParameterValues("removePatient-" + doctor_id);
+				if (tableDoctor != null && doctorPatientList != null) {
+					removePatientList(doctor_id, doctorPatientList);
+				}
+
+				if (tableDoctor != null && addPatientID != null) {
+					addPatient(doctor_id, addPatientID);
+				}
+			}
+		}
+
 		String username = request.getParameter("searchUser");
-		String deletion = request.getParameter("submitRemoval");
-		String[] savePatientList = request.getParameterValues("removePatient");
 
 		if (username != null) {
 			System.out.println(username);
@@ -53,7 +76,7 @@ public class UserManagementServlet extends HttpServlet {
 			response.sendRedirect("user_list.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
 		}
 
-		if (deletion != null && savePatientList.length > 0) {
+		if (deletion != null && doctorPatientList.length > 0) {
 			if (savePatientList(request, response) == 0) {
 				String message = "Patient(s) has been successfully removed.";
 				request.setAttribute("message", message);
@@ -115,24 +138,34 @@ public class UserManagementServlet extends HttpServlet {
 
 	/**
 	 *
-	 * Handles HTTPServletRequest from patient_list.jsp
+	 * Remove patient from family_doctor table
 	 *
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected int savePatientList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected int removePatientList(int doctor_id, String[] patient_id) {
 		
-		String[] savePatientList = request.getParameterValues("patients");
-		int doc = Integer.valueOf(request.getParameter("save"));
-		System.out.println("doctor_id: " + doc);
 		Db database = new Db();
-		for (int i = 0; i < savePatientList.length ; i++) {
-			System.out.println(Integer.valueOf(savePatientList[i]));
-			database.removePatient(doc, Integer.valueOf(savePatientList[i]));	
+		for (int i = 0; i < patient_id.length ; i++) {
+			System.out.println(Integer.valueOf(patient_id[i]));
+			database.removePatient(doctor_id, Integer.valueOf(patient_id[i]));	
 		}
 
 		database.close();
 		return 0;
 	}
+	
+	/**
+	 *
+	 * Add patient to family_doctor table
+	 *
+	 */
+	protected int addPatientList(int doctor_id, String patient_id) {
 		
+		Db database = new Db();
+		System.out.println(Integer.valueOf(patient_id[i]));
+		database.addPatient(doctor_id, Integer.valueOf(patient_id[i]));	
+
+		database.close();
+		return 0;
+	}	
 }
 

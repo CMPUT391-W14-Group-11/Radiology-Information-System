@@ -524,7 +524,32 @@ public class Db {
 		}
 		return result;
 	}
+	
+	/**
+	 * 
+	 * User Management Module 
+	 *
+	 * Add patients to family_doctor table
+	 * 
+	 * @return int 0 on success
+	 */
+	public int addPatient(int doctor_id, int patient_id) {
+		int result = -1;
+		try {
+			PreparedStatement stmt = 
+				con.prepareStatement("INSERT INTO family_doctor " +
+				"(doctor_id, patient_id) VALUES (?, ?)");
+			stmt.setInt(1, doctor_id);
+			stmt.setInt(2, patient_id);
 
+			result = stmt.executeUpdate();
+			stmt.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 
 	/**

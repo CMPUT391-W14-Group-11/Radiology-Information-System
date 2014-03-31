@@ -69,11 +69,12 @@
 				out.println("<div class='container'>");
 				
 				out.println("<button type='submit' value='save-" + doc.getPersonID() + "' style='float:left; margin-left:0px' name='save'>Save List</button>");
-				out.println("</form>");
+				
 
-				out.println("<button value='addPatient' style='float:left; margin-left:10px''  name='addPatient' onclick='addRow(\"" + doc.getPersonID() + "-table\")'>Add Patient</button>");
-				out.println("<button value='delete' style='float: right; margin-right: 20px' name='delete' onclick='deleteRow(\"" + doc.getPersonID() + "-table\")'>Delete</button>");
+				out.println("<button value='addPatient' style='float:left; margin-left:10px''  name='addPatient-"+ doc.getPersonID() +"' onclick='addRow(\"" + doc.getPersonID() + "-table\")'>Add Patient</button>");
+				out.println("<button value='delete' style='float: right; margin-right: 20px' name='deletePatient-"+ doc.getPersonID() +"' onclick='deleteRow(\"" + doc.getPersonID() + "-table\")'>Delete</button>");
 				out.println("</div>");
+				out.println("</form>");
 
 			}
 			database.close();
