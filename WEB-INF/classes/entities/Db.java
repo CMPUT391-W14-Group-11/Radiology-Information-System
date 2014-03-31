@@ -925,50 +925,43 @@ public class Db {
 		return records;
 	}
 	
-	
-	
-	
-	
+
 	public ArrayList<Record> getResultsByDate(java.util.Date fDate, java.util.Date tDate, String order){
                  ArrayList<Record> records = new ArrayList<Record>();
-  		 for(int i = 0; i < keywords.length; i++) {
 
-		        String query = "SELECT score(1)*6 + score(2)*3 + score(3) AS score, "
-		                        + "record_id FROM radiology_record r, persons p WHERE "
-		                        + "p.person_id = r.patient_id AND "
-		                        + "((test_date BETWEEN '" + fDate + "' AND '" + tDate + " ') "
-		                        + "AND (contains(p.first_name, '" + keywords[i] + "', 1) > 0) OR "
-		                        + "(contains(p.last_name, '" + keywords[i] + "', 1) > 0) OR "
-		                        + "(contains(r.diagnosis, '" + keywords[i] + "', 2) > 0) OR "
-		                        + "(contains(r.description, '" + keywords[i] + "', 3) > 0)) " 
-					+ order;
-		        ResultSet rset = performQuery(query);
-		        try {
-			        while(rset != null && rset.next()) {
-					int record_id = (rset.getInt("record_id"));
-					int patient_id = (rset.getInt("patient_id"));
-					int doctor_id = (rset.getInt("doctor_id"));
-					int radiologist_id = (rset.getInt("radiologist_id"));
-					String test_type = (rset.getString("test_type"));
-					java.util.Date prescribing_date = (rset.getDate("prescribing_date"));
-					java.util.Date test_date = (rset.getDate("test_date"));
-					String r_diagnosis = (rset.getString("diagnosis"));
-					String description = (rset.getString("description"));
-					
-					Record rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
+	        String query = "SELECT score(1)*6 + score(2)*3 + score(3) AS score, "
+	                        + "record_id FROM radiology_record r, persons p WHERE "
+	                        + "p.person_id = r.patient_id AND "
+	                        + "((test_date BETWEEN '" + fDate + "' AND '" + tDate + " ') "
+				+ order;
+	        ResultSet rset = performQuery(query);
+	        
+	        try {
+		        while(rset != null && rset.next()) {
+				int record_id = (rset.getInt("record_id"));
+				int patient_id = (rset.getInt("patient_id"));
+				int doctor_id = (rset.getInt("doctor_id"));
+				int radiologist_id = (rset.getInt("radiologist_id"));
+				String test_type = (rset.getString("test_type"));
+				java.util.Date prescribing_date = (rset.getDate("prescribing_date"));
+				java.util.Date test_date = (rset.getDate("test_date"));
+				String r_diagnosis = (rset.getString("diagnosis"));
+				String description = (rset.getString("description"));
+				
+				Record rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
 
-					rec.setPrescribingDate(prescribing_date);
-					rec.setTestDate(test_date);
-					rec.setDiagnosis(r_diagnosis);
-					rec.setDescription(description);
+				rec.setPrescribingDate(prescribing_date);
+				rec.setTestDate(test_date);
+				rec.setDiagnosis(r_diagnosis);
+				rec.setDescription(description);
 
-					records.add(rec);
-				}
-				rset.close();
-			} catch ( Exception e ) {
-				e.printStackTrace();
+				records.add(rec);
 			}
+			rset.close();
+		} catch ( Exception e ) {
+			e.printStackTrace();
 		}
+		
 		return records;
 	}
                                         		
