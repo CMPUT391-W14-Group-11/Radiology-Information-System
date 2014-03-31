@@ -28,8 +28,13 @@ public class SearchServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		String keywords = request.getParameter("keywords");
+		String fDate = request.getParameter("fDate");
+		String tDate = request.getParameter("tDate");
+
+		ArrayList<String> search = searchRecords(keywords, fDate, tDate);
+
 		
-		String search = request.getParameter("searchRecords");
 
 		if (search != null) {
 			ArrayList<String> searchRecords = searchRecords(request, response);
@@ -41,15 +46,14 @@ public class SearchServlet extends HttpServlet {
 		}
 	}
 
-	public ArrayList<String> searchRecords(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected ArrayList<String> searchRecords(String keywords, String fDate, String tDate) {
 		ArrayList<String> clauses = new ArrayList<String>();
-		Db database = new Db();
 		String sql = "";
 		//Add start and end date clauses
-		if(!startDate.equals("")) {
+		if(!fDate.equals("")) {
 		 	clauses.add("test_date >= ? ");
 		}
-		if(!endDate.equals("")) {
+		if(!tDate.equals("")) {
 		 	clauses.add("test_date <= ? ");
 		}
 		if(!keywords.equals("")) {
@@ -72,7 +76,6 @@ public class SearchServlet extends HttpServlet {
 		else if(user_class.equals("p")) {
 			clauses.add("r.patient_name = ? ");
 		}
-	    
 		//Add ordering
 	     	String orderBy = "";
 		if (request.getParameter("order").equals("Rank")) {
