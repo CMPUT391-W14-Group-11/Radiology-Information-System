@@ -44,19 +44,32 @@ public class UserManagementServlet extends HttpServlet {
 		ArrayList<Integer> doctors = database.getClassMembers("d"); 
 		database.close();
 
-		String tableDoctor = request.getParameter("deletePatient-" + doctor_id);
-		String[] doctorPatientList;
-		String addPatient = request.getParameter("addTo-" + doctor_id);
-		String addPatientID;
 		int result = -1;
 
-		if(doctors != null && (addPatient != null || tableDoctor != null)) {
-			database = new Db();
+		String username = request.getParameter("searchUser");
+
+		if (username != null) {
+			System.out.println(username);
+			editUser(request, response);
+		}
+		else {
+			String error = " User not found.";
+			request.setAttribute("error", error);
+			response.sendRedirect("user_list.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
+		}
+
+
+		if(doctors != null) {
+			
 			for(int doctor_id : doctors) {
-				
-				addPatientID = request.getParameter("addPatient-" + doctor_id);
+				database = new Db();
+				String tableDoctor = request.getParameter("deletePatient-" + doctor_id);
+				String addPatient = request.getParameter("addTo-" + doctor_id);
+				String addPatientID = request.getParameter("addPatient-" + doctor_id);
 				User patient = database.getUser(addPatientID);
-				doctorPatientList = request.getParameterValues("removePatient-" + doctor_id);
+				String[] doctorPatientList = request.getParameterValues("removePatient-" + doctor_id);
+				database.close();
+				
 				if (tableDoctor != null && doctorPatientList != null) {
 					result = removePatientList(doctor_id, doctorPatientList);
 				}
@@ -92,20 +105,13 @@ public class UserManagementServlet extends HttpServlet {
 					}
 				}
 			}
-		}
 
-		String username = request.getParameter("searchUser");
-
-		if (username != null) {
-			System.out.println(username);
-			editUser(request, response);
 		}
 		else {
-			String error = " User not found.";
+			String error = "Failed to edit patient list";
 			request.setAttribute("error", error);
-			response.sendRedirect("user_list.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
+			response.sendRedirect("patient_list.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
 		}
-
 	}
 
 	/**
