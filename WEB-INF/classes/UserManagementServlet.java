@@ -44,24 +44,52 @@ public class UserManagementServlet extends HttpServlet {
 		ArrayList<Integer> doctors = database.getClassMembers("d"); 
 		database.close();
 
-		String tableDoctor;
+		String tableDoctor = request.getParameter("deletePatient-" + doctor_id);
 		String[] doctorPatientList;
+		String addPatient = request.getParameter("addTo-" + doctor_id);
+		String addPatientID;
+		int result = -1;
 
-		if(doctors != null) {
-			int d = doctors.get(0);
+		if(doctors != null && (addPatient != null || tableDoctor != null)) {
 			database = new Db();
 			for(int doctor_id : doctors) {
-				String addPatient = request.getParameter("addTo-" + doctor_id);
-				tableDoctor = request.getParameter("deletePatient-" + doctor_id);
-				String addPatientID = request.getParameter("addPatient-" + doctor_id);
+				
+				addPatientID = request.getParameter("addPatient-" + doctor_id);
+				User patient = database.getUser(addPatientID);
 				doctorPatientList = request.getParameterValues("removePatient-" + doctor_id);
 				if (tableDoctor != null && doctorPatientList != null) {
-					removePatientList(doctor_id, doctorPatientList);
+					result = removePatientList(doctor_id, doctorPatientList);
 				}
 
+					if (addPatient != null && addPatientID != null && patient != null) {
+						result = addPatient(doctor_id, patient.getPersonID());
+					}
+				
+
+				if (tableDoctor != null && doctorPatientList != null) {
+					if (result == 0) {
+						String message = "Patient(s) has been successfully removed.";
+						request.setAttribute("message", message);
+						response.sendRedirect("patient_list.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
+					}
+					else{
+						String error = "Failed to add patient(s)";
+						request.setAttribute("error", error);
+						response.sendRedirect("patient_list.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
+					}
+				}
 				if (addPatient != null && addPatientID != null) {
-					User patient = database.getUser(addPatientID);
-					addPatient(doctor_id, patient_id.getPersonID());
+					if (result == 0) {
+						String message = "Patient(s) has been successfully added.";
+						request.setAttribute("message", message);
+						response.sendRedirect("patient_list.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
+					}
+				
+					else {
+						String error = "Failed to remove patient(s)";
+						request.setAttribute("error", error);
+						response.sendRedirect("patient_list.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
+					}
 				}
 			}
 		}
@@ -76,19 +104,6 @@ public class UserManagementServlet extends HttpServlet {
 			String error = " User not found.";
 			request.setAttribute("error", error);
 			response.sendRedirect("user_list.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
-		}
-
-		if (deletion != null && doctorPatientList.length > 0) {
-			if (savePatientList(request, response) == 0) {
-				String message = "Patient(s) has been successfully removed.";
-				request.setAttribute("message", message);
-				response.sendRedirect("patient_list.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
-			}
-		}
-		else {
-			String error = "Failed to remove patient(s)";
-			request.setAttribute("error", error);
-			response.sendRedirect("patient_list.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
 		}
 
 	}
@@ -160,11 +175,11 @@ public class UserManagementServlet extends HttpServlet {
 	 * Add patient to family_doctor table
 	 *
 	 */
-	protected int addPatientList(int doctor_id, String patient_id) {
+	protected int addPatient(int doctor_id, int patient_id) {
 		
 		Db database = new Db();
-		System.out.println(Integer.valueOf(patient_id[i]));
-		database.addPatient(doctor_id, Integer.valueOf(patient_id[i]));	
+		System.out.println(patient_id);
+		database.addPatient(doctor_id, patient_id);	
 
 		database.close();
 		return 0;

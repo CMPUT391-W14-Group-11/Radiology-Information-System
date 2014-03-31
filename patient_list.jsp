@@ -59,19 +59,19 @@
 					out.println("<td>" + u.getAddress() + "</td>");
 					out.println("<td>" + u.getEmail() + "</td>");
 					out.println("<td>" + u.getPhone() + "</td>");
-					out.println("<td><input name='removePatient' type='checkbox' value='" + u.getPersonID() + "'></td>");
+					out.println("<td><input name='removePatient' type='checkbox' value='" + doc.getPersonID() + "'></td>");
 					out.println("</tr>");
 				}
 				out.println("</tbody>");
 				out.println("</table>");
 				out.println("<br>");
 
-				out.println("<div class='container'>");
+				out.println("<div class='container' vertical-align='middle'>");
 				
-				out.println("<button type='submit' value='addTo-" + doc.getPersonID() + "' style='float:left; margin-left:0px' name='save'>Add Patient</button>");
-				
-				out.println("<input value='addPatient' style='float:left; margin-left:10px''  name='addPatient-"+ doc.getPersonID() +"'>");
-				out.println("<button value='delete' style='float: right; margin-right: 20px' name='deletePatient-"+ doc.getPersonID() +"' onclick='deleteRow(\"" + doc.getPersonID() + "-table\")'>Delete</button>");
+				out.println("<input placeholder='Patient Username or ID' style='float:left; margin-left:0px''  name='addPatient-"+ doc.getPersonID() +"'>");
+				out.println("<input type='submit' name='addTo-" + doc.getPersonID() + "' style='float:left; margin-left:10px' value='Add Patient'>");
+
+				out.println("<input type='submit' value='Delete' style='float: right; margin-right: 20px' name='deletePatient-"+ doc.getPersonID());
 				out.println("</div>");
 				out.println("</form>");
 
@@ -82,7 +82,6 @@
 			
 	<br>	
 	</div>
-	<script type="text/javascript" src="<c:url value ="/js/dynamicpatienttable.js"/>"></script>
 	<%@ include file="/layout/footer.jsp"%>
 </body>
 </html>

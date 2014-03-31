@@ -637,10 +637,12 @@ public class Db {
 			stmt.close();
 			rset.close();
 
+			return rec;
+
 	     } catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return rec;
+		return null;
 	}
 
 	/**
