@@ -567,12 +567,55 @@ public class Db {
 			stmt.close();
 			rset.close();
 
-	     }
-		catch(SQLException e){
+	     } catch(SQLException e) {
 			e.printStackTrace();
 			
 		}
 		return recs;
+	}
+
+
+	/**
+	 * 
+	 * Report Generation Module
+	 *
+	 * Gets radiology records by record_id
+	 * @param int record_id
+	 *
+	**/
+	public Record getRecord(int record_id) {
+		Record rec;
+
+		try{
+			PreparedStatement stmt = con.prepareStatement("SELECT * FROM radiology_record " 
+			+ "WHERE record_id = ? ");
+			stmt.setInt(1, record_id);
+
+			ResultSet rset = stmt.executeQuery();
+				
+			int patient_id = (rset.getInt("patient_id"));
+			int doctor_id = (rset.getInt("doctor_id"));
+			int radiologist_id = (rset.getInt("radiologist_id"));
+			String test_type = (rset.getString("test_type"));
+			java.util.Date prescribing_date = (rset.getDate("prescribing_date"));
+			java.util.Date test_date = (rset.getDate("test_date"));
+			String diagnosis = (rset.getString("diagnosis"));
+			String description = (rset.getString("description"));
+			
+			rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
+
+			rec.setPrescribingDate(prescribing_date);
+			rec.setTestDate(test_date);
+			rec.setDiagnosis(diagnosis);
+			rec.setDescription(description);
+
+			stmt.close();
+			rset.close();
+
+	     } catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return rec;
 	}
 
 	/**
