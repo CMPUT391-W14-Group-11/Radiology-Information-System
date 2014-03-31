@@ -8,6 +8,8 @@ import javax.servlet.http.*;
 import java.net.*;
 
 import entities.*;
+import org.apache.commons.fileupload.DiskFileUpload;
+import org.apache.commons.fileupload.FileItem;
 
 /**
  * Servlet implementation class SearchServlet
@@ -30,11 +32,13 @@ public class SearchServlet extends HttpServlet {
 	       	String words = request.getParameter("keywords");
 	       	List<String> strarray =  Arrays.asList(words.split(","));
 	       	String[] keywords = strarray.toArray(new String[0]);
+
 	       	String fDate = request.getParameter("fdate");
 	       	String tDate = request.getParameter("tdate");
 	       	String order = request.getParameter("order");
 	        //int record_id = database.getNextID("record_id", "radiology_record");
         /*
+
 	* Changing format from yyyy-MM-dd to dd-MMM-yy for sql
 	*/
 	        /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -111,3 +115,5 @@ public class SearchServlet extends HttpServlet {
 	        
 	}
 }
+
+

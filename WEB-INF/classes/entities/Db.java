@@ -924,7 +924,6 @@ public class Db {
 		}
 		return records;
 	}
-	
 
 	public ArrayList<Record> getResultsByDate(java.util.Date fDate, java.util.Date tDate, String order){
                  ArrayList<Record> records = new ArrayList<Record>();
@@ -961,12 +960,7 @@ public class Db {
 		} catch ( Exception e ) {
 			e.printStackTrace();
 		}
-		
-		return records;
-	}
-                                        		
-                                      
-                                     
+	
     	/**
 	* Returns an ArrayList of Records of the search by specified keywords
 	*
