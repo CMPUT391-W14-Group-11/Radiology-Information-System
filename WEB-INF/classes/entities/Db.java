@@ -102,18 +102,14 @@ public class Db {
 	 * @return int 0 on failure
 	 */
 	public int getNextID(String fieldID, String table) {
-		
+		int num = 0;
 		try {
 			String query = "SELECT MAX(" + fieldID + ") FROM " + table ;
 			
 			ResultSet rs = performQuery(query);
 			if(rs.next()) {
-				int num = rs.getInt(1) + 1;
-				while(checkValidity(num, fieldID, table) == false) {
-					num++;
-				}
-				rs.close();
-				return num;
+				num = rs.getInt(1) + 1;
+				
 			}
 			rs.close();
 		}
@@ -121,29 +117,11 @@ public class Db {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return 0;
-	}
-
-	public boolean checkValidity(int num, String fieldID, String table) {
-		
-		try {
-			String query = "SELECT COUNT(*) FROM " + table + " WHERE " 
-			+ fieldID + " = " + num;
-
-			ResultSet check = performQuery(query);
-
-			if(check.next()) {
-				check.close();
-				return false;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return true;
+		return num;
 	}
 
 	public boolean verifyUser(String username, String password) {
-
+		boolean empty = true;
 		try {
 			PreparedStatement stmt = 
 				con.prepareStatement("SELECT * FROM users WHERE user_name = ? AND password = ?");
@@ -151,29 +129,28 @@ public class Db {
 			stmt.setString(2, password);
 			
 			ResultSet rs = stmt.executeQuery();
-			boolean empty = true;
+			
 			while( rs.next() ) {
 			    // ResultSet processing here
-				rs.close();
+				
 			    empty = false;
 			}
 
 			if( empty ) {
 			    // Empty result set
 				stmt.close();
-				rs.close();
+				empty = false;
 				return false;
 			} else {
 				stmt.close();
-				rs.close();
-				return true;
+				empty = true;
 			}
-
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return false;
+		return empty;
 	}
 
 	/**
@@ -925,69 +902,21 @@ public class Db {
 		return records;
 	}
 	
-	
-	
-	
-	
 	public ArrayList<Record> getResultsByDate(java.util.Date fDate, java.util.Date tDate, String order){
-                 ArrayList<Record> records = new ArrayList<Record>();
-  		 for(int i = 0; i < keywords.length; i++) {
+                ArrayList<Record> records = new ArrayList<Record>();
+                if (order == "") {
+                	order = "ORDER BY test_date DESC";
+                }
 
-<<<<<<< HEAD
-		        String query = "SELECT score(1)*6 + score(2)*3 + score(3) AS score, "
-		                        + "record_id FROM radiology_record r, persons p WHERE "
-		                        + "p.person_id = r.patient_id AND "
-		                        + "((test_date BETWEEN '" + fDate + "' AND '" + tDate + " ') "
-		                        + "AND (contains(p.first_name, '" + keywords[i] + "', 1) > 0) OR "
-		                        + "(contains(p.last_name, '" + keywords[i] + "', 1) > 0) OR "
-		                        + "(contains(r.diagnosis, '" + keywords[i] + "', 2) > 0) OR "
-		                        + "(contains(r.description, '" + keywords[i] + "', 3) > 0)) " 
-					+ order;
-		        ResultSet rset = performQuery(query);
-		        try {
-			        while(rset != null && rset.next()) {
-					int record_id = (rset.getInt("record_id"));
-					int patient_id = (rset.getInt("patient_id"));
-					int doctor_id = (rset.getInt("doctor_id"));
-					int radiologist_id = (rset.getInt("radiologist_id"));
-					String test_type = (rset.getString("test_type"));
-					java.util.Date prescribing_date = (rset.getDate("prescribing_date"));
-					java.util.Date test_date = (rset.getDate("test_date"));
-					String r_diagnosis = (rset.getString("diagnosis"));
-					String description = (rset.getString("description"));
-					
-					Record rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
+		String query = "SELECT score(1)*6 + score(2)*3 + score(3) AS score, "
+		+ "record_id FROM radiology_record r, persons p WHERE "
+		+ "p.person_id = r.patient_id AND "
+		+ "((test_date BETWEEN '" + fDate + "' AND '" + tDate + " ') "
+		+ order;
+		ResultSet rset = performQuery(query);
 
-					rec.setPrescribingDate(prescribing_date);
-					rec.setTestDate(test_date);
-					rec.setDiagnosis(r_diagnosis);
-					rec.setDescription(description);
-
-					records.add(rec);
-				}
-				rset.close();
-			} catch ( Exception e ) {
-				e.printStackTrace();
-			}
-		}
-		return records;
-	}
-                                        		
-                                      
-                                     
-=======
-	public ArrayList<Record> getResultsByDate(java.util.Date fDate, java.util.Date tDate, String order){
-                 ArrayList<Record> records = new ArrayList<Record>();
-
-	        String query = "SELECT score(1)*6 + score(2)*3 + score(3) AS score, "
-	                        + "record_id FROM radiology_record r, persons p WHERE "
-	                        + "p.person_id = r.patient_id AND "
-	                        + "((test_date BETWEEN '" + fDate + "' AND '" + tDate + " ') "
-				+ order;
-	        ResultSet rset = performQuery(query);
-	        
-	        try {
-		        while(rset != null && rset.next()) {
+		try {
+			while(rset != null && rset.next()) {
 				int record_id = (rset.getInt("record_id"));
 				int patient_id = (rset.getInt("patient_id"));
 				int doctor_id = (rset.getInt("doctor_id"));
@@ -997,7 +926,7 @@ public class Db {
 				java.util.Date test_date = (rset.getDate("test_date"));
 				String r_diagnosis = (rset.getString("diagnosis"));
 				String description = (rset.getString("description"));
-				
+
 				Record rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
 
 				rec.setPrescribingDate(prescribing_date);
@@ -1011,8 +940,9 @@ public class Db {
 		} catch ( Exception e ) {
 			e.printStackTrace();
 		}
-	
->>>>>>> 897efe0921cfd241d7b2acd978ae9364613d542f
+		return records;
+	}
+                                        		
     	/**
 	* Returns an ArrayList of Records of the search by specified keywords
 	*

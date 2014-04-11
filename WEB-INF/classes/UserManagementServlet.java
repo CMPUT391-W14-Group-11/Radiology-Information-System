@@ -27,10 +27,12 @@ public class UserManagementServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		response.setContentType("text/html");
-
-		if (request.getParameter("editUser") != null) {
+		String view = request.getParameter("editUser");
+		if (view != null) {
+			System.out.println(view);
 			editUser(request, response);
 		}
+
 	}
 
 	/**
@@ -118,16 +120,29 @@ public class UserManagementServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void editUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		Integer person_id = -1;
+		try {
+			person_id = Integer.valueOf(request.getParameter("editUser"));
+		} catch (NumberFormatException e) {
+		 	e.printStackTrace();
+		}
 		
-		String view = request.getParameter("editUser");
+		String username = request.getParameter("searchUser");
+		System.out.println(person_id);
+		System.out.println(username);
 
-		if (view != null) {
+		Db database = new Db();
+		User user = null;
+		if (username != null) {
+			user = database.getUser(username);
 
-			int person_id = Integer.valueOf(request.getParameter("editUser"));
-			System.out.println(person_id);
-
-			Db database = new Db();
-			User user = database.getUser(person_id);
+		}
+		else {
+			user = database.getUser(person_id);
+		}
+		
+		if (user != null) {
 			request.setAttribute("Username", user.getUsername());
 			request.setAttribute("Password", user.getPassword());
 			request.setAttribute("FirstName", user.getFirstName());
@@ -153,10 +168,13 @@ public class UserManagementServlet extends HttpServlet {
 		        	System.out.println("failed");
 		        }
 
-			request.getRequestDispatcher("user_form.jsp").forward(request, response);	
-
+			request.getRequestDispatcher("user_form.jsp").forward(request, response);
 		}
-		
+		else {
+			String error = "Failed to edit patient";
+			request.setAttribute("error", error);
+			response.sendRedirect("patient_list.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
+		}
 	}
 
 	/**
