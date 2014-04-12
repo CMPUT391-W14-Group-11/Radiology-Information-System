@@ -30,7 +30,6 @@
 		<span style="color:red;">${param.error}</span>
 		</div>
 		<% if(doctors != null) {
-			int d = doctors.get(0);
 			database = new Db();
 			for(int doctor_id : doctors) {
 				ArrayList<User> patients = database.getPatients(doctor_id);
@@ -59,7 +58,7 @@
 					out.println("<td>" + u.getAddress() + "</td>");
 					out.println("<td>" + u.getEmail() + "</td>");
 					out.println("<td>" + u.getPhone() + "</td>");
-					out.println("<td><input name='removePatient' type='checkbox' value='" + doc.getPersonID() + "'></td>");
+					out.println("<td><input name='removePatient' type='checkbox' value='" + u.getPersonID() + "'></td>");
 					out.println("</tr>");
 				}
 				out.println("</tbody>");
@@ -71,9 +70,10 @@
 				out.println("<input placeholder='Patient Username or ID' style='float:left; margin-left:0px''  name='addPatient-"+ doc.getPersonID() +"'>");
 				out.println("<input type='submit' name='addTo-" + doc.getPersonID() + "' style='float:left; margin-left:10px' value='Add Patient'>");
 
-				out.println("<input type='submit' value='Delete' style='float: right; margin-right: 20px' name='deletePatient-"+ doc.getPersonID());
+				out.println("<input type='submit' value='Delete' style='float: right; margin-right: 20px' name='deletePatient-"+ doc.getPersonID() + "'>");
 				out.println("</div>");
 				out.println("</form>");
+				out.println("<br>");
 
 			}
 			database.close();

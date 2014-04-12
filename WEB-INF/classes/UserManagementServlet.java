@@ -27,12 +27,16 @@ public class UserManagementServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		response.setContentType("text/html");
+		String username = request.getParameter("searchUser");
 		String view = request.getParameter("editUser");
-		if (view != null) {
-			System.out.println(view);
+		if (username != null || view != null) {
 			editUser(request, response);
 		}
-
+		else {
+			String error = " User not found.";
+			request.setAttribute("error", error);
+			response.sendRedirect("user_list.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
+		}
 	}
 
 	/**
@@ -47,20 +51,6 @@ public class UserManagementServlet extends HttpServlet {
 		database.close();
 
 		int result = -1;
-
-		String username = request.getParameter("searchUser");
-
-		if (username != null) {
-			System.out.println(username);
-			editUser(request, response);
-		}
-		else {
-			String error = " User not found.";
-			request.setAttribute("error", error);
-			response.sendRedirect("user_list.jsp?error=" + URLEncoder.encode(error, "UTF-8"));
-		}
-
-
 		if(doctors != null) {
 			
 			for(int doctor_id : doctors) {
@@ -69,18 +59,17 @@ public class UserManagementServlet extends HttpServlet {
 				String addPatient = request.getParameter("addTo-" + doctor_id);
 				String addPatientID = request.getParameter("addPatient-" + doctor_id);
 				User patient = database.getUser(addPatientID);
-				String[] doctorPatientList = request.getParameterValues("removePatient-" + doctor_id);
+				String[] doctorPatientList = request.getParameterValues("removePatient");
 				database.close();
 				
 				if (tableDoctor != null && doctorPatientList != null) {
 					result = removePatientList(doctor_id, doctorPatientList);
 				}
 
-					if (addPatient != null && addPatientID != null && patient != null) {
-						result = addPatient(doctor_id, patient.getPersonID());
-					}
-				
-
+				if (addPatient != null && addPatientID != null && patient != null) {
+					result = addPatient(doctor_id, patient.getPersonID());
+				}
+			
 				if (tableDoctor != null && doctorPatientList != null) {
 					if (result == 0) {
 						String message = "Patient(s) has been successfully removed.";
@@ -186,7 +175,7 @@ public class UserManagementServlet extends HttpServlet {
 		
 		Db database = new Db();
 		for (int i = 0; i < patient_id.length ; i++) {
-			System.out.println(Integer.valueOf(patient_id[i]));
+			System.out.println("Patient to be removed: " + Integer.valueOf(patient_id[i]));
 			database.removePatient(doctor_id, Integer.valueOf(patient_id[i]));	
 		}
 
