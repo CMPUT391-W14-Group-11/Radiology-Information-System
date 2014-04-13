@@ -48,6 +48,17 @@
 			if (request.getAttribute("reports") != null) {
 				reports  = (ArrayList<RadiologyRecord>) request.getAttribute("reports");
 			}
+			else {
+
+				reports = new ArrayList<RadiologyRecord>();
+				Db database = new Db();
+				ArrayList<Record> records = database.getAllDiagnosisReports();
+				for (Record r : records) {
+					User patient = database.getUser(r.getPatientID()); 
+					reports.add(new RadiologyRecord(patient, r));
+				}
+				database.close();
+			}
 
 			if(!reports.isEmpty()) {
 				
@@ -59,41 +70,8 @@
 				out.println("<th>Last Name</th>");
 				out.println("<th>Address</th>");
 				out.println("<th>Phone Number</th>");
+				out.println("<th>Diagnosis</th>");
 				out.println("<th>Testing Date</th>");
-				out.println("</tr>");
-				out.println("</thead>");
-
-				out.println("<tbody>");
-				for (RadiologyRecord r : reports) {
-					out.println("<td>" + r.getUser().getFirstName() + "</td>");
-					out.println("<td>" + r.getUser().getLastName() + "</td>");
-					out.println("<td>" + r.getUser().getAddress() + "</td>");
-					out.println("<td>" + r.getUser().getPhone() + "</td>");
-					out.println("<td>" + r.getRecord().getTestDate() + "</td>");
-					out.println("</tr>");
-				}
-				out.println("</tbody>");
-			}
-			else {
-
-				reports = new ArrayList<RadiologyRecord>();
-				Db database = new Db();
-				ArrayList<Record> records = database.getAllDiagnosisReports();
-				for (Record r : records) {
-					User patient = database.getUser(r.getPatientID()); 
-					reports.add(new RadiologyRecord(patient, r));
-				}
-				database.close();
-				out.println("<h1>Results</h1>");
-				out.println("<table>");
-				out.println("<thead>");
-				out.println("<tr>");
-				out.println("<th>First Name</th>");
-				out.println("<th>Last Name</th>");
-				out.println("<th>Address</th>");
-				out.println("<th>Phone Number</th>");
-				out.println("<th>Test Date</th>");
-				out.println("<th></th>");
 				out.println("</tr>");
 				out.println("</thead>");
 

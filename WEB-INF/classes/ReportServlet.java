@@ -30,14 +30,12 @@ public class ReportServlet extends HttpServlet {
 		String fDate = request.getParameter("fDate");
 		String tDate = request.getParameter("tDate");
 
-		System.out.println("fDate: " + fDate);
-		System.out.println("tDate: " + tDate);
-
 		ArrayList<RadiologyRecord> reports = getDiagnosisReports(diagnosis, fDate, tDate);
 
 		if (!reports.isEmpty()) {
 			System.out.println("Reports found!\n");
 			request.setAttribute("reports", reports);
+			response.sendRedirect("reports.jsp");
 		}
 		else {
 			System.out.println("No reports found...\n");
@@ -62,8 +60,6 @@ public class ReportServlet extends HttpServlet {
 		try {
 			java.util.Date date1 = new SimpleDateFormat("yyy-MM-dd").parse(fDate);
 			java.util.Date date2 = new SimpleDateFormat("yyy-MM-dd").parse(tDate);
-			System.out.println("fDate: " + fDate.toString());
-			System.out.println("tDate: " + tDate.toString());
 		
 			if(!check) {
 			
