@@ -634,9 +634,9 @@ public class Db {
 	public ArrayList<Record> getDiagnosisReports(String diagnosis, java.util.Date fDate, java.util.Date tDate) {
 		ArrayList<Record> records = new ArrayList<Record>();
 		
-		try{
+		try{	
 			PreparedStatement stmt = con.prepareStatement("SELECT * " 
-				+ "FROM radiology_record r"
+				+ "FROM radiology_record r "
 				+ "WHERE LOWER(r.diagnosis) LIKE LOWER(?) "
 				+ "AND r.test_date BETWEEN ? AND ? "
 				+ "ORDER BY r.test_date ASC");
@@ -644,6 +644,45 @@ public class Db {
 			stmt.setString(1, "%" + diagnosis + "%");
 			stmt.setDate(2, new java.sql.Date(fDate.getTime()));
 			stmt.setDate(3, new java.sql.Date(tDate.getTime()));
+
+			ResultSet rset = stmt.executeQuery();
+
+			while(rset != null && rset.next()) {
+				int record_id = (rset.getInt("record_id"));
+				int patient_id = (rset.getInt("patient_id"));
+				int doctor_id = (rset.getInt("doctor_id"));
+				int radiologist_id = (rset.getInt("radiologist_id"));
+				String test_type = (rset.getString("test_type"));
+				java.util.Date prescribing_date = (rset.getDate("prescribing_date"));
+				java.util.Date test_date = (rset.getDate("test_date"));
+				String r_diagnosis = (rset.getString("diagnosis"));
+				String description = (rset.getString("description"));
+				
+				Record rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
+
+				rec.setPrescribingDate(prescribing_date);
+				rec.setTestDate(test_date);
+				rec.setDiagnosis(r_diagnosis);
+				rec.setDescription(description);
+
+				records.add(rec);
+			}
+			stmt.close();
+			rset.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return records;
+	}
+
+	public ArrayList<Record> getAllDiagnosisReports() {
+		ArrayList<Record> records = new ArrayList<Record>();
+		
+		try{
+			PreparedStatement stmt = con.prepareStatement("SELECT * " 
+				+ "FROM radiology_record r ");
 
 			ResultSet rset = stmt.executeQuery();
 
@@ -742,8 +781,8 @@ public class Db {
 	 *
 	 *
 	 **/
-	public void insertPacRecord(FileItem item, Integer rid) {
-		
+	public void insertPacsRecord(FileItem item, Integer rid) {
+		assert item != null;
 		try{
 
 			InputStream instream = item.getInputStream();
@@ -754,6 +793,7 @@ public class Db {
 			* First, to generate a unique pic_id using an SQL sequence
 			*/
 			int pic_id = getNextID("image_id", "pacs_images");
+			System.out.println("image ID:" + pic_id + "\n");
 			    
 			PreparedStatement stmt = con.prepareStatement("INSERT INTO pacs_images"
 			    + " VALUES(record_id = ? . image_id = ? , empty_blob(), empty_blob(), empty_blob())");
@@ -771,28 +811,15 @@ public class Db {
 
 			rset = cmd.executeQuery();
 			rset.next();
-			BLOB thumbblob = ((OracleResultSet)rset).getBLOB(3);
+			BLOB myblob = ((OracleResultSet)rset).getBLOB(3);
 
 			//Write the image to the blob object
-			OutputStream outstream = thumbblob.getBinaryOutputStream();
-			ImageIO.write(thumbNail, "jpg", outstream);
-			instream.close();
-			outstream.close();	   
-
-			BLOB regblob = ((OracleResultSet)rset).getBLOB(4);
-			//Write the image to the blob object
-			outstream = regblob.getBinaryOutputStream();
-			ImageIO.write(img, "jpg", outstream);           
-			instream.close();
-			outstream.close();
-			BLOB fullblob = ((OracleResultSet)rset).getBLOB(5);
-			//Write the image to the blob object
-			outstream = fullblob.getBinaryOutputStream();
+			OutputStream outstream = myblob.setBinaryStream(0);
 			ImageIO.write(img, "jpg", outstream);
-			instream.close();
-			outstream.close();
+		    	instream.close();
+		    	outstream.close();
 			stmt.executeUpdate("commit");
-
+			System.out.println("Upload Ok!\n");
 			stmt.close();
 			rset.close();
 		    

@@ -24,7 +24,7 @@ public class UploadRecordServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	       	HttpSession session = request.getSession();
+	  	HttpSession session = request.getSession();
 	       	response.setContentType("text/html");
 	}
 
@@ -42,9 +42,6 @@ public class UploadRecordServlet extends HttpServlet {
 
 		if (save_record != null) {
 			result = saveRecord(request);
-			if(request.getParameter("filepath") != null) {
-				uploadImage(request, response);
-			}
 		}
 
 		if (result == 0 ) {
@@ -67,7 +64,7 @@ public class UploadRecordServlet extends HttpServlet {
 	}
 
 	public int saveRecord(HttpServletRequest request) {
-
+		int result = -1;
 		try {
 			String p_username = request.getParameter("p_username");
 			String d_username = request.getParameter("d_username");
@@ -98,42 +95,48 @@ public class UploadRecordServlet extends HttpServlet {
 			record.setDiagnosis(diagnosis);
 			record.setDescription(description);
 
-			return database.insertRadiologyRecord(record);
+			if(request.getParameter("filepath") != null) {
+				try {
+					result = uploadImage(request, record_id);
+				} catch ( Exception e ) {
+			    		String response_message = e.getMessage();
+				}
+			}
+
+			result = database.insertRadiologyRecord(record);
 		} catch (ParseException e) {  
     			e.printStackTrace();  
 		}
 
-		return -1;
+		return result;
 	}
 
-	public int uploadImage(HttpServletRequest request,HttpServletResponse response)
-	 throws ServletException, IOException {
-
-		PrintWriter out = response.getWriter();
+	public int uploadImage(HttpServletRequest request, int record_id) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		Integer rid = (Integer) session.getAttribute("saved_record");
+		System.out.println("Saving image to record_id: " + record_id + "\n");
 
 		try {
 		    //Parse the HTTP request to get the image stream
-		    DiskFileUpload fu = new DiskFileUpload();
-		    List FileItems = fu.parseRequest(request);
-		        
-		    // Process the uploaded items, assuming only 1 image file uploaded
-		    Iterator i = FileItems.iterator();
-		    FileItem item = (FileItem) i.next();
-		    while (i.hasNext() && item.isFormField()) {
-			item = (FileItem) i.next();
-		    }
+			DiskFileUpload fu = new DiskFileUpload();
+			List FileItems = fu.parseRequest(request);
+			// Process the uploaded items, assuming only 1 image file uploaded
+			Iterator i = FileItems.iterator();
+			FileItem item = (FileItem) i.next();
+			while (i.hasNext() && item.isFormField()) {
+				item = (FileItem) i.next();
+			}
+			InputStream instream = item.getInputStream();
 
-		    Db database = new Db();
-		    database.insertPacRecord(item, rid);
-		    database.close();
+			Db database = new Db();
+			database.insertPacsRecord(item, record_id);
+			System.out.println("Image saved in database...\n");
+			database.close();
 
-		    return 0;
+			return 0;
 		
 		} catch ( Exception e ) {
 
-	    		String response_message = e.getMessage();
+			System.out.println(e.getMessage());
 		}
 		
 		return 3;

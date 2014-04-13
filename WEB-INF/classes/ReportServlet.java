@@ -30,12 +30,19 @@ public class ReportServlet extends HttpServlet {
 		String fDate = request.getParameter("fDate");
 		String tDate = request.getParameter("tDate");
 
+		System.out.println("fDate: " + fDate);
+		System.out.println("tDate: " + tDate);
+
 		ArrayList<RadiologyRecord> reports = getDiagnosisReports(diagnosis, fDate, tDate);
 
 		if (!reports.isEmpty()) {
-			request.setAttribute("RadiologyRecords", reports);
+			System.out.println("Reports found!\n");
+			request.setAttribute("reports", reports);
 		}
 		else {
+			System.out.println("No reports found...\n");
+			reports = getDiagnosisReports();
+			request.setAttribute("reports", reports);
 			String message = "No reports found.";
 			request.setAttribute("message", message);
 			response.sendRedirect("reports.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
@@ -50,10 +57,13 @@ public class ReportServlet extends HttpServlet {
 		ArrayList<RadiologyRecord> reports = new ArrayList<RadiologyRecord>();
 		
 		boolean check = (tDate.equals("") || fDate.equals("") || diagnosis.equals(""));	
-		
+	
+
 		try {
 			java.util.Date date1 = new SimpleDateFormat("yyy-MM-dd").parse(fDate);
 			java.util.Date date2 = new SimpleDateFormat("yyy-MM-dd").parse(tDate);
+			System.out.println("fDate: " + fDate.toString());
+			System.out.println("tDate: " + tDate.toString());
 		
 			if(!check) {
 			
@@ -70,6 +80,20 @@ public class ReportServlet extends HttpServlet {
 		} catch (ParseException e) {  
     			e.printStackTrace();  
 		}
+
+		return reports;
+	}
+
+	protected ArrayList<RadiologyRecord> getDiagnosisReports() {
+
+		ArrayList<RadiologyRecord> reports = new ArrayList<RadiologyRecord>();
+		Db database = new Db();
+		ArrayList<Record> records = database.getAllDiagnosisReports();
+		for (Record r : records) {
+			User patient = database.getUser(r.getPatientID()); 
+			reports.add(new RadiologyRecord(patient, r));
+		}
+		database.close();
 
 		return reports;
 	}
