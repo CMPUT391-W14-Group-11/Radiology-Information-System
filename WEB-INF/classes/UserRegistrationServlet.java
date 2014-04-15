@@ -35,7 +35,7 @@ public class UserRegistrationServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		int result = -1;
 
-		if (request.getParameter("person_id") == null) {
+		if (request.getParameter("person_id") == "") {
 
 			Db database = new Db();
 			int person_id = database.getNextID("person_id", "persons");

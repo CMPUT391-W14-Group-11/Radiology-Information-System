@@ -29,11 +29,11 @@
 		<br>
 		<span style="color:black;">${param.message}</span>
 		<div>
-			<form method="POST" action="users">
+			<form method="GET" action="users">
 			<span style="color:red;">${param.error}</span>
-			<input name="editUser" type="text" method="POST" placeholder="Enter username" style="width:90%; height:30px;">
+			<input name="searchUser" type="text" placeholder="Enter username" style="width:90%; height:30px;">
 
-			<button class="button blue" type="submit" name="searchUser">Search</button>
+			<button class="button blue" type="submit">Search</button>
 			</form>
 		</div>
 			<table id="user-table">
@@ -52,7 +52,7 @@
 			</thead>
 			<br>
 			<tbody>
-			<form>   
+			<form method="GET" action="users">   
 			<%
 			for (User u : users) {
 
@@ -66,7 +66,7 @@
 				else {
 					out.println("<td></td>");
 				}
-				if(u.getAddress() != null) {
+				if(u.getAddress() != "") {
 					out.println("<td>" + u.getEmail() + "</td>");
 				}
 				else {
