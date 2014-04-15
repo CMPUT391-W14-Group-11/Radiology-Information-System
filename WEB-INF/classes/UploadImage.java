@@ -4,7 +4,7 @@
 * and insert the image into a table in Oracle DB.
 *
 * Copyright 2007 COMPUT 391 Team, CS, UofA
-* Author: Fan Deng, Alice Wu
+* Author: Fan Deng
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
