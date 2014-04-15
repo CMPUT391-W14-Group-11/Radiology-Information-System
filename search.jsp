@@ -1,33 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<title>Radiology Information System</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Radiology Information System Home">
-<meta name="author" content="">
-</head>
+<!-- Copyright (C) 2014 Alice (Mingxun) Wu
 
-<%@ include file="/layout/headlib.jsp"%>
-<body>
-	<%@ include file="/layout/nav_bar.jsp"%>
-	<div class="container">
-		<h1>Advanced Search Records</h1>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-		<!-- Main hero unit for a primary marketing message or call to action -->
-		<div class="hero-unit" style="text-align: center">
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-		</div>
-	</div>
-	<%@ page import="java.sql.*,
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. -->
+<HTML>
+<HEAD>
+
+
+<TITLE>Search Engine</TITLE>
+</HEAD>
+
+<BODY>
+
+
+<%@ page import="java.sql.*,
 	javax.portlet.ActionResponse.*, 
 	javax.swing.*, 
 	java.util.*, 
 	java.text.*" %>
 <%
-
-        		        
+/*
+	String role = (String) session.getAttribute("PermissionLevel");
+	Integer personId = (Integer) session.getAttribute("Person_Id");
+        
+	if (role == null || personId == null){
+		response.sendRedirect("login.jsp");
+    }*/
+        	
+	        
 	/* Instantiate ArrayList for accmodating query results*/	
 	ArrayList<String> rids = new ArrayList<String>();
 	ArrayList<String> pids = new ArrayList<String>();
@@ -38,14 +47,18 @@
 	ArrayList<String> tdates = new ArrayList<String>();
 	ArrayList<String> diags = new ArrayList<String>();
 	ArrayList<String> description = new ArrayList<String>();
-	
-	
-    
-	out.println("<p> SEARCH </p>");
-	out.println("<form action=advanced_search.jsp>");
-	out.println("<input type=text name=KeyWord align=right > "); 
-		//+ "Enter keywords. If entering multiple keywords please use " 
-		//+ "'and' or 'or' as delimeters.<br>");
+        
+	out.println("<form action=search.jsp>");
+	out.println("<input type=submit name=Back value='Go Back'><br><br>");
+	out.println("</form>");
+	out.println("<b>Find out more help information by clicking "
+		+ "<a href='help.html#search' target='blank'>Help</a></b><br><br>");
+
+
+	out.println("<form action=search.jsp>");
+	out.println("<input type=text name=KeyWord align=right > " 
+		+ "Enter keywords. If entering multiple keywords please use " 
+		+ "'and' or 'or' as delimeters.<br>");
 	out.println("<input type=text name=Start align=right > " 
 		+ "From (eg.02-FEB-2012)");
 	out.println("<input type=text name=End align=right > " 
@@ -57,7 +70,7 @@
 	out.println("<input type=radio name=Order id=NewToOld value=new>");
 	out.println("<label for=OldToNew> Least Recent First</label>");
 	out.println("<input type=radio name=Order id=OldToNew value=old><br>");
-	out.println("<input type=submit name=Generate value='ENTER'><br>");
+	out.println("<input type=submit name=Generate value='Go'><br>");
 	out.println("</form>");
     
 	/* 
@@ -77,9 +90,8 @@
 	}
 
 	try {
-		conn = DriverManager.getConnection(dbstring,"jsurya", 
-			"ark123et");
-		
+		conn = DriverManager.getConnection(dbstring,"qali", 
+			"Edmonton121");
 		conn.setAutoCommit(false);
 	}catch(Exception ex){
 		out.println("<hr>" + ex.getMessage() + "<hr>");
@@ -88,7 +100,7 @@
 	Statement stmt = null;
 	
 	try{
-		
+		stmt = conn.createStatement();
 	}catch(Exception ex){
 		out.println("<hr>" + ex.getMessage() + "<hr>");
 	}
@@ -139,7 +151,7 @@
 			}
 			JOptionPane.showMessageDialog(null,
 					"Enter at least keywords or date period please!");
-			response.sendRedirect("advanced_search.jsp");	
+			response.sendRedirect("search.jsp");	
 		}
 		
 		SimpleDateFormat sdformat = new SimpleDateFormat("dd-MMM-yyyy");
@@ -159,7 +171,7 @@
 			}catch(Exception ex1){
 				out.println(ex1.getMessage());
 			}
-			response.sendRedirect("advanced_search.jsp");
+			response.sendRedirect("search.jsp");
 			return;
 	   	}
                 
@@ -241,7 +253,7 @@
 			}catch(Exception ex1){
 				out.println(ex1.getMessage());
 			}
-			response.sendRedirect("advanced_search.jsp");
+			response.sendRedirect("search.jsp");
 			return;
 		}
         
@@ -266,7 +278,7 @@
 			}catch(Exception ex1){
 				out.println(ex1.getMessage());
 			}
-			response.sendRedirect("advanced_search.jsp");
+			response.sendRedirect("search.jsp");
 			return;
 		}
 		
@@ -372,6 +384,26 @@
     	
 		String select = "select radiology_record.* ";
         
+		/* build select from clause, varing as the person's class varies*/
+		/*
+		if(role.equals("p")){
+			select += " from radiology_record where patient_id='" 
+				+ personId + "'";
+		}else if (role.equals("r")){
+
+			select  += " from radiology_record where " 
+			+ "radiologist_id='" + personId + "'";
+		}else if (role.equals("d")){
+
+			select  += " from radiology_record, family_doctor "
+				+ "where radiology_record.doctor_id='" + personId + "' and"
+				+ " radiology_record.doctor_id = family_doctor.doctor_id and"
+				+ " radiology_record.patient_id = family_doctor.patient_id";
+		}else{
+
+			select  = selectcols + " from radiology_record";
+		}
+		*/
 		select  = selectcols + " from radiology_record";
 		select += " order by record_id";
 		
@@ -425,7 +457,7 @@
 				}catch(Exception ex1){
 					out.println(ex1.getMessage());
 				}
-				response.sendRedirect("advanced_search.jsp");
+				response.sendRedirect("search.jsp");
 				return;
 			}
 			
@@ -459,22 +491,6 @@
 	}
 
 %>
-	<%@ include file="/layout/footer.jsp"%>
-	
-	<script type="text/javascript" src="js/password_check.js"></script>
-	<script src="../assets/js/jquery.js"></script>
-	<script src="../assets/js/bootstrap-transition.js"></script>
-	<script src="../assets/js/bootstrap-alert.js"></script>
-	<script src="../assets/js/bootstrap-modal.js"></script>
-	<script src="../assets/js/bootstrap-dropdown.js"></script>
-	<script src="../assets/js/bootstrap-scrollspy.js"></script>
-	<script src="../assets/js/bootstrap-tab.js"></script>
-	<script src="../assets/js/bootstrap-tooltip.js"></script>
-	<script src="../assets/js/bootstrap-popover.js"></script>
-	<script src="../assets/js/bootstrap-button.js"></script>
-	<script src="../assets/js/bootstrap-collapse.js"></script>
-	<script src="../assets/js/bootstrap-carousel.js"></script>
-	<script src="../assets/js/bootstrap-typeahead.js"></script>
-</body>
-</html>
 
+</BODY>
+</HTML>

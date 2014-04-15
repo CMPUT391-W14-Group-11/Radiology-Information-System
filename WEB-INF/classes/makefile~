@@ -11,21 +11,26 @@ SOURCE_PATH = -sourcepath ./
 all:
 	make login
 	make register
-	make image
+	make records
 	make images
 	make userManagement
-
+	make reports
+	make search
 
 login:
 	$(JC) $(SOURCE_PATH) $(CLASS_PATH) UserLoginServlet.java
 register:
 	$(JC) $(SOURCE_PATH) $(CLASS_PATH) UserRegistrationServlet.java
+records:
+	$(JC) $(SOURCE_PATH) $(CLASS_PATH) UploadRecordServlet.java
 images:
 	$(JC) $(SOURCE_PATH) $(CLASS_PATH) GetBigPic.java GetOnePic.java
 userManagement:
 	$(JC) $(SOURCE_PATH) $(CLASS_PATH) UserManagementServlet.java
-image:
-	$(JC) $(SOURCE_PATH) $(CLASS_PATH) Upload_Image.java
+reports:
+	$(JC) $(SOURCE_PATH) $(CLASS_PATH) ReportServlet.java
+search:
+	$(JC) $(SOURCE_PATH) $(CLASS_PATH) SearchServlet.java
 
 clean:
 	$(RM) *.class

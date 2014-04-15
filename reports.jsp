@@ -19,7 +19,7 @@
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit" style="text-align: center">
 		<h1>Patient Reports</h1>
-			<form method="GET" action="reports" />
+			<form method="GET" action="reportg.jsp" />
 			<table>
 			<p></p>
                         <tr VALIGN=TOP ALIGN=LEFT>

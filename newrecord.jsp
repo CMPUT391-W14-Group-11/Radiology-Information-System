@@ -12,11 +12,6 @@
 <%@ include file="/layout/headlib.jsp"%>
 <body>
 	<%@ include file="/layout/nav_bar.jsp"%>
-	<div class="container">
-		<h1>Upload New Records</h1>
-
-		<!-- Main hero unit for a primary marketing message or call to action -->
-		<div class="hero-unit" style="text-align: center">
 <%!
 /* getConnection function returns a connection to Database*/
 private Connection getConnection(){
@@ -58,18 +53,17 @@ javax.imageio.*,
 java.awt.image.*,
 oracle.sql.*, oracle.jdbc.*"%>
 <%
-
-/*out.println("<form action=upload_records.jsp>");
+/**********************************************************
+* User Interface Section
+***********************************************************/
+/*out.println("<form action=newrecord.jsp>");
 out.println("<input type=submit name=Back value='Go Back'><br>");
 out.println("</form>");*/
-//out.println("<b>Find out more help information by clicking "
-//+"<a href='help.html#record' target='blank'>Help</a></b><br><br>");
+out.println("<b>Find out more help information by clicking "
++"<a href='help.html#record' target='blank'>Help</a></b><br><br>");
  
 Integer person_id = (Integer) session.getAttribute("Person_Id");
 String role = (String) session.getAttribute("PermissionLevel");
-
-if(person_id == null)
-	person_id = 1;
 
 /* in case the session expires, system will redirect the user to log in*/
     /*if(person_id == null || !role.equals("r")){
@@ -85,8 +79,9 @@ response.sendRedirect("login.jsp");
     String diag = "";
     String description = "";
 
-   
-// Request Handle Section
+    /**********************************************************
+* Request Handle Section
+***********************************************************/
     if(request.getParameter("SaveRecord") != null){
 
      /* The user is creating a record*/
@@ -95,7 +90,7 @@ response.sendRedirect("login.jsp");
      if(conn == null){
 JOptionPane.showMessageDialog(null, "Can't get a connection."
 +" Please try again.");
-response.sendRedirect("upload_records.jsp");
+response.sendRedirect("newrecord.jsp");
 }
     
      /* Initialize statement and result set*/
@@ -151,7 +146,7 @@ conn.close();
 catch(Exception ex1){
 out.println("<hr>" + ex1.getMessage() + "<hr>");
 }
-                response.sendRedirect("upload_records.jsp");
+                response.sendRedirect("newrecord.jsp");
                 return;
 }
 
@@ -173,7 +168,7 @@ catch(Exception ex){
 out.println("<hr>" + ex.getMessage() + "<hr>");
 }
 
-response.sendRedirect("upload_records.jsp");
+response.sendRedirect("newrecord.jsp");
 return;
 }
         }else{
@@ -192,7 +187,7 @@ conn.close();
 catch(Exception ex1){
 out.println("<hr>" + ex1.getMessage() + "<hr>");
 }
-             response.sendRedirect("upload_records.jsp");	
+             response.sendRedirect("newrecord.jsp");	
              return;
 }
       
@@ -216,7 +211,7 @@ conn.close();
 catch(Exception ex){
 out.println("<hr>" + ex.getMessage() + "<hr>");
 }
-response.sendRedirect("upload_records.jsp");
+response.sendRedirect("newrecord.jsp");
 return;
 }
 
@@ -246,7 +241,7 @@ try{
 catch(Exception ex1){
                  out.println("<hr>" + ex1.getMessage() + "<hr>");
 }
-response.sendRedirect("upload_records.jsp");
+response.sendRedirect("newrecord.jsp");
 return;
 }
 
@@ -273,7 +268,7 @@ conn.close();
 catch(Exception ex1){
 out.println("<hr>" + ex1.getMessage() + "<hr>");
 }
-response.sendRedirect("upload_records.jsp");
+response.sendRedirect("newrecord.jsp");
 return;
 }
 }else{
@@ -307,19 +302,18 @@ insertRecord.executeUpdate();
 conn.commit();
 session.setAttribute("Saved_Record_Id", rid);
 conn.close();
-response.sendRedirect("/proj1/upload_records.jsp");
+response.sendRedirect("/proj1/newrecord.jsp");
        }catch(Exception ex){
 out.println("<hr>" + ex.getMessage() + "<hr>");
        }
       
       
    
-}
-    else if (request.getParameter("Cancel") != null){
+}else if (request.getParameter("Cancel") != null){
 
 /* if the user decides to end uplaoding image process*/
 session.removeAttribute("Saved_Record_Id");
-response.sendRedirect("/proj1/login.jsp");
+response.sendRedirect("/proj1/homepage.jsp");
 
     }else if (session.getAttribute("Saved_Record_Id") != null){
    
@@ -349,36 +343,36 @@ out.println("</table>");
 out.println("</form>") ;
 out.println("<hr>");
 
-out.println("<form action=upload_records.jsp>");
+out.println("<form action=newrecord.jsp>");
 out.println("<input type=submit name=Cancel value='No Images "
 + "To Upload'><br>");
 out.println("</form>");	
 }else{
 
 /* without any request, the UI section is printed. */
-       out.println("<form action=upload_records.jsp method=post>");
-       out.println("Patient Id:<br> <input type=text "
+       out.println("<p> As a radiologsit, you could create a new radiology "
++ "record by entering the information first and add pacs.</p>");
+       out.println("<form action=newrecord.jsp method=post>");
+       out.println("Please Enter Patient Id Here:<br> <input type=text "
        + "name=pid value='" + pid + "' ><br>");
-       out.println("Doctor Id:<br><input type=text "
+       out.println("Please Enter Doctor Id Here:<br><input type=text "
        +"name=did value='" + did + "'><br>");
-       out.println("Test Type:<br> <input type=text "
-       +"name=type maxlenght=24 value=\"" + type + "\"><br>");
-      out.println("Prescribing Date:<br><input type=text "
-       + "name=pdate value=\"" + pDate + "\">(eg. 02-FEB-2011)<br>");
-       out.println("Test Date:<br> <input type=text "
-       + "name=tdate value=\"" + tDate + "\">(eg. 03-AUG-2012)<br>");
-       out.println("Diagnosis:<br> <input type=text "
-       + "name=diagnosis value=\"" + diag + "\"maxlength=128><br>");
-       out.println("Description:<br><input type=text "
-       + "name=description value=\"" + description + "\"maxlength=1024>"
+       out.println("Please Enter Test Type Here:<br> <input type=text "
++"name=type maxlenght=24 value=\"" + type + "\"><br>");
+      out.println("Please Enter Prescribing Date Here:<br><input type=text "
++ "name=pdate value=\"" + pDate + "\">(eg. 02-FEB-2011)<br>");
+       out.println(" Please Enter Test Date Here:<br> <input type=text "
++ "name=tdate value=\"" + tDate + "\">(eg. 03-AUG-2012)<br>");
+       out.println("Please Enter Diagnosis Here:<br> <input type=text "
++ "name=diagnosis value=\"" + diag + "\"maxlength=128><br>");
+       out.println(" Please Enter Description Here:<br><input type=text "
++ "name=description value=\"" + description + "\"maxlength=1024>"
        + "<br><br>");
        out.println("<input type=submit name=SaveRecord value='Save New "
        + "Record'><br>");
        out.println("</form>");
        out.println("<hr>");
     }
-
-		
 %>
 <%@ include file="/layout/footer.jsp"%>
 	

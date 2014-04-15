@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.*;
+
 import java.sql.*;
 import java.util.*;
 import java.lang.Object;
@@ -10,7 +11,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
-
+/*
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 
@@ -773,9 +774,9 @@ public class Db {
 			BufferedImage img = ImageIO.read(instream);
 			BufferedImage thumbNail = shrink(img, 10);
 		    
-			/*
-			* First, to generate a unique pic_id using an SQL sequence
-			*/
+			
+			//First, to generate a unique pic_id using an SQL sequence
+	
 			int pic_id = getNextID("image_id", "pacs_images");
 			    
 			PreparedStatement stmt = con.prepareStatement("INSERT INTO pacs_images"
@@ -852,7 +853,7 @@ public class Db {
 	 * 
 	 * @param String thumbnail/regular_size/full_size
 	 *
-	 **/
+	 *
 	public Blob getImage(int image_id, String size) {
 		ResultSet pac_image;
 		Blob image = null;
@@ -929,21 +930,17 @@ public class Db {
 	
 	
 	
-	public ArrayList<Record> getResultsByDate(java.util.Date fDate, java.util.Date tDate, String order){
+	public ArrayList<Record> getResultsByDate(java.util.Date fDate, java.util.Date tDate,  String order){
                  ArrayList<Record> records = new ArrayList<Record>();
-  		 for(int i = 0; i < keywords.length; i++) {
 
-<<<<<<< HEAD
 		        String query = "SELECT score(1)*6 + score(2)*3 + score(3) AS score, "
 		                        + "record_id FROM radiology_record r, persons p WHERE "
 		                        + "p.person_id = r.patient_id AND "
 		                        + "((test_date BETWEEN '" + fDate + "' AND '" + tDate + " ') "
-		                        + "AND (contains(p.first_name, '" + keywords[i] + "', 1) > 0) OR "
-		                        + "(contains(p.last_name, '" + keywords[i] + "', 1) > 0) OR "
-		                        + "(contains(r.diagnosis, '" + keywords[i] + "', 2) > 0) OR "
-		                        + "(contains(r.description, '" + keywords[i] + "', 3) > 0)) " 
+		                       
 					+ order;
 		        ResultSet rset = performQuery(query);
+		        
 		        try {
 			        while(rset != null && rset.next()) {
 					int record_id = (rset.getInt("record_id"));
@@ -969,50 +966,11 @@ public class Db {
 			} catch ( Exception e ) {
 				e.printStackTrace();
 			}
-		}
+		        
 		return records;
 	}
                                         		
                                       
-                                     
-=======
-	public ArrayList<Record> getResultsByDate(java.util.Date fDate, java.util.Date tDate, String order){
-                 ArrayList<Record> records = new ArrayList<Record>();
-
-	        String query = "SELECT score(1)*6 + score(2)*3 + score(3) AS score, "
-	                        + "record_id FROM radiology_record r, persons p WHERE "
-	                        + "p.person_id = r.patient_id AND "
-	                        + "((test_date BETWEEN '" + fDate + "' AND '" + tDate + " ') "
-				+ order;
-	        ResultSet rset = performQuery(query);
-	        
-	        try {
-		        while(rset != null && rset.next()) {
-				int record_id = (rset.getInt("record_id"));
-				int patient_id = (rset.getInt("patient_id"));
-				int doctor_id = (rset.getInt("doctor_id"));
-				int radiologist_id = (rset.getInt("radiologist_id"));
-				String test_type = (rset.getString("test_type"));
-				java.util.Date prescribing_date = (rset.getDate("prescribing_date"));
-				java.util.Date test_date = (rset.getDate("test_date"));
-				String r_diagnosis = (rset.getString("diagnosis"));
-				String description = (rset.getString("description"));
-				
-				Record rec = new Record(record_id, patient_id, doctor_id, radiologist_id, test_type);
-
-				rec.setPrescribingDate(prescribing_date);
-				rec.setTestDate(test_date);
-				rec.setDiagnosis(r_diagnosis);
-				rec.setDescription(description);
-
-				records.add(rec);
-			}
-			rset.close();
-		} catch ( Exception e ) {
-			e.printStackTrace();
-		}
-	
->>>>>>> 897efe0921cfd241d7b2acd978ae9364613d542f
     	/**
 	* Returns an ArrayList of Records of the search by specified keywords
 	*

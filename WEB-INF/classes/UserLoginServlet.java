@@ -40,7 +40,11 @@ public class UserLoginServlet extends HttpServlet {
 
 			String message = "Welcome, " + username + "!";
 			request.setAttribute("message", message);
-
+			/*
+			User user = db.getUser(username);
+			session.setAttribute("PermissionLevel", user.getUserClass());
+			session.setAttribute("Person_Id", user.getPersonID());
+			*/
 			response.sendRedirect("index.jsp?message=" + URLEncoder.encode(message, "UTF-8"));
 			
 		}

@@ -1,4 +1,5 @@
 import java.io.*;
+
 import java.sql.*;
 import java.util.*;
 import java.lang.*;
@@ -8,8 +9,6 @@ import javax.servlet.http.*;
 import java.net.*;
 
 import entities.*;
-import org.apache.commons.fileupload.DiskFileUpload;
-import org.apache.commons.fileupload.FileItem;
 
 /**
  * Servlet implementation class SearchServlet
@@ -24,12 +23,13 @@ public class SearchServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	       	HttpSession session = request.getSession();
 	       	response.setContentType("text/html");
 	       	Db database = new Db();
 	        String user_class=request.getParameter("user_class");
 	       	String words = request.getParameter("keywords");
+	       	
 	       	List<String> strarray =  Arrays.asList(words.split(","));
 	       	String[] keywords = strarray.toArray(new String[0]);
 	       	String fDate = request.getParameter("fdate");
